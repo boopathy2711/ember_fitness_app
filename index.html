@@ -3,341 +3,1730 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#17130F">
+<meta name="theme-color" content="#171321">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Ember">
 <link rel="manifest" href="./manifest.webmanifest">
 <title>Ember — Fuel your goal</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
 <style>
 :root{
-  --bg:#f5f0e6;--surface:#fffdf8;--surface2:#ebe3d4;--ink:#1e1813;--muted:#827664;
-  --line:#ddd2bd;--ember:#d45c2e;--ember2:#f0a94a;--green:#54765b;--blue:#4b8196;
-  --shadow:0 14px 40px rgba(45,31,20,.09);--radius:22px;
+  --bg:#f0ebff;
+  --bg2:#e6ddff;
+  --surface:#ffffff;
+  --surface-soft:#f7f4ff;
+  --ink:#171321;
+  --muted:#817b8d;
+  --line:#e8e3f1;
+  --purple:#7357e8;
+  --purple2:#9a83ff;
+  --purple-dark:#30234f;
+  --green:#43a77a;
+  --orange:#f2a44b;
+  --red:#e66b73;
+  --shadow:0 18px 50px rgba(49,31,91,.12);
+  --shadow-soft:0 8px 24px rgba(49,31,91,.08);
 }
-body[data-goal="lose"]{--ember:#2e7189;--ember2:#78bdd9}
-body[data-goal="maintain"]{--ember:#4f7256;--ember2:#a4c5a8}
+
+body[data-goal="lose"]{--purple:#4d8eae;--purple2:#78c5df;--purple-dark:#1d4050}
+body[data-goal="maintain"]{--purple:#568b68;--purple2:#92c49d;--purple-dark:#284d34}
+
 *{box-sizing:border-box}
 html{background:var(--bg)}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 15% 8%,rgba(255,255,255,.9),transparent 28%),
+    radial-gradient(circle at 100% 22%,rgba(167,143,255,.35),transparent 32%),
+    linear-gradient(160deg,#f4f0ff 0%,#eee8ff 48%,#e5dcff 100%);
+  color:var(--ink);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:110px;
+}
 button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-#app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:94px}
-.top{padding:22px 20px 12px;display:flex;justify-content:space-between;align-items:center}
-.brand{display:flex;gap:10px;align-items:center}.flame{width:32px;height:32px}.brand h1{font-size:21px;margin:0;font-weight:800;letter-spacing:-.04em}.brand small{color:var(--muted);font-size:11px}
-.date{text-align:right;color:var(--muted);font-size:11px}.goal-pill{display:inline-block;margin-top:5px;background:linear-gradient(100deg,var(--ember2),var(--ember));color:#fff;border-radius:999px;padding:5px 10px;font-size:10px;font-weight:800}
-.page{display:none;padding:8px 16px 18px;animation:up .24s ease}.page.active{display:block}
-@keyframes up{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
-.hero{background:linear-gradient(145deg,var(--surface),rgba(255,253,248,.76));border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
-.hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-100px;top:-80px;background:rgba(212,92,46,.12)}
-.hero-top{display:flex;align-items:center;gap:18px}.ring{width:128px;height:128px;position:relative;flex:none}.ring svg{width:100%;height:100%;transform:rotate(-90deg)}.ring-bg{fill:none;stroke:var(--surface2);stroke-width:9}.ring-fill{fill:none;stroke:url(#ringGrad);stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset .6s}.ring-center{position:absolute;inset:0;display:grid;place-content:center;text-align:center}.ring-center strong{font-size:22px;font-family:ui-monospace,monospace}.ring-center span{font-size:9px;color:var(--muted)}
-.hero-copy{flex:1}.eyebrow{text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-size:10px;font-weight:800}.remaining{font-size:27px;font-weight:800;letter-spacing:-.05em;margin:5px 0}.remaining span{font-size:12px;color:var(--muted);font-weight:600}.mini-row{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:5px}.mini-row b{color:var(--ink)}
-.ai-banner{margin-top:12px;border:1px solid var(--line);border-radius:18px;padding:14px;background:linear-gradient(120deg,rgba(212,92,46,.10),rgba(255,253,248,.8));display:flex;justify-content:space-between;align-items:center;gap:10px}.ai-banner b{font-size:13px}.ai-banner p{margin:3px 0 0;color:var(--muted);font-size:11px}.arrow{border:0;background:var(--ink);color:#fff;border-radius:12px;padding:9px 11px;font-weight:800}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;margin-top:12px}.card-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.card-title h3{font-size:14px;margin:0;letter-spacing:-.02em}.link{border:0;background:none;color:var(--ember);font-size:11px;font-weight:800}
-.mac{display:grid;grid-template-columns:58px 1fr 55px;align-items:center;gap:9px;margin:12px 0}.mac label{font-size:11px;font-weight:700}.track{height:7px;background:var(--surface2);border-radius:99px;overflow:hidden}.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--ember2),var(--ember));transition:width .5s}.mac b{font:10px ui-monospace,monospace;text-align:right}
-.log-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-top:1px solid var(--line)}.log-row:first-child{border-top:0}.food-name{font-size:13px;font-weight:700}.food-meta{font-size:10px;color:var(--muted);margin-top:3px}.cal{font:11px ui-monospace,monospace}
-.section-label{text-transform:uppercase;letter-spacing:.1em;font-size:10px;font-weight:800;color:var(--muted);margin:20px 2px 8px}
-.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.quick{border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:13px;text-align:left}.quick strong{display:block;font-size:12px}.quick span{font-size:10px;color:var(--muted)}
-.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:rgba(255,253,248,.94);backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));display:flex;z-index:20}.navbtn{flex:1;border:0;background:none;color:var(--muted);font-size:9px;font-weight:800;padding:6px 2px}.navbtn .ni{display:block;font-size:19px;margin-bottom:3px}.navbtn.active{color:var(--ember)}
-.chat-head{display:flex;align-items:center;gap:12px;padding:4px 0 14px}.ember-avatar{width:42px;height:42px;border-radius:15px;background:linear-gradient(135deg,var(--ember2),var(--ember));display:grid;place-items:center;color:#fff;font-size:20px;box-shadow:0 8px 18px rgba(212,92,46,.25)}
-.ember-avatar svg{width:24px;height:24px;fill:#fff}
-.inline-logo{display:inline-grid;vertical-align:-3px;width:16px;height:16px;margin-right:4px}
-.inline-logo svg{width:100%;height:100%;fill:var(--ember)}
-.quick-icon,.prompt-icon,.button-icon{display:inline-grid;place-items:center;width:18px;height:18px;margin-right:6px;border-radius:6px;background:rgba(212,92,46,.10);color:var(--ember);font-weight:900;font-size:13px;vertical-align:-3px}
-.prompt-icon{width:15px;height:15px;border-radius:50%;font-size:10px;margin-right:5px}
-.button-icon{background:var(--surface2);color:var(--ink)}
-.nav-logo{height:20px!important}
-.nav-logo svg{width:19px;height:19px;fill:currentColor}
-.chat-head h2{font-size:19px;margin:0}.chat-head p{font-size:10px;color:var(--muted);margin:3px 0}
-.chat-box{min-height:360px;max-height:52vh;overflow:auto;padding:3px 0}.bubble{max-width:88%;padding:12px 14px;border-radius:18px;margin:8px 0;font-size:13px;line-height:1.45;white-space:pre-wrap}.bubble.ai{background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:6px}.bubble.user{margin-left:auto;background:var(--ink);color:#fff;border-bottom-right-radius:6px}
-.suggestion{background:var(--surface);border:1px solid var(--line);border-radius:17px;padding:13px;margin:9px 0}.suggestion h4{margin:0;font-size:13px}.suggestion p{margin:4px 0;color:var(--muted);font-size:11px}.stats{font:10px ui-monospace,monospace;color:var(--ink);margin:8px 0}.suggestion button{border:0;background:linear-gradient(90deg,var(--ember2),var(--ember));color:#fff;border-radius:10px;padding:8px 10px;font-size:10px;font-weight:800}
-.prompt-row{display:flex;gap:7px;overflow:auto;padding:8px 0}.prompt{white-space:nowrap;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 11px;font-size:10px;font-weight:700}
-.composer{display:flex;gap:8px;background:var(--surface);border:1px solid var(--line);padding:7px;border-radius:16px}.composer textarea{border:0;background:none;resize:none;min-height:38px;max-height:90px;padding:8px;font-size:13px;outline:0;flex:1}.send{width:42px;height:42px;border:0;border-radius:13px;background:var(--ink);color:#fff;font-size:16px}
-input,select,textarea{width:100%;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:11px;font-size:13px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--ember)}
-.field{margin:10px 0}.field label{display:block;color:var(--muted);font-size:10px;font-weight:700;margin:0 0 5px}.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.btn{width:100%;border:0;background:var(--ink);color:#fff;border-radius:13px;padding:12px;font-weight:800;font-size:12px}.btn.accent{background:linear-gradient(90deg,var(--ember2),var(--ember))}.btn.outline{background:none;color:var(--ink);border:1px solid var(--ink)}
-.search{margin-bottom:10px}.result{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding:11px 0}.result:first-child{border-top:0}.result button{border:0;background:var(--ink);color:#fff;border-radius:9px;padding:7px 10px;font-size:10px;font-weight:800}
-.plan{padding:11px 0;border-top:1px solid var(--line)}.plan:first-child{border-top:0}.plan h4{margin:0;font-size:13px}.plan p{margin:3px 0;color:var(--muted);font-size:11px}.plan small{font:10px ui-monospace,monospace}
-.empty{color:var(--muted);font-size:11px;padding:8px 0}.toast{position:fixed;z-index:100;bottom:92px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--ink);color:#fff;padding:10px 14px;border-radius:12px;font-size:11px;opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:translateX(-50%)}
-.loading{opacity:.55;pointer-events:none}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:active{transform:scale(.98)}
+svg{display:block}
+
+#app{
+  width:100%;
+  max-width:520px;
+  min-height:100vh;
+  margin:auto;
+  position:relative;
+}
+
+.icon{
+  width:19px;
+  height:19px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.9;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  flex:none;
+}
+.icon.sm{width:16px;height:16px}
+.icon.lg{width:22px;height:22px}
+.icon.xl{width:28px;height:28px}
+
+.topbar{
+  padding:18px 18px 10px;
+  padding-top:calc(18px + env(safe-area-inset-top));
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{
+  width:39px;height:39px;border-radius:14px;
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,var(--purple2),var(--purple));
+  color:#fff;
+  box-shadow:0 10px 22px rgba(115,87,232,.25);
+}
+.brand-mark svg{width:22px;height:22px;fill:#fff;stroke:none}
+.brand-name{font-size:20px;font-weight:850;letter-spacing:-.05em;line-height:1}
+.brand-sub{font-size:9px;color:var(--muted);margin-top:4px;letter-spacing:.04em}
+.top-right{text-align:right}
+.date{font-size:10px;color:var(--muted);font-weight:700}
+.goal-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-top:5px;padding:6px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 4px 12px rgba(49,31,91,.06);
+  font-size:9px;font-weight:800;color:var(--purple-dark);
+}
+
+.page{display:none;padding:8px 15px 24px;animation:pageIn .22s ease}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+.hero-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:30px;
+  padding:20px;
+  color:#fff;
+  background:
+    radial-gradient(circle at 82% 12%,rgba(255,255,255,.22),transparent 26%),
+    radial-gradient(circle at 15% 100%,rgba(255,255,255,.12),transparent 30%),
+    linear-gradient(145deg,#8f78f3 0%,#6d51df 55%,#5940bd 100%);
+  box-shadow:0 22px 45px rgba(91,63,190,.28);
+}
+.hero-card:before{
+  content:"";position:absolute;width:180px;height:180px;border-radius:50%;
+  right:-95px;bottom:-105px;border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 0 0 25px rgba(255,255,255,.035),0 0 0 55px rgba(255,255,255,.025);
+}
+.hero-head{display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1}
+.hero-kicker{text-transform:uppercase;letter-spacing:.14em;font-size:9px;font-weight:800;opacity:.72}
+.hero-title{font-size:23px;font-weight:850;letter-spacing:-.05em;margin-top:4px}
+.hero-date{font-size:10px;opacity:.72;margin-top:4px}
+.hero-action{
+  width:36px;height:36px;border:0;border-radius:13px;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.16);color:#fff;
+  backdrop-filter:blur(10px);
+}
+.calorie-layout{display:flex;align-items:center;gap:18px;margin-top:20px;position:relative;z-index:1}
+.calorie-ring{width:142px;height:142px;position:relative;flex:none}
+.calorie-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.18);stroke-width:8}
+.ring-fill{fill:none;stroke:#fff;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .55s ease}
+.ring-center{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ring-center strong{font-size:25px;line-height:1;font-weight:850;letter-spacing:-.06em}
+.ring-center span{font-size:9px;opacity:.7;margin-top:5px}
+.hero-stats{flex:1}
+.hero-stat-label{font-size:10px;opacity:.7}
+.hero-remaining{font-size:29px;font-weight:850;letter-spacing:-.06em;margin:3px 0 13px}
+.hero-remaining span{font-size:10px;font-weight:700;letter-spacing:0;opacity:.7}
+.stat-line{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,.15);font-size:10px}
+.stat-line span{opacity:.7}.stat-line b{font-weight:800}
+
+.ask-card{
+  margin-top:13px;
+  padding:13px;
+  border-radius:19px;
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.16);
+  display:flex;align-items:center;gap:11px;
+  position:relative;z-index:1;
+  cursor:pointer;
+}
+.ask-logo{
+  width:36px;height:36px;border-radius:12px;
+  background:#fff;color:var(--purple);
+  display:grid;place-items:center;
+  flex:none;
+}
+.ask-logo svg{width:21px;height:21px;fill:currentColor;stroke:none}
+.ask-copy{flex:1}
+.ask-copy b{display:block;font-size:11px}
+.ask-copy span{display:block;font-size:9px;opacity:.68;margin-top:3px}
+.ask-arrow{
+  width:30px;height:30px;border:0;border-radius:10px;
+  background:rgba(255,255,255,.15);color:#fff;
+  display:grid;place-items:center;
+}
+
+.section-heading{
+  display:flex;align-items:center;justify-content:space-between;
+  margin:20px 3px 9px;
+}
+.section-heading h3{margin:0;font-size:13px;font-weight:850;letter-spacing:-.025em}
+.section-heading button{
+  border:0;background:none;color:var(--purple);
+  font-size:9px;font-weight:850;padding:4px;
+}
+
+.macro-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.macro-card{
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(255,255,255,.95);
+  border-radius:19px;
+  padding:12px;
+  box-shadow:var(--shadow-soft);
+}
+.macro-top{display:flex;justify-content:space-between;align-items:center}
+.macro-name{font-size:9px;color:var(--muted);font-weight:800}
+.macro-dot{width:7px;height:7px;border-radius:50%;background:var(--purple)}
+.macro-card:nth-child(2) .macro-dot{background:var(--green)}
+.macro-card:nth-child(3) .macro-dot{background:var(--orange)}
+.macro-value{font-size:13px;font-weight:850;margin-top:8px}
+.macro-track{height:5px;border-radius:99px;background:#eeeaf5;margin-top:8px;overflow:hidden}
+.macro-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--purple2),var(--purple));width:0;transition:width .4s}
+.macro-card:nth-child(2) .macro-fill{background:linear-gradient(90deg,#6bc798,var(--green))}
+.macro-card:nth-child(3) .macro-fill{background:linear-gradient(90deg,#f7c26f,var(--orange))}
+
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.quick-card{
+  border:1px solid rgba(255,255,255,.9);
+  background:rgba(255,255,255,.78);
+  border-radius:20px;
+  padding:14px;
+  text-align:left;
+  box-shadow:var(--shadow-soft);
+  min-height:82px;
+}
+.quick-icon{
+  width:30px;height:30px;border-radius:11px;
+  display:grid;place-items:center;
+  background:#eee9ff;color:var(--purple);
+  margin-bottom:10px;
+}
+.quick-card:nth-child(2) .quick-icon{background:#eef8f3;color:var(--green)}
+.quick-card:nth-child(3) .quick-icon{background:#fff4e5;color:#d48a29}
+.quick-card:nth-child(4) .quick-icon{background:#f2efff;color:#6950d6}
+.quick-card strong{display:block;font-size:11px;font-weight:850}
+.quick-card span{display:block;color:var(--muted);font-size:9px;line-height:1.4;margin-top:3px}
+
+.list-card{
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(255,255,255,.95);
+  border-radius:22px;
+  padding:5px 14px;
+  box-shadow:var(--shadow-soft);
+}
+.log-row{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:12px 0;border-top:1px solid var(--line)
+}
+.log-row:first-child{border-top:0}
+.food-leading{display:flex;align-items:center;gap:10px;min-width:0}
+.food-icon{
+  width:34px;height:34px;border-radius:12px;
+  background:var(--surface-soft);color:var(--purple);
+  display:grid;place-items:center;flex:none
+}
+.food-name{font-size:11px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.food-meta{font-size:9px;color:var(--muted);margin-top:3px}
+.food-cal{font-size:10px;font-weight:850;white-space:nowrap}
+.delete-btn{
+  border:0;background:none;color:#aaa3b1;padding:3px;margin-left:4px
+}
+
+.empty-state{
+  padding:22px 8px;text-align:center;color:var(--muted);font-size:10px
+}
+
+.form-card{
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(255,255,255,.95);
+  border-radius:22px;
+  padding:15px;
+  box-shadow:var(--shadow-soft);
+  margin-top:10px;
+}
+.field{margin:10px 0}
+.field label{display:block;font-size:9px;font-weight:800;color:var(--muted);margin-bottom:5px}
+input,select,textarea{
+  width:100%;border:1px solid var(--line);
+  background:#fbfaff;color:var(--ink);
+  border-radius:13px;padding:11px 12px;
+  font-size:12px;outline:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(115,87,232,.08)}
+textarea{resize:none;min-height:78px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+.btn{
+  width:100%;border:0;border-radius:13px;
+  padding:12px;font-size:11px;font-weight:850;
+  background:var(--ink);color:#fff;
+}
+.btn.accent{background:linear-gradient(100deg,var(--purple2),var(--purple));box-shadow:0 9px 20px rgba(115,87,232,.18)}
+.btn.outline{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn.selected{background:#eee9ff;border-color:#d8ceff;color:var(--purple)}
+.button-content{display:flex;align-items:center;justify-content:center;gap:7px}
+
+.search-results{margin-top:3px}
+.result{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:10px;border-top:1px solid var(--line);padding:11px 0
+}
+.result:first-child{border-top:0}
+.result-main{min-width:0}
+.result-main b{font-size:11px}
+.result-main small{display:block;color:var(--muted);font-size:9px;margin-top:3px}
+.result button{
+  flex:none;border:0;border-radius:9px;
+  background:var(--ink);color:#fff;
+  padding:7px 10px;font-size:9px;font-weight:850
+}
+
+.chat-page{padding-bottom:15px}
+.chat-head{
+  display:flex;align-items:center;gap:11px;
+  padding:3px 2px 10px
+}
+.ember-avatar{
+  width:45px;height:45px;border-radius:15px;
+  background:linear-gradient(145deg,var(--purple2),var(--purple));
+  color:#fff;display:grid;place-items:center;
+  box-shadow:0 10px 22px rgba(115,87,232,.22)
+}
+.ember-avatar svg{width:25px;height:25px;fill:#fff;stroke:none}
+.chat-head h2{margin:0;font-size:18px;font-weight:850;letter-spacing:-.04em}
+.chat-head p{margin:3px 0 0;font-size:9px;color:var(--muted)}
+
+.prompt-row{display:flex;gap:7px;overflow:auto;padding:5px 0 10px;scrollbar-width:none}
+.prompt-row::-webkit-scrollbar{display:none}
+.prompt{
+  white-space:nowrap;
+  border:1px solid rgba(255,255,255,.95);
+  background:rgba(255,255,255,.8);
+  color:var(--ink);
+  border-radius:999px;
+  padding:8px 11px;
+  font-size:9px;font-weight:800;
+  box-shadow:0 5px 14px rgba(49,31,91,.05)
+}
+.chat-box{
+  min-height:360px;max-height:51vh;overflow:auto;
+  padding:3px 1px;scrollbar-width:none
+}
+.chat-box::-webkit-scrollbar{display:none}
+.bubble{
+  max-width:88%;padding:11px 13px;border-radius:17px;
+  margin:8px 0;font-size:11px;line-height:1.55;
+  white-space:pre-wrap
+}
+.bubble.ai{
+  background:rgba(255,255,255,.86);
+  border:1px solid rgba(255,255,255,.95);
+  border-bottom-left-radius:6px;
+  box-shadow:var(--shadow-soft)
+}
+.bubble.user{
+  margin-left:auto;background:var(--purple-dark);
+  color:#fff;border-bottom-right-radius:6px
+}
+.suggestion{
+  background:rgba(255,255,255,.9);
+  border:1px solid rgba(255,255,255,.95);
+  border-radius:18px;padding:13px;margin:9px 0;
+  box-shadow:var(--shadow-soft)
+}
+.suggestion h4{margin:0;font-size:11px;font-weight:850}
+.suggestion p{margin:4px 0;color:var(--muted);font-size:9px;line-height:1.45}
+.stats{font-size:9px;color:var(--ink);margin:8px 0;font-weight:750}
+.suggestion button{
+  display:inline-flex;align-items:center;gap:5px;
+  border:0;background:linear-gradient(100deg,var(--purple2),var(--purple));
+  color:#fff;border-radius:10px;padding:8px 10px;
+  font-size:9px;font-weight:850
+}
+.composer{
+  display:flex;align-items:flex-end;gap:7px;
+  background:rgba(255,255,255,.9);
+  border:1px solid rgba(255,255,255,.95);
+  padding:7px;border-radius:17px;
+  box-shadow:var(--shadow-soft)
+}
+.composer textarea{
+  border:0;background:transparent;min-height:38px;max-height:90px;
+  padding:7px;box-shadow:none
+}
+.send{
+  width:40px;height:40px;border:0;border-radius:12px;
+  background:var(--purple-dark);color:#fff;
+  display:grid;place-items:center;flex:none
+}
+
+.plan-card{
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(255,255,255,.95);
+  border-radius:22px;padding:14px;
+  box-shadow:var(--shadow-soft);margin-top:10px
+}
+.plan{
+  padding:12px 0;border-top:1px solid var(--line)
+}
+.plan:first-child{border-top:0}
+.plan-head{display:flex;justify-content:space-between;gap:10px}
+.plan h4{margin:0;font-size:11px;font-weight:850}
+.plan-kcal{font-size:9px;font-weight:850;color:var(--purple)}
+.plan p{margin:4px 0;color:var(--muted);font-size:9px;line-height:1.45}
+.plan small{font-size:8px;color:var(--muted);font-weight:700}
+.pantry-title{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:850}
+
+.chart-card{
+  background:rgba(255,255,255,.86);
+  border:1px solid rgba(255,255,255,.95);
+  border-radius:22px;padding:15px;
+  box-shadow:var(--shadow-soft);margin-top:10px
+}
 .chart-wrap{height:190px}
+.chart-title{font-size:12px;font-weight:850;margin-bottom:10px}
+
+.profile-card{
+  background:rgba(255,255,255,.86);
+  border:1px solid rgba(255,255,255,.95);
+  border-radius:22px;padding:15px;
+  box-shadow:var(--shadow-soft);margin-top:10px
+}
+.profile-title{display:flex;align-items:center;gap:9px;margin-bottom:4px}
+.profile-title-icon{
+  width:31px;height:31px;border-radius:10px;
+  display:grid;place-items:center;background:#eee9ff;color:var(--purple)
+}
+.profile-title h3{font-size:12px;margin:0;font-weight:850}
+.profile-title p{font-size:8px;color:var(--muted);margin:2px 0 0}
+
+.bottom{
+  position:fixed;left:50%;bottom:0;transform:translateX(-50%);
+  width:100%;max-width:520px;
+  padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+  z-index:50;
+  background:rgba(24,19,33,.96);
+  border-radius:25px 25px 0 0;
+  box-shadow:0 -10px 35px rgba(33,20,65,.16);
+  display:grid;grid-template-columns:repeat(6,1fr);gap:3px;
+}
+.navbtn{
+  border:0;background:transparent;color:#8f8999;
+  min-width:0;padding:7px 2px 6px;
+  font-size:8px;font-weight:800;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+}
+.navbtn .ni{height:19px;display:grid;place-items:center}
+.navbtn .ni .icon{width:18px;height:18px}
+.navbtn.active{color:#fff}
+.navbtn.active .ni{
+  width:34px;height:25px;border-radius:10px;
+  background:var(--purple);box-shadow:0 6px 14px rgba(115,87,232,.35)
+}
+.navbtn.active .ni .icon{width:16px;height:16px}
+.navbtn .ni.ember-nav svg{width:18px;height:18px;fill:currentColor;stroke:none}
+
+.toast{
+  position:fixed;z-index:100;bottom:100px;left:50%;
+  transform:translateX(-50%) translateY(8px);
+  background:var(--ink);color:#fff;
+  padding:10px 14px;border-radius:12px;
+  font-size:10px;font-weight:700;
+  opacity:0;pointer-events:none;transition:.2s;
+  max-width:88%;text-align:center
+}
+.toast.show{opacity:1;transform:translateX(-50%)}
+
+.loading{opacity:.55;pointer-events:none}
 .install{display:none}
-@media(min-width:521px){body{background:#e8dfd0}#app{box-shadow:0 0 50px rgba(30,20,10,.08)}}
+
+@media(min-width:521px){
+  body{padding-bottom:0}
+  #app{box-shadow:0 0 70px rgba(49,31,91,.12);min-height:100vh}
+  .bottom{border-radius:22px 22px 0 0}
+}
+
+/* =========================
+   EMBER — ALTERNATE THEME
+   Warm editorial / premium
+   ========================= */
+:root{
+  --bg:#f3eee6;
+  --bg2:#ebe2d6;
+  --surface:#fffdf9;
+  --surface-soft:#f5efe7;
+  --ink:#201b18;
+  --muted:#82776d;
+  --line:#e5dbcf;
+  --purple:#c65b32;
+  --purple2:#e58b55;
+  --purple-dark:#201b18;
+  --green:#4f8064;
+  --orange:#d99645;
+  --red:#c96060;
+  --shadow:0 16px 40px rgba(50,35,24,.09);
+  --shadow-soft:0 7px 20px rgba(50,35,24,.055);
+}
+body[data-goal="lose"]{--purple:#4d8192;--purple2:#78b4c4;--purple-dark:#21363d}
+body[data-goal="maintain"]{--purple:#52765a;--purple2:#91ad91;--purple-dark:#25372a}
+
+body{
+  background:
+    radial-gradient(circle at 90% 0%,rgba(229,139,85,.14),transparent 25%),
+    linear-gradient(145deg,#f7f2ea 0%,#f1ebe2 52%,#ebe2d7 100%);
+}
+
+.brand-mark{
+  background:var(--ink);
+  box-shadow:0 8px 18px rgba(32,27,24,.16);
+}
+.goal-pill{
+  color:var(--ink);
+  background:rgba(255,253,249,.9);
+  border-color:rgba(255,255,255,.95);
+}
+
+.hero-card{
+  background:
+    radial-gradient(circle at 90% 8%,rgba(255,255,255,.12),transparent 24%),
+    linear-gradient(145deg,#2a2521 0%,#201c19 58%,#171412 100%);
+  box-shadow:0 22px 42px rgba(32,27,24,.19);
+}
+.hero-card:before{
+  border-color:rgba(255,255,255,.09);
+  box-shadow:0 0 0 25px rgba(255,255,255,.025),0 0 0 55px rgba(255,255,255,.018);
+}
+.hero-action{
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.08);
+}
+.ring-bg{stroke:rgba(255,255,255,.14)}
+.ring-fill{stroke:#e78a55}
+
+.ask-card{
+  background:rgba(255,255,255,.075);
+  border-color:rgba(255,255,255,.10);
+}
+.ask-logo{
+  background:#f4c39d;
+  color:#8e3e20;
+}
+.ask-arrow{background:rgba(255,255,255,.09)}
+
+.section-heading button{color:var(--purple)}
+
+.macro-card,
+.quick-card,
+.list-card,
+.form-card,
+.chat-box .bubble.ai,
+.suggestion,
+.plan-card,
+.chart-card,
+.profile-card{
+  background:rgba(255,253,249,.88);
+  border-color:rgba(255,255,255,.95);
+}
+
+.macro-card:nth-child(2) .macro-dot{background:var(--green)}
+.macro-card:nth-child(3) .macro-dot{background:var(--orange)}
+.macro-fill{background:linear-gradient(90deg,var(--purple2),var(--purple))}
+.macro-card:nth-child(2) .macro-fill{background:linear-gradient(90deg,#77ad8a,var(--green))}
+.macro-card:nth-child(3) .macro-fill{background:linear-gradient(90deg,#eab86f,var(--orange))}
+
+.quick-icon{
+  width:34px;height:34px;
+  border-radius:11px;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f4e6dc;
+  color:var(--purple);
+}
+.quick-card:nth-child(2) .quick-icon{background:#eaf2ec;color:var(--green)}
+.quick-card:nth-child(3) .quick-icon{background:#f7eee0;color:#bb7b28}
+.quick-card:nth-child(4) .quick-icon{background:#eee9e3;color:#6d6259}
+
+.quick-icon svg,
+.food-icon svg,
+.profile-title-icon svg,
+.ask-logo svg,
+.button-content svg,
+.suggestion button svg,
+.send svg,
+.hero-action svg,
+.ask-arrow svg{
+  width:17px;
+  height:17px;
+  flex:none;
+}
+
+.food-icon{
+  width:36px;height:36px;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f4e9df;
+  color:var(--purple);
+}
+
+.profile-title-icon{
+  width:34px;height:34px;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f4e6dc;
+  color:var(--purple);
+}
+
+.prompt{
+  background:rgba(255,253,249,.92);
+  border-color:#e5dbcf;
+}
+.prompt:active{background:#f4e6dc}
+
+.btn.accent{
+  background:var(--ink);
+  box-shadow:0 9px 20px rgba(32,27,24,.14);
+}
+.btn.selected{
+  background:#f4e6dc;
+  border-color:#e0cbbd;
+  color:#9a4527;
+}
+.btn.outline{
+  background:rgba(255,253,249,.82);
+}
+
+input,select,textarea{background:#fffdfa}
+
+.navbtn.active .ni{
+  background:var(--purple);
+  box-shadow:0 6px 14px rgba(198,91,50,.30);
+}
+.navbtn.active{color:#fff}
+.navbtn .ni{
+  width:34px;
+  height:25px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.navbtn .ni .icon{
+  width:17px;height:17px;
+}
+.navbtn .ni.ember-nav svg{
+  width:17px;height:17px;
+}
+.bottom{
+  background:rgba(32,27,24,.97);
+  box-shadow:0 -10px 30px rgba(32,27,24,.15);
+}
+
+.hero-remaining{color:#fff}
+.plan-kcal{color:var(--purple)}
+.result button{
+  background:var(--ink);
+}
+.suggestion button{
+  background:var(--ink);
+}
+.send{background:var(--ink)}
+
+.toast{background:var(--ink)}
+
+@media(max-width:380px){
+  .calorie-layout{gap:12px}
+  .calorie-ring{width:128px;height:128px}
+  .hero-remaining{font-size:25px}
+  .brand-name{font-size:19px}
+}
+
+
+/* =========================
+   ICON ALIGNMENT FIX
+   ========================= */
+
+/* Normalize every icon box so the SVG is mathematically centered. */
+.brand-mark,
+.ask-logo,
+.quick-icon,
+.food-icon,
+.profile-title-icon,
+.hero-action,
+.ask-arrow,
+.send,
+.button-content,
+.suggestion button,
+.navbtn .ni{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  place-items:center !important;
+  line-height:0 !important;
+  vertical-align:middle !important;
+}
+
+/* Remove inline SVG baseline/line-box offsets. */
+.brand-mark svg,
+.ask-logo svg,
+.quick-icon svg,
+.food-icon svg,
+.profile-title-icon svg,
+.hero-action svg,
+.ask-arrow svg,
+.send svg,
+.button-content svg,
+.suggestion button svg,
+.navbtn .ni svg{
+  display:block !important;
+  margin:0 !important;
+  padding:0 !important;
+  position:static !important;
+  flex:0 0 auto !important;
+  transform:none !important;
+  vertical-align:middle !important;
+}
+
+/* Consistent visual sizing inside every icon container. */
+.brand-mark svg{width:22px!important;height:22px!important}
+.ask-logo svg{width:21px!important;height:21px!important}
+.quick-icon svg{width:18px!important;height:18px!important}
+.food-icon svg{width:17px!important;height:17px!important}
+.profile-title-icon svg{width:17px!important;height:17px!important}
+.hero-action svg,.ask-arrow svg{width:17px!important;height:17px!important}
+.send svg{width:18px!important;height:18px!important}
+.button-content svg{width:16px!important;height:16px!important}
+.suggestion button svg{width:15px!important;height:15px!important}
+.navbtn .ni svg{width:18px!important;height:18px!important}
+
+/* Give the small icon containers a true centered box. */
+.quick-icon{
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  min-height:34px!important;
+}
+.food-icon{
+  width:36px!important;
+  height:36px!important;
+  min-width:36px!important;
+  min-height:36px!important;
+}
+.profile-title-icon{
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  min-height:34px!important;
+}
+.hero-action,.ask-arrow{
+  width:36px!important;
+  height:36px!important;
+  min-width:36px!important;
+  min-height:36px!important;
+}
+.send{
+  width:40px!important;
+  height:40px!important;
+  min-width:40px!important;
+  min-height:40px!important;
+}
+
+/* Center the active navigation pill and its icon. */
+.navbtn .ni{
+  width:34px!important;
+  height:25px!important;
+  margin:0 auto!important;
+  padding:0!important;
+}
+.navbtn.active .ni{
+  width:34px!important;
+  height:25px!important;
+}
+.navbtn .ni svg{
+  margin:auto!important;
+}
+
+/* The Ember flame has a deliberately asymmetric source path;
+   shift only the flame artwork by half a pixel for optical centering. */
+.brand-mark svg,
+.ask-logo svg,
+.navbtn .ni.ember-nav svg{
+  transform:translateX(.5px)!important;
+}
+
+/* Keep text/icon combinations centered without changing text alignment. */
+.button-content{
+  width:100%;
+  gap:7px;
+}
+.suggestion button{
+  gap:5px;
+}
+
+/* Prevent iOS Safari from introducing inline alignment space. */
+svg{font-size:0}
+
 </style>
 </head>
+
 <body data-goal="gain">
+
+<!-- SVG icon library -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V21h13V9.5"/><path d="M9.5 21v-6h5v6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9.5 9.5 0 0 1-4-.9L4 20l1.3-3.5A7.2 7.2 0 0 1 4.5 12 7.5 7.5 0 0 1 12 4.5a7.5 7.5 0 0 1 8 7Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="15" rx="2.5"/><path d="M7.5 3.5v4M16.5 3.5v4M3.5 9.5h17"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 19.5V14M9.3 19.5V9M14.7 19.5V12M20 19.5V5"/><path d="M3 20h18"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.7-3.4 3.1-5 7-5s6.3 1.6 7 5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.3"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="m5 12 14-7-4 14-3.2-5.8L5 12Z"/><path d="m11.8 13.2 7.2-8.2"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 100 100"><path d="M50 4C32 24 22 42 30 60c3 7 10 11 12 18 2-9 10-13 14-19 9-13 2-30-6-43z"/></symbol>
+    <symbol id="i-utensils" viewBox="0 0 24 24"><path d="M7 3v7M4.5 3v7M9.5 3v7M7 10v11M16 3v18"/><path d="M13 8c0-3 1.5-5 3-5s3 2 3 5c0 2-1 3-3 3"/></symbol>
+    <symbol id="i-dumbbell" viewBox="0 0 24 24"><path d="M4 9v6M7 7v10M17 7v10M20 9v6M7 12h10"/></symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5h8v2M3 12h18M10 12v2h4v-2"/></symbol>
+    <symbol id="i-basket" viewBox="0 0 24 24"><path d="M4 10h16l-1.5 10h-13L4 10Z"/><path d="m8 10 4-6 4 6M8 14v3M12 14v3M16 14v3"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="m19 13 1.2 1-.9 1.7-1.5-.4a7.5 7.5 0 0 1-1.6 1l-.2 1.5h-2l-.7-1.4a7.5 7.5 0 0 1-2 0l-.7 1.4h-2l-.2-1.5a7.5 7.5 0 0 1-1.6-1l-1.5.4-.9-1.7 1.2-1a7 7 0 0 1 0-2l-1.2-1 .9-1.7 1.5.4a7.5 7.5 0 0 1 1.6-1L9 6.2h2l.7 1.4a7.5 7.5 0 0 1 2 0l.7-1.4h2l.2 1.5a7.5 7.5 0 0 1 1.6 1l1.5-.4.9 1.7-1.2 1a7 7 0 0 1 0 2Z"/></symbol>
+  </defs>
+</svg>
+
 <div id="app">
-  <header class="top">
-    <div class="brand">
-      <svg class="flame" viewBox="0 0 100 100"><defs><linearGradient id="logo" x1="0" y1="1" x2="0" y2="0"><stop stop-color="var(--ember)"/><stop offset="1" stop-color="var(--ember2)"/></linearGradient></defs><path fill="url(#logo)" d="M50 4C32 24 22 42 30 60c3 7 10 11 12 18 2-9 10-13 14-19 9-13 2-30-6-43z"/></svg>
-      <div><h1>Ember</h1><small id="brandSub">Fuel your goal</small></div>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark"><svg class="icon xl" style="fill:#fff;stroke:none"><use href="#i-flame"></use></svg></div>
+    <div>
+      <div class="brand-name">Ember</div>
+      <div class="brand-sub" id="brandSub">Fuel your goal</div>
     </div>
-    <div><div class="date" id="date">—</div><div class="goal-pill" id="goalPill">Building</div></div>
-  </header>
+  </div>
+  <div class="top-right">
+    <div class="date" id="date">—</div>
+    <div class="goal-pill"><svg class="icon sm"><use href="#i-target"></use></svg><span id="goalPill">Building</span></div>
+  </div>
+</header>
 
-  <main>
-    <section class="page active" id="page-home">
-      <div class="hero">
-        <div class="hero-top">
-          <div class="ring">
-            <svg viewBox="0 0 100 100"><defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop stop-color="var(--ember2)"/><stop offset="1" stop-color="var(--ember)"/></linearGradient></defs><circle class="ring-bg" cx="50" cy="50" r="41"/><circle id="ring" class="ring-fill" cx="50" cy="50" r="41" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/></svg>
-            <div class="ring-center"><strong id="calIn">0</strong><span>kcal eaten</span></div>
-          </div>
-          <div class="hero-copy"><div class="eyebrow">Today's fuel</div><div class="remaining" id="remaining">— <span>left</span></div><div class="mini-row"><span>Target</span><b id="target">—</b></div><div class="mini-row"><span>Goal rate</span><b id="rate">—</b></div></div>
+<main>
+
+<!-- HOME -->
+<section class="page active" id="page-home">
+  <div class="hero-card">
+    <div class="hero-head">
+      <div>
+        <div class="hero-kicker">Daily overview</div>
+        <div class="hero-title">Today's fuel</div>
+        <div class="hero-date" id="heroDate">Your nutrition at a glance</div>
+      </div>
+      <button class="hero-action" onclick="showPage('profile')" aria-label="Open profile">
+        <svg class="icon"><use href="#i-settings"></use></svg>
+      </button>
+    </div>
+
+    <div class="calorie-layout">
+      <div class="calorie-ring">
+        <svg viewBox="0 0 100 100">
+          <circle class="ring-bg" cx="50" cy="50" r="40"></circle>
+          <circle id="ring" class="ring-fill" cx="50" cy="50" r="40" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"></circle>
+        </svg>
+        <div class="ring-center">
+          <strong id="calIn">0</strong>
+          <span>kcal eaten</span>
         </div>
-        <div class="ai-banner" onclick="showPage('ask')"><div><b><span class="inline-logo"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 4C32 24 22 42 30 60c3 7 10 11 12 18 2-9 10-13 14-19 9-13 2-30-6-43z"/></svg></span> Ask Ember</b><p id="aiHint">Tell me what you want to eat.</p></div><button class="arrow">→</button></div>
       </div>
 
-      <div class="card"><div class="card-title"><h3>Macros</h3><button class="link" onclick="showPage('progress')">View progress</button></div>
-        <div class="mac"><label>Protein</label><div class="track"><div class="fill" id="fp"></div></div><b id="vp">0/0g</b></div>
-        <div class="mac"><label>Carbs</label><div class="track"><div class="fill" id="fc"></div></div><b id="vc">0/0g</b></div>
-        <div class="mac"><label>Fat</label><div class="track"><div class="fill" id="ff"></div></div><b id="vf">0/0g</b></div>
+      <div class="hero-stats">
+        <div class="hero-stat-label">Remaining today</div>
+        <div class="hero-remaining" id="remaining">— <span>kcal</span></div>
+        <div class="stat-line"><span>Daily target</span><b id="target">—</b></div>
+        <div class="stat-line"><span>Goal rate</span><b id="rate">—</b></div>
       </div>
+    </div>
 
-      <div class="section-label">Quick actions</div>
-      <div class="quick-grid">
-        <button class="quick" onclick="showPage('log')"><strong><span class="quick-icon">＋</span> Log food</strong><span>Search or describe what you ate</span></button>
-        <button class="quick" onclick="askQuick('What should I eat now to use my remaining calories?')"><strong><span class="quick-icon">◈</span> What can I eat?</strong><span>Personalized suggestions</span></button>
-        <button class="quick" onclick="askQuick('Help me increase my protein today.')"><strong><span class="quick-icon">◇</span> Boost protein</strong><span>Find protein-rich options</span></button>
-        <button class="quick" onclick="showPage('plan')"><strong><span class="quick-icon">▣</span> Plan my day</strong><span>Build a practical meal plan</span></button>
+    <div class="ask-card" onclick="showPage('ask')">
+      <div class="ask-logo"><svg class="icon lg" style="fill:currentColor;stroke:none"><use href="#i-flame"></use></svg></div>
+      <div class="ask-copy">
+        <b>Ask Ember</b>
+        <span id="aiHint">Tell me what you want to eat.</span>
       </div>
+      <button class="ask-arrow" aria-label="Ask Ember"><svg class="icon sm"><use href="#i-send"></use></svg></button>
+    </div>
+  </div>
 
-      <div class="section-label">Today</div>
-      <div class="card" id="todayLog"><div class="empty">Nothing logged yet.</div></div>
-    </section>
+  <div class="section-heading">
+    <h3>Nutrition</h3>
+    <button onclick="showPage('progress')">View progress</button>
+  </div>
 
-    <section class="page" id="page-log">
-      <div class="section-label">Log food</div>
-      <div class="card">
-        <div class="field"><input class="search" id="foodSearch" placeholder="Search rice, idli, eggs, oats..." autocomplete="off"></div>
-        <div id="results"></div>
-        <div class="field"><textarea id="describe" placeholder="Or type naturally: 2 idlis with sambar and a glass of milk"></textarea></div>
-        <button class="btn accent" id="estimateBtn">Estimate & add</button>
+  <div class="macro-grid">
+    <div class="macro-card">
+      <div class="macro-top"><span class="macro-name">Protein</span><span class="macro-dot"></span></div>
+      <div class="macro-value" id="vp">0/0g</div>
+      <div class="macro-track"><div class="macro-fill" id="fp"></div></div>
+    </div>
+    <div class="macro-card">
+      <div class="macro-top"><span class="macro-name">Carbs</span><span class="macro-dot"></span></div>
+      <div class="macro-value" id="vc">0/0g</div>
+      <div class="macro-track"><div class="macro-fill" id="fc"></div></div>
+    </div>
+    <div class="macro-card">
+      <div class="macro-top"><span class="macro-name">Fat</span><span class="macro-dot"></span></div>
+      <div class="macro-value" id="vf">0/0g</div>
+      <div class="macro-track"><div class="macro-fill" id="ff"></div></div>
+    </div>
+  </div>
+
+  <div class="section-heading"><h3>Quick actions</h3></div>
+
+  <div class="quick-grid">
+    <button class="quick-card" onclick="showPage('log')">
+      <span class="quick-icon"><svg class="icon"><use href="#i-plus"></use></svg></span>
+      <strong>Log food</strong>
+      <span>Search or describe what you ate</span>
+    </button>
+    <button class="quick-card" onclick="askQuick('What should I eat now to use my remaining calories?')">
+      <span class="quick-icon"><svg class="icon"><use href="#i-utensils"></use></svg></span>
+      <strong>What can I eat?</strong>
+      <span>Get suggestions that fit</span>
+    </button>
+    <button class="quick-card" onclick="askQuick('Help me increase my protein today.')">
+      <span class="quick-icon"><svg class="icon"><use href="#i-dumbbell"></use></svg></span>
+      <strong>Boost protein</strong>
+      <span>Find protein-rich options</span>
+    </button>
+    <button class="quick-card" onclick="showPage('plan')">
+      <span class="quick-icon"><svg class="icon"><use href="#i-calendar"></use></svg></span>
+      <strong>Plan my day</strong>
+      <span>Build a practical meal plan</span>
+    </button>
+  </div>
+
+  <div class="section-heading"><h3>Today's meals</h3><button onclick="showPage('log')">Add food</button></div>
+  <div class="list-card" id="todayLog">
+    <div class="empty-state">Nothing logged yet.</div>
+  </div>
+</section>
+
+<!-- LOG -->
+<section class="page" id="page-log">
+  <div class="section-heading"><h3>Log food</h3></div>
+
+  <div class="form-card">
+    <div class="field">
+      <label>SEARCH FOOD</label>
+      <input class="search" id="foodSearch" placeholder="Search rice, idli, eggs, oats..." autocomplete="off">
+    </div>
+    <div class="search-results" id="results"></div>
+
+    <div class="field">
+      <label>OR DESCRIBE WHAT YOU ATE</label>
+      <textarea id="describe" placeholder="Example: 2 idlis with sambar and a glass of milk"></textarea>
+    </div>
+
+    <div class="field">
+      <label>MEAL</label>
+      <select id="meal">
+        <option>breakfast</option>
+        <option>lunch</option>
+        <option>snack</option>
+        <option>dinner</option>
+      </select>
+    </div>
+
+    <button class="btn accent" id="estimateBtn">
+      <span class="button-content"><svg class="icon sm"><use href="#i-check"></use></svg> Estimate & add</span>
+    </button>
+  </div>
+
+  <div class="section-heading"><h3>Pantry</h3><button onclick="showPage('plan')">Manage pantry</button></div>
+  <div class="list-card" id="pantryLog"><div class="empty-state">Loading pantry…</div></div>
+</section>
+
+<!-- ASK -->
+<section class="page chat-page" id="page-ask">
+  <div class="chat-head">
+    <div class="ember-avatar"><svg><use href="#i-flame"></use></svg></div>
+    <div><h2>Ask Ember</h2><p>Your practical food companion</p></div>
+  </div>
+
+  <div class="prompt-row">
+    <button class="prompt" onclick="askQuick('What should I eat now?')">What should I eat?</button>
+    <button class="prompt" onclick="askQuick('I need more protein today.')">More protein</button>
+    <button class="prompt" onclick="askQuick('Give me an easy office-friendly meal.')">Office meal</button>
+    <button class="prompt" onclick="askQuick('Use my pantry to make something.')">Use pantry</button>
+  </div>
+
+  <div class="chat-box" id="chatBox"></div>
+  <div id="suggestions"></div>
+
+  <div class="composer">
+    <textarea id="chatInput" rows="1" placeholder="Ask Ember anything about today's food..."></textarea>
+    <button class="send" id="sendBtn" aria-label="Send">
+      <svg class="icon"><use href="#i-send"></use></svg>
+    </button>
+  </div>
+</section>
+
+<!-- PLAN -->
+<section class="page" id="page-plan">
+  <div class="section-heading"><h3>Plan your day</h3></div>
+
+  <div class="plan-card">
+    <div class="two">
+      <button class="btn outline" id="officeBtn" onclick="this.classList.toggle('selected')">
+        <span class="button-content"><svg class="icon sm"><use href="#i-briefcase"></use></svg> Office day</span>
+      </button>
+      <button class="btn outline" id="pantryOnlyBtn" onclick="this.classList.toggle('selected')">
+        <span class="button-content"><svg class="icon sm"><use href="#i-basket"></use></svg> Pantry only</span>
+      </button>
+    </div>
+    <button class="btn accent" id="planBtn" style="margin-top:9px">Generate today's plan</button>
+    <div id="planSource" class="empty-state" style="padding-bottom:0"></div>
+  </div>
+
+  <div class="section-heading"><h3>Today's plan</h3></div>
+  <div class="plan-card" id="planResult">
+    <div class="empty-state">Generate a plan based on your current target.</div>
+  </div>
+
+  <div class="section-heading"><h3 class="pantry-title"><svg class="icon sm"><use href="#i-basket"></use></svg> Pantry</h3></div>
+  <div class="form-card">
+    <div class="two">
+      <input id="pantryName" placeholder="e.g. eggs">
+      <input id="pantryQty" placeholder="e.g. 6">
+    </div>
+    <button class="btn" style="margin-top:9px" onclick="addPantry()">Add pantry item</button>
+    <div id="pantryList"></div>
+  </div>
+</section>
+
+<!-- PROGRESS -->
+<section class="page" id="page-progress">
+  <div class="section-heading"><h3>Progress</h3></div>
+
+  <div class="chart-card">
+    <div class="chart-title">Weight trend</div>
+    <div class="chart-wrap"><canvas id="weightChart"></canvas></div>
+    <div class="two">
+      <input type="number" id="weightInput" step=".1" placeholder="Weight kg">
+      <button class="btn" onclick="logWeight()">Log weight</button>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-title">Calories — 7 days</div>
+    <div class="chart-wrap"><canvas id="calChart"></canvas></div>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section class="page" id="page-profile">
+  <div class="section-heading"><h3>Your profile</h3></div>
+
+  <div class="profile-card">
+    <div class="profile-title">
+      <div class="profile-title-icon"><svg class="icon"><use href="#i-user"></use></svg></div>
+      <div><h3>Body & goal</h3><p>Used to calculate your daily target</p></div>
+    </div>
+
+    <div class="two">
+      <div class="field"><label>AGE</label><input id="age" type="number"></div>
+      <div class="field"><label>GENDER</label><select id="gender"><option value="male">Male</option><option value="female">Female</option></select></div>
+    </div>
+    <div class="two">
+      <div class="field"><label>HEIGHT CM</label><input id="height" type="number"></div>
+      <div class="field"><label>WEIGHT KG</label><input id="weight" type="number" step=".1"></div>
+    </div>
+    <div class="field">
+      <label>ACTIVITY</label>
+      <select id="activity">
+        <option value="sedentary">Sedentary</option>
+        <option value="light">Light</option>
+        <option value="moderate">Moderate</option>
+        <option value="active">Active</option>
+        <option value="very_active">Very active</option>
+      </select>
+    </div>
+    <div class="two">
+      <div class="field">
+        <label>GOAL</label>
+        <select id="goal"><option value="gain">Gain weight</option><option value="lose">Lose weight</option><option value="maintain">Maintain</option></select>
       </div>
-      <div class="card"><div class="field"><label>Meal</label><select id="meal"><option>breakfast</option><option>lunch</option><option>snack</option><option>dinner</option></select></div></div>
-      <div class="section-label">Pantry</div><div class="card" id="pantryLog"><div class="empty">Loading pantry…</div></div>
-    </section>
+      <div class="field"><label>RATE KG/WEEK</label><input id="goalRate" type="number" step=".1"></div>
+    </div>
+    <div class="field"><label>MEALS PER DAY</label><input id="meals" type="number"></div>
+    <button class="btn accent" onclick="saveProfile()">Save & recalculate</button>
+  </div>
 
-    <section class="page" id="page-ask">
-      <div class="chat-head"><div class="ember-avatar"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 4C32 24 22 42 30 60c3 7 10 11 12 18 2-9 10-13 14-19 9-13 2-30-6-43z"/></svg></div><div><h2>Ask Ember</h2><p>Your practical food companion</p></div></div>
-      <div class="prompt-row">
-        <button class="prompt" onclick="askQuick('What should I eat now?')">What should I eat?</button>
-        <button class="prompt" onclick="askQuick('I need more protein today.')"><span class="prompt-icon">◇</span> More protein</button>
-        <button class="prompt" onclick="askQuick('Give me an easy office-friendly meal.')"><span class="prompt-icon">□</span> Office meal</button>
-        <button class="prompt" onclick="askQuick('Use my pantry to make something.')"><span class="prompt-icon">▤</span> Use pantry</button>
-      </div>
-      <div class="chat-box" id="chatBox"></div>
-      <div id="suggestions"></div>
-      <div class="composer"><textarea id="chatInput" rows="1" placeholder="Ask Ember anything about today's food..."></textarea><button class="send" id="sendBtn">↑</button></div>
-    </section>
+  <div class="profile-card">
+    <div class="profile-title">
+      <div class="profile-title-icon"><svg class="icon"><use href="#i-utensils"></use></svg></div>
+      <div><h3>Food context</h3><p>Help Ember make realistic suggestions</p></div>
+    </div>
+    <div class="field"><label>OFFICE DAYS</label><input id="officeDays" placeholder="Mon, Tue, Wed"></div>
+    <div class="field"><label>KITCHEN ACCESS</label><select id="kitchen"><option value="none">None</option><option value="microwave">Microwave only</option><option value="full">Full kitchen</option></select></div>
+    <div class="field"><label>CUISINE PREFERENCE</label><input id="cuisine" placeholder="Indian, no strong preference"></div>
+    <div class="field"><label>FOODS TO AVOID</label><input id="avoid" placeholder="e.g. peanuts"></div>
+  </div>
 
-    <section class="page" id="page-plan">
-      <div class="section-label">Plan</div>
-      <div class="card">
-        <div class="two"><button class="btn outline" id="officeBtn" onclick="this.classList.toggle('selected')"><span class="button-icon">□</span> Office day</button><button class="btn outline" id="pantryOnlyBtn" onclick="this.classList.toggle('selected')"><span class="button-icon">▤</span> Pantry only</button></div>
-        <button class="btn accent" id="planBtn" style="margin-top:9px">Generate today's plan</button>
-        <div id="planSource" class="empty"></div>
-      </div>
-      <div class="card" id="planResult"><div class="empty">Generate a plan based on your current target.</div></div>
-      <div class="section-label">Pantry</div>
-      <div class="card"><div class="two"><input id="pantryName" placeholder="e.g. eggs"><input id="pantryQty" placeholder="e.g. 6"></div><button class="btn" style="margin-top:9px" onclick="addPantry()">Add pantry item</button><div id="pantryList"></div></div>
-    </section>
+  <div class="profile-card">
+    <div class="profile-title">
+      <div class="profile-title-icon"><svg class="icon"><use href="#i-flame"></use></svg></div>
+      <div><h3>Ember AI</h3><p>Your key stays in the backend</p></div>
+    </div>
+    <div class="field"><input type="password" id="geminiKey" placeholder="Paste Gemini API key"></div>
+    <button class="btn" onclick="saveKey()">Save AI key</button>
+    <div class="empty-state" id="keyStatus"></div>
+  </div>
 
-    <section class="page" id="page-progress">
-      <div class="section-label">Progress</div>
-      <div class="card"><div class="card-title"><h3>Weight trend</h3></div><div class="chart-wrap"><canvas id="weightChart"></canvas></div><div class="two"><input type="number" id="weightInput" step=".1" placeholder="Weight kg"><button class="btn" onclick="logWeight()">Log weight</button></div></div>
-      <div class="card"><div class="card-title"><h3>Calories — 7 days</h3></div><div class="chart-wrap"><canvas id="calChart"></canvas></div></div>
-    </section>
+  <div class="profile-card">
+    <button class="btn outline" onclick="clearChat()">Clear Ember conversation</button>
+  </div>
+</section>
 
-    <section class="page" id="page-profile">
-      <div class="section-label">Profile</div>
-      <div class="card">
-        <div class="two"><div class="field"><label>Age</label><input id="age" type="number"></div><div class="field"><label>Gender</label><select id="gender"><option value="male">Male</option><option value="female">Female</option></select></div></div>
-        <div class="two"><div class="field"><label>Height cm</label><input id="height" type="number"></div><div class="field"><label>Weight kg</label><input id="weight" type="number" step=".1"></div></div>
-        <div class="field"><label>Activity</label><select id="activity"><option value="sedentary">Sedentary</option><option value="light">Light</option><option value="moderate">Moderate</option><option value="active">Active</option><option value="very_active">Very active</option></select></div>
-        <div class="two"><div class="field"><label>Goal</label><select id="goal"><option value="gain">Gain weight</option><option value="lose">Lose weight</option><option value="maintain">Maintain</option></select></div><div class="field"><label>Rate kg/week</label><input id="goalRate" type="number" step=".1"></div></div>
-        <div class="field"><label>Meals per day</label><input id="meals" type="number"></div>
-        <button class="btn accent" onclick="saveProfile()">Save & recalculate</button>
-      </div>
-      <div class="card"><div class="card-title"><h3>Food context</h3></div><div class="field"><label>Office days</label><input id="officeDays" placeholder="Mon, Tue, Wed"></div><div class="field"><label>Kitchen access</label><select id="kitchen"><option value="none">None</option><option value="microwave">Microwave only</option><option value="full">Full kitchen</option></select></div><div class="field"><label>Cuisine preference</label><input id="cuisine" placeholder="Indian, no strong preference"></div><div class="field"><label>Foods to avoid</label><input id="avoid" placeholder="e.g. peanuts"></div></div>
-      <div class="card"><div class="card-title"><h3>AI</h3></div><p class="empty">Your Gemini key is stored in the Google Sheet backend, not in this browser.</p><div class="field"><input type="password" id="geminiKey" placeholder="Paste Gemini API key"></div><button class="btn" onclick="saveKey()">Save AI key</button><div class="empty" id="keyStatus"></div></div>
-      <div class="card"><button class="btn outline" onclick="clearChat()">Clear Ember conversation</button></div>
-    </section>
-  </main>
+</main>
 
-  <nav class="bottom">
-    <button class="navbtn active" data-page="home" onclick="showPage('home')"><span class="ni">⌂</span>Home</button>
-    <button class="navbtn" data-page="log" onclick="showPage('log')"><span class="ni">＋</span>Log</button>
-    <button class="navbtn" data-page="ask" onclick="showPage('ask')"><span class="ni nav-logo"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 4C32 24 22 42 30 60c3 7 10 11 12 18 2-9 10-13 14-19 9-13 2-30-6-43z"/></svg></span>Ask Ember</button>
-    <button class="navbtn" data-page="plan" onclick="showPage('plan')"><span class="ni">◫</span>Plan</button>
-    <button class="navbtn" data-page="progress" onclick="showPage('progress')"><span class="ni">↗</span>Progress</button>
-    <button class="navbtn" data-page="profile" onclick="showPage('profile')"><span class="ni">●</span>Profile</button>
-  </nav>
+<nav class="bottom">
+  <button class="navbtn active" data-page="home" onclick="showPage('home')"><span class="ni"><svg class="icon"><use href="#i-home"></use></svg></span>Home</button>
+  <button class="navbtn" data-page="log" onclick="showPage('log')"><span class="ni"><svg class="icon"><use href="#i-plus"></use></svg></span>Log</button>
+  <button class="navbtn" data-page="ask" onclick="showPage('ask')"><span class="ni ember-nav"><svg><use href="#i-flame"></use></svg></span>Ask</button>
+  <button class="navbtn" data-page="plan" onclick="showPage('plan')"><span class="ni"><svg class="icon"><use href="#i-calendar"></use></svg></span>Plan</button>
+  <button class="navbtn" data-page="progress" onclick="showPage('progress')"><span class="ni"><svg class="icon"><use href="#i-chart"></use></svg></span>Progress</button>
+  <button class="navbtn" data-page="profile" onclick="showPage('profile')"><span class="ni"><svg class="icon"><use href="#i-user"></use></svg></span>Profile</button>
+</nav>
+
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
 const API_URL="https://script.google.com/macros/s/AKfycbxfOT-qcFjDVukhLK1mwsIZ86SgwSDtTo7vA3_Hvu2dktWZ9AHTfXh1P3dssrXHCFUq2g/exec";
+
 let STATE={profile:null,context:null};
 let weightChartRef=null,calChartRef=null;
 
 const $=id=>document.getElementById(id);
-function today(){return new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Kolkata'});}
-function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2200);}
+
+function today(){
+  return new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Kolkata'});
+}
+
+function toast(msg){
+  $('toast').textContent=msg;
+  $('toast').classList.add('show');
+  setTimeout(()=>$('toast').classList.remove('show'),2200);
+}
+
 async function api(action,data={}){
   try{
-    const r=await fetch(API_URL,{method:'POST',body:JSON.stringify({action,...data})});
+    const r=await fetch(API_URL,{
+      method:'POST',
+      body:JSON.stringify({action,...data})
+    });
     const j=await r.json();
     if(!j.success) console.warn(j.error);
     return j;
-  }catch(e){toast('Connection error. Check API URL.');return{success:false,error:e.message};}
+  }catch(e){
+    toast('Connection error. Check your Apps Script URL.');
+    console.error(e);
+    return {success:false,error:e.message};
+  }
 }
+
 function showPage(name){
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));
-  $('page-'+name).classList.add('active');
-  const b=document.querySelector('.navbtn[data-page="'+name+'"]');if(b)b.classList.add('active');
-  if(name==='log')loadPantry();
-  if(name==='plan'){loadPantry();loadSavedPlans();}
-  if(name==='progress')renderCharts();
-  if(name==='ask'){$('chatInput').focus();}
-  scrollTo(0,0);
+
+  const page=$('page-'+name);
+  if(page) page.classList.add('active');
+
+  const btn=document.querySelector('.navbtn[data-page="'+name+'"]');
+  if(btn) btn.classList.add('active');
+
+  if(name==='log') loadPantry();
+  if(name==='plan') loadPantry();
+  if(name==='progress') renderCharts();
+  if(name==='ask') setTimeout(()=>$('chatInput').focus(),60);
+
+  window.scrollTo({top:0,behavior:'smooth'});
 }
+
 function applyGoal(goal){
   document.body.dataset.goal=goal||'gain';
-  const map={gain:['Building','Fuel your goal'],lose:['Trimming','Temper your intake'],maintain:['Holding','Hold steady']};
-  const x=map[goal]||map.gain;$('goalPill').textContent=x[0];$('brandSub').textContent=x[1];
+  const map={
+    gain:['Building','Fuel your goal'],
+    lose:['Trimming','Temper your intake'],
+    maintain:['Holding','Hold steady']
+  };
+  const x=map[goal]||map.gain;
+  $('goalPill').textContent=x[0];
+  $('brandSub').textContent=x[1];
 }
+
 function renderContext(ctx){
-  STATE.context=ctx;STATE.profile=ctx.profile;applyGoal(ctx.profile&&ctx.profile.Goal);
-  const t=ctx.target||{},v=ctx.totals||{},r=ctx.remaining||{};
-  $('calIn').textContent=Math.round(v.calories||0);$('remaining').innerHTML=Math.round(r.calories||0)+' <span>kcal left</span>';
-  $('target').textContent=Math.round(t.calories||0)+' kcal';$('rate').textContent=(ctx.profile&&ctx.profile.GoalRateKgPerWeek)||'—'+' kg/wk';
+  STATE.context=ctx;
+  STATE.profile=ctx.profile||STATE.profile;
+
+  applyGoal((ctx.profile&&ctx.profile.Goal)||'gain');
+
+  const t=ctx.target||{};
+  const v=ctx.totals||{};
+  const r=ctx.remaining||{};
+
+  $('calIn').textContent=Math.round(v.calories||0);
+  $('remaining').innerHTML=Math.max(0,Math.round(r.calories||0))+' <span>kcal</span>';
+  $('target').textContent=Math.round(t.calories||0)+' kcal';
+
+  const rate=(ctx.profile&&ctx.profile.GoalRateKgPerWeek);
+  $('rate').textContent=(rate||'—')+(rate?' kg/wk':'');
+
   const pct=t.calories?Math.min(v.calories/t.calories,1):0;
-  $('ring').style.strokeDashoffset=100-pct*100;
-  macro('p',v.protein,t.protein);macro('c',v.carbs,t.carbs);macro('f',v.fat,t.fat);
-  $('aiHint').textContent=r.calories>0?`You have ${Math.round(r.calories)} kcal left. Ask me what fits.`:'You are around today's calorie target. Ask me what to do next.';
+  $('ring').style.strokeDashoffset=100-(pct*100);
+
+  macro('p',v.protein,t.protein);
+  macro('c',v.carbs,t.carbs);
+  macro('f',v.fat,t.fat);
+
+  $('aiHint').textContent=r.calories>0
+    ? `You have ${Math.round(r.calories)} kcal left. Ask me what fits.`
+    : 'You are around today’s target. Ask me what to do next.';
+
+  $('heroDate').textContent=new Date().toLocaleDateString(undefined,{
+    weekday:'long',month:'short',day:'numeric'
+  });
+
   const log=ctx.log||[];
-  $('todayLog').innerHTML=log.length?log.map(x=>`<div class="log-row"><div><div class="food-name">${esc(x.ItemName)}</div><div class="food-meta">${esc(x.Meal)} · ${Math.round(Number(x.Protein)||0)}g protein</div></div><div class="cal">${Math.round(Number(x.Calories)||0)} kcal <button class="link" onclick="removeLog('${x.ID}')">×</button></div></div>`).join(''):'<div class="empty">Nothing logged yet. Start with Log or ask Ember.</div>';
+
+  $('todayLog').innerHTML=log.length
+    ? log.map(x=>`
+      <div class="log-row">
+        <div class="food-leading">
+          <div class="food-icon"><svg class="icon sm"><use href="#i-utensils"></use></svg></div>
+          <div style="min-width:0">
+            <div class="food-name">${esc(x.ItemName)}</div>
+            <div class="food-meta">${esc(x.Meal)} · ${Math.round(Number(x.Protein)||0)}g protein</div>
+          </div>
+        </div>
+        <div class="food-cal">
+          ${Math.round(Number(x.Calories)||0)} kcal
+          <button class="delete-btn" onclick="removeLog('${x.ID}')" aria-label="Remove">
+            <svg class="icon sm"><use href="#i-trash"></use></svg>
+          </button>
+        </div>
+      </div>`).join('')
+    : '<div class="empty-state">Nothing logged yet. Start with Log food or ask Ember.</div>';
 }
-function macro(k,v,t){$(('f'+k)).style.width=(t?Math.min(v/t*100,100):0)+'%';$('v'+k).textContent=Math.round(v||0)+'/'+Math.round(t||0)+'g';}
-function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+
+function macro(k,v,t){
+  const target=Number(t)||0;
+  const value=Number(v)||0;
+  $('f'+k).style.width=(target?Math.min(value/target*100,100):0)+'%';
+  $('v'+k).textContent=Math.round(value)+'/'+Math.round(target)+'g';
+}
+
+function esc(s){
+  return String(s??'').replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+  }[c]));
+}
 
 async function refresh(){
   const r=await api('getTodayContext',{date:today()});
-  if(r.success)renderContext(r);
+  if(r.success) renderContext(r);
 }
-async function removeLog(id){await api('deleteFoodLog',{id});toast('Removed');refresh();}
+
+async function removeLog(id){
+  const r=await api('deleteFoodLog',{id});
+  if(r.success){toast('Food removed');refresh();}
+  else toast(r.error||'Could not remove food');
+}
 
 $('foodSearch').addEventListener('input',debounce(async e=>{
-  const q=e.target.value.trim();if(q.length<2){$('results').innerHTML='';return;}
+  const q=e.target.value.trim();
+  if(q.length<2){$('results').innerHTML='';return;}
+
   const r=await api('searchFoodDatabase',{query:q});
-  $('results').innerHTML=(r.items||[]).map(f=>`<div class="result"><div><b>${esc(f.Name)}</b><div class="food-meta">${f.Unit} · ${f.CaloriesPerUnit} kcal · P ${f.ProteinPerUnit}g</div></div><button onclick='quickAdd(${JSON.stringify(f).replace(/'/g,"&#039;")})'>Add</button></div>`).join('')||'<div class="empty">No match. Try describing it to Ember.</div>';
+
+  $('results').innerHTML=(r.items||[]).map(f=>`
+    <div class="result">
+      <div class="result-main">
+        <b>${esc(f.Name)}</b>
+        <small>${esc(f.Unit)} · ${f.CaloriesPerUnit} kcal · P ${f.ProteinPerUnit}g</small>
+      </div>
+      <button onclick='quickAdd(${JSON.stringify(f).replace(/'/g,"&#039;")})'>
+        Add
+      </button>
+    </div>
+  `).join('')||'<div class="empty-state">No match. Try describing it to Ember.</div>';
 },260));
+
 async function quickAdd(f){
-  await api('logFood',{date:today(),meal:$('meal').value,itemName:f.Name,quantity:1,calories:f.CaloriesPerUnit,protein:f.ProteinPerUnit,carbs:f.CarbsPerUnit,fat:f.FatPerUnit,source:'database'});
-  toast(f.Name+' added');refresh();
+  const r=await api('logFood',{
+    date:today(),
+    meal:$('meal').value,
+    itemName:f.Name,
+    quantity:1,
+    calories:f.CaloriesPerUnit,
+    protein:f.ProteinPerUnit,
+    carbs:f.CarbsPerUnit,
+    fat:f.FatPerUnit,
+    source:'database'
+  });
+  if(r.success){toast(f.Name+' added');refresh();}
+  else toast(r.error||'Could not add food');
 }
+
 $('estimateBtn').onclick=async()=>{
-  const text=$('describe').value.trim();if(!text)return;
-  $('estimateBtn').disabled=true;$('estimateBtn').textContent='Estimating…';
+  const text=$('describe').value.trim();
+  if(!text)return;
+
+  $('estimateBtn').disabled=true;
+  $('estimateBtn').innerHTML='Estimating…';
+
   const r=await api('estimateFoodAI',{text});
-  $('estimateBtn').disabled=false;$('estimateBtn').textContent='Estimate & add';
-  if(!r.success){toast(r.error);return;}
+
+  $('estimateBtn').disabled=false;
+  $('estimateBtn').innerHTML='<span class="button-content"><svg class="icon sm"><use href="#i-check"></use></svg> Estimate & add</span>';
+
+  if(!r.success){toast(r.error||'AI estimate failed');return;}
+
   const items=r.items||[];
   if(!items.length){toast('Could not identify food');return;}
-  await api('addAIItemsToLog',{date:today(),items:items.map(x=>({name:x.name,meal:$('meal').value,quantity:1,calories:x.calories,protein:x.protein,carbs:x.carbs,fat:x.fat}))});
-  $('describe').value='';toast('Added to today');refresh();
+
+  const add=await api('addAIItemsToLog',{
+    date:today(),
+    items:items.map(x=>({
+      name:x.name,
+      meal:$('meal').value,
+      quantity:1,
+      calories:x.calories,
+      protein:x.protein,
+      carbs:x.carbs,
+      fat:x.fat
+    }))
+  });
+
+  if(add.success){
+    $('describe').value='';
+    toast('Added to today');
+    refresh();
+  }else toast(add.error||'Could not add food');
 };
 
-function askQuick(text){showPage('ask');$('chatInput').value=text;sendChat();}
+function askQuick(text){
+  showPage('ask');
+  $('chatInput').value=text;
+  sendChat();
+}
+
 $('sendBtn').onclick=sendChat;
-$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}});
-function addBubble(role,text){const b=document.createElement('div');b.className='bubble '+role;b.textContent=text;$('chatBox').appendChild(b);$('chatBox').scrollTop=$('chatBox').scrollHeight;}
+
+$('chatInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&!e.shiftKey){
+    e.preventDefault();
+    sendChat();
+  }
+});
+
+function addBubble(role,text){
+  const b=document.createElement('div');
+  b.className='bubble '+role;
+  b.textContent=text;
+  $('chatBox').appendChild(b);
+  $('chatBox').scrollTop=$('chatBox').scrollHeight;
+}
+
 async function sendChat(){
-  const input=$('chatInput'),msg=input.value.trim();if(!msg)return;
-  addBubble('user',msg);input.value='';$('sendBtn').disabled=true;
+  const input=$('chatInput');
+  const msg=input.value.trim();
+  if(!msg)return;
+
+  addBubble('user',msg);
+  input.value='';
+  $('sendBtn').disabled=true;
+
   const r=await api('chatWithEmber',{message:msg,date:today()});
+
   $('sendBtn').disabled=false;
-  if(!r.success){addBubble('ai','I couldn’t complete that: '+r.error);return;}
+
+  if(!r.success){
+    addBubble('ai','I could not complete that: '+(r.error||'Unknown error'));
+    return;
+  }
+
   addBubble('ai',r.reply||'Here are a few ideas.');
   renderSuggestions(r.suggestions||[],r.actions||[]);
-  if(r.context)renderContext(r.context);
+
+  if(r.context) renderContext(r.context);
 }
+
 function renderSuggestions(items,actions){
-  const box=$('suggestions');box.innerHTML='';
-  (items||[]).forEach((x,i)=>{
-    const d=document.createElement('div');d.className='suggestion';
-    d.innerHTML=`<h4>${esc(x.name)}</h4><p>${esc(x.description||'')}</p><div class="stats">~${Math.round(x.calories||0)} kcal · P ${Math.round(x.protein||0)}g · C ${Math.round(x.carbs||0)}g · F ${Math.round(x.fat||0)}g${x.prepMinutes?' · '+x.prepMinutes+' min':''}</div><button>Add to today</button>`;
-    d.querySelector('button').onclick=async()=>{await api('addAIItemsToLog',{date:today(),items:[{name:x.name,meal:x.meal||'snack',quantity:1,calories:x.calories,protein:x.protein,carbs:x.carbs,fat:x.fat}]});toast(x.name+' added');refresh();};
+  const box=$('suggestions');
+  box.innerHTML='';
+
+  (items||[]).forEach(x=>{
+    const d=document.createElement('div');
+    d.className='suggestion';
+
+    d.innerHTML=`
+      <h4>${esc(x.name)}</h4>
+      <p>${esc(x.description||'')}</p>
+      <div class="stats">
+        ~${Math.round(x.calories||0)} kcal ·
+        P ${Math.round(x.protein||0)}g ·
+        C ${Math.round(x.carbs||0)}g ·
+        F ${Math.round(x.fat||0)}g
+        ${x.prepMinutes?' · '+x.prepMinutes+' min':''}
+      </div>
+      <button>
+        <svg class="icon sm"><use href="#i-plus"></use></svg>
+        Add to today
+      </button>
+    `;
+
+    d.querySelector('button').onclick=async()=>{
+      const r=await api('addAIItemsToLog',{
+        date:today(),
+        items:[{
+          name:x.name,
+          meal:x.meal||'snack',
+          quantity:1,
+          calories:x.calories,
+          protein:x.protein,
+          carbs:x.carbs,
+          fat:x.fat
+        }]
+      });
+      if(r.success){toast(x.name+' added');refresh();}
+      else toast(r.error||'Could not add item');
+    };
+
     box.appendChild(d);
   });
-  if(actions&&actions.length){api('addAIItemsToLog',{date:today(),items:actions});refresh();}
+
+  if(actions&&actions.length){
+    api('addAIItemsToLog',{date:today(),items:actions}).then(refresh);
+  }
 }
+
 async function loadChat(){
   const r=await api('getChatHistory');
   $('chatBox').innerHTML='';
-  if(r.history&&r.history.length)r.history.forEach(x=>addBubble(x.Role==='user'?'user':'ai',x.Message));
-  else addBubble('ai','Hi! I’m Ember. I can help you hit today’s target with realistic food ideas. Try “What should I eat now?”');
+
+  if(r.history&&r.history.length){
+    r.history.forEach(x=>addBubble(
+      x.Role==='user'?'user':'ai',
+      x.Message
+    ));
+  }else{
+    addBubble(
+      'ai',
+      'Hi! I’m Ember. I can help you hit today’s target with realistic food ideas. Try “What should I eat now?”'
+    );
+  }
 }
 
 async function loadPantry(){
-  const r=await api('getPantry');const items=r.items||[];
-  $('pantryList').innerHTML=items.map(x=>`<div class="result"><span><b>${esc(x.ItemName)}</b> <small>${esc(x.Quantity||'')}</small></span><button onclick="removePantry('${x.ID}')" style="background:var(--ember);color:#fff;border:0;border-radius:8px;padding:6px 9px">×</button></div>`).join('')||'<div class="empty">Pantry is empty.</div>';
-  $('pantryLog').innerHTML=items.length?items.map(x=>`<div class="result"><span><b>${esc(x.ItemName)}</b><div class="food-meta">${esc(x.Quantity||'')}</div></span><button onclick='pantryAsk(${JSON.stringify(x).replace(/'/g,"&#039;")})'>Ask Ember</button></div>`).join(''):'<div class="empty">Add pantry items on Plan.</div>';
+  const r=await api('getPantry');
+  const items=r.items||[];
+
+  $('pantryList').innerHTML=items.map(x=>`
+    <div class="result">
+      <div class="result-main">
+        <b>${esc(x.ItemName)}</b>
+        <small>${esc(x.Quantity||'')}</small>
+      </div>
+      <button style="background:var(--purple)" onclick="removePantry('${x.ID}')">Remove</button>
+    </div>
+  `).join('')||'<div class="empty-state">Pantry is empty.</div>';
+
+  $('pantryLog').innerHTML=items.length
+    ? items.map(x=>`
+      <div class="result">
+        <div class="food-leading">
+          <div class="food-icon"><svg class="icon sm"><use href="#i-basket"></use></svg></div>
+          <div class="result-main">
+            <b>${esc(x.ItemName)}</b>
+            <small>${esc(x.Quantity||'')}</small>
+          </div>
+        </div>
+        <button onclick='pantryAsk(${JSON.stringify(x).replace(/'/g,"&#039;")})'>Ask Ember</button>
+      </div>
+    `).join('')
+    : '<div class="empty-state">Add pantry items on Plan.</div>';
 }
-function pantryAsk(x){askQuick('Use '+x.ItemName+' from my pantry and suggest something realistic.');}
-async function addPantry(){const n=$('pantryName').value.trim(),q=$('pantryQty').value.trim();if(!n)return;await api('savePantryItem',{itemName:n,quantity:q,unit:''});$('pantryName').value='';$('pantryQty').value='';toast('Added to pantry');loadPantry();}
-async function removePantry(id){await api('deletePantryItem',{id});loadPantry();}
+
+function pantryAsk(x){
+  askQuick('Use '+x.ItemName+' from my pantry and suggest something realistic.');
+}
+
+async function addPantry(){
+  const n=$('pantryName').value.trim();
+  const q=$('pantryQty').value.trim();
+  if(!n)return;
+
+  const r=await api('savePantryItem',{itemName:n,quantity:q,unit:''});
+
+  if(r.success){
+    $('pantryName').value='';
+    $('pantryQty').value='';
+    toast('Added to pantry');
+    loadPantry();
+  }else toast(r.error||'Could not add pantry item');
+}
+
+async function removePantry(id){
+  const r=await api('deletePantryItem',{id});
+  if(r.success){toast('Pantry item removed');loadPantry();}
+  else toast(r.error||'Could not remove pantry item');
+}
 
 $('planBtn').onclick=async()=>{
-  const btn=$('planBtn');btn.disabled=true;btn.textContent='Building…';
-  const p=STATE.profile||{};const r=await api('generateMealPlan',{targetCalories:p.TargetCalories,targetProtein:p.TargetProtein,targetCarbs:p.TargetCarbs,targetFat:p.TargetFat,mealsPerDay:p.MealsPerDay||4,officeDay:$('officeBtn').classList.contains('selected'),useOnlyPantry:$('pantryOnlyBtn').classList.contains('selected')});
-  btn.disabled=false;btn.textContent="Generate today's plan";
-  if(!r.success){toast(r.error);return;}
-  $('planSource').textContent=r.source==='ai'?'AI-personalized plan':'Rule-based plan';
-  renderPlan(r.plan);
+  const btn=$('planBtn');
+  btn.disabled=true;
+  btn.textContent='Building…';
+
+  const p=STATE.profile||{};
+  const r=await api('generateMealPlan',{
+    targetCalories:p.TargetCalories,
+    targetProtein:p.TargetProtein,
+    targetCarbs:p.TargetCarbs,
+    targetFat:p.TargetFat,
+    mealsPerDay:p.MealsPerDay||4,
+    officeDay:$('officeBtn').classList.contains('selected'),
+    useOnlyPantry:$('pantryOnlyBtn').classList.contains('selected')
+  });
+
+  btn.disabled=false;
+  btn.textContent="Generate today's plan";
+
+  if(!r.success){toast(r.error||'Could not generate plan');return;}
+
+  $('planSource').textContent=r.source==='ai'
+    ? 'AI-personalized plan'
+    : 'Rule-based plan';
+
+  renderPlan(r.plan||{});
 };
+
 function renderPlan(p){
-  $('planResult').innerHTML=(p.meals||[]).map(m=>`<div class="plan"><h4>${esc(m.name)} · ${Math.round(m.calories)} kcal</h4><p>${esc((m.items||[]).join(', '))}</p><small>P ${Math.round(m.protein||0)}g · C ${Math.round(m.carbs||0)}g · F ${Math.round(m.fat||0)}g · ${m.prepMinutes||0} min</small></div>`).join('')+`<div class="empty" style="margin-top:8px">${esc(p.notes||'')}</div>`;
+  const meals=p.meals||[];
+
+  $('planResult').innerHTML=meals.length
+    ? meals.map(m=>`
+      <div class="plan">
+        <div class="plan-head">
+          <h4>${esc(m.name)}</h4>
+          <span class="plan-kcal">${Math.round(m.calories||0)} kcal</span>
+        </div>
+        <p>${esc((m.items||[]).join(', '))}</p>
+        <small>
+          P ${Math.round(m.protein||0)}g ·
+          C ${Math.round(m.carbs||0)}g ·
+          F ${Math.round(m.fat||0)}g ·
+          ${m.prepMinutes||0} min
+        </small>
+      </div>
+    `).join('')+
+    `<div class="empty-state">${esc(p.notes||'')}</div>`
+    : '<div class="empty-state">No meals were generated. Try again.</div>';
 }
-async function loadSavedPlans(){}
 
 async function loadProfile(){
-  const r=await api('getProfile'),c=await api('getConfig');
-  if(c.success)$('keyStatus').textContent=c.hasGeminiKey?'AI key is configured on the backend.':'No Gemini key configured yet.';
+  const r=await api('getProfile');
+  const c=await api('getConfig');
+
+  if(c.success){
+    $('keyStatus').textContent=c.hasGeminiKey
+      ? 'AI key is configured on the backend.'
+      : 'No Gemini key configured yet.';
+  }
+
   if(!r.profile)return;
-  const p=r.profile;STATE.profile=p;applyGoal(p.Goal);
-  $('age').value=p.Age||'';$('gender').value=p.Gender||'male';$('height').value=p.HeightCm||'';$('weight').value=p.WeightKg||'';$('activity').value=p.ActivityLevel||'moderate';$('goal').value=p.Goal||'gain';$('goalRate').value=p.GoalRateKgPerWeek||.4;$('meals').value=p.MealsPerDay||4;$('officeDays').value=p.OfficeDays||'';$('kitchen').value=p.KitchenAccess||'none';$('cuisine').value=p.CuisinePref||'';$('avoid').value=p.Allergies||'';
+
+  const p=r.profile;
+  STATE.profile=p;
+  applyGoal(p.Goal);
+
+  $('age').value=p.Age||'';
+  $('gender').value=p.Gender||'male';
+  $('height').value=p.HeightCm||'';
+  $('weight').value=p.WeightKg||'';
+  $('activity').value=p.ActivityLevel||'moderate';
+  $('goal').value=p.Goal||'gain';
+  $('goalRate').value=p.GoalRateKgPerWeek||.4;
+  $('meals').value=p.MealsPerDay||4;
+  $('officeDays').value=p.OfficeDays||'';
+  $('kitchen').value=p.KitchenAccess||'none';
+  $('cuisine').value=p.CuisinePref||'';
+  $('avoid').value=p.Allergies||'';
 }
+
 $('goal').onchange=e=>applyGoal(e.target.value);
+
 async function saveProfile(){
-  const r=await api('saveProfile',{age:$('age').value,gender:$('gender').value,heightCm:$('height').value,weightKg:$('weight').value,activityLevel:$('activity').value,goal:$('goal').value,goalRate:$('goalRate').value,mealsPerDay:$('meals').value,officeDays:$('officeDays').value,kitchenAccess:$('kitchen').value,cuisinePref:$('cuisine').value,allergies:$('avoid').value});
-  if(r.success){toast('Profile saved');await loadProfile();refresh();}else toast(r.error);
+  const r=await api('saveProfile',{
+    age:$('age').value,
+    gender:$('gender').value,
+    heightCm:$('height').value,
+    weightKg:$('weight').value,
+    activityLevel:$('activity').value,
+    goal:$('goal').value,
+    goalRate:$('goalRate').value,
+    mealsPerDay:$('meals').value,
+    officeDays:$('officeDays').value,
+    kitchenAccess:$('kitchen').value,
+    cuisinePref:$('cuisine').value,
+    allergies:$('avoid').value
+  });
+
+  if(r.success){
+    toast('Profile saved');
+    await loadProfile();
+    await refresh();
+  }else toast(r.error||'Could not save profile');
 }
+
 async function saveKey(){
-  const key=$('geminiKey').value.trim();if(!key)return toast('Paste your Gemini key');
+  const key=$('geminiKey').value.trim();
+  if(!key)return toast('Paste your Gemini key');
+
   const r=await api('setGeminiKey',{GeminiApiKey:key});
-  if(r.success){$('geminiKey').value='';$('keyStatus').textContent='AI key saved securely in backend.';toast('AI enabled');}else toast(r.error);
+
+  if(r.success){
+    $('geminiKey').value='';
+    $('keyStatus').textContent='AI key saved securely in backend.';
+    toast('AI enabled');
+  }else toast(r.error||'Could not save AI key');
 }
-async function clearChat(){if(confirm('Clear Ember conversation?')){await api('clearChatHistory');loadChat();}}
+
+async function clearChat(){
+  if(!confirm('Clear Ember conversation?'))return;
+  const r=await api('clearChatHistory');
+  if(r.success){
+    toast('Conversation cleared');
+    loadChat();
+  }
+}
 
 async function renderCharts(){
-  const wr=await api('getWeightHistory'),hist=(wr.history||[]).slice(-30);
-  if(weightChartRef)weightChartRef.destroy();
-  weightChartRef=new Chart($('weightChart'),{type:'line',data:{labels:hist.map(x=>x.Date),datasets:[{data:hist.map(x=>x.WeightKg),tension:.3,pointRadius:2,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:false}}}});
-  const days=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days.push(d.toLocaleDateString('en-CA',{timeZone:'Asia/Kolkata'}));}
-  const totals=[];for(const d of days){const r=await api('getFoodLog',{date:d});totals.push((r.log||[]).reduce((s,x)=>s+Number(x.Calories||0),0));}
-  if(calChartRef)calChartRef.destroy();
-  calChartRef=new Chart($('calChart'),{type:'bar',data:{labels:days.map(x=>x.slice(5)),datasets:[{data:totals,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});
-}
-async function logWeight(){const w=$('weightInput').value;if(!w)return;await api('logWeight',{weightKg:w,date:today()});$('weightInput').value='';toast('Weight logged');renderCharts();}
-function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};}
+  if(typeof Chart==='undefined'){
+    toast('Charts library did not load');
+    return;
+  }
 
-$('date').textContent=new Date().toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});
+  const wr=await api('getWeightHistory');
+  const hist=(wr.history||[]).slice(-30);
+
+  if(weightChartRef)weightChartRef.destroy();
+
+  weightChartRef=new Chart($('weightChart'),{
+    type:'line',
+    data:{
+      labels:hist.map(x=>x.Date),
+      datasets:[{
+        data:hist.map(x=>x.WeightKg),
+        tension:.3,
+        pointRadius:2,
+        borderWidth:2
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{x:{display:false}}
+    }
+  });
+
+  const days=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date();
+    d.setDate(d.getDate()-i);
+    days.push(d.toLocaleDateString('en-CA',{timeZone:'Asia/Kolkata'}));
+  }
+
+  const totals=[];
+  for(const d of days){
+    const r=await api('getFoodLog',{date:d});
+    totals.push((r.log||[]).reduce((s,x)=>s+Number(x.Calories||0),0));
+  }
+
+  if(calChartRef)calChartRef.destroy();
+
+  calChartRef=new Chart($('calChart'),{
+    type:'bar',
+    data:{
+      labels:days.map(x=>x.slice(5)),
+      datasets:[{
+        data:totals,
+        borderRadius:6
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{legend:{display:false}}
+    }
+  });
+}
+
+async function logWeight(){
+  const w=$('weightInput').value;
+  if(!w)return;
+
+  const r=await api('logWeight',{weightKg:w,date:today()});
+
+  if(r.success){
+    $('weightInput').value='';
+    toast('Weight logged');
+    renderCharts();
+  }else toast(r.error||'Could not log weight');
+}
+
+function debounce(fn,ms){
+  let t;
+  return(...a)=>{
+    clearTimeout(t);
+    t=setTimeout(()=>fn(...a),ms);
+  };
+}
+
+$('date').textContent=new Date().toLocaleDateString(undefined,{
+  weekday:'short',month:'short',day:'numeric'
+});
+
 (async function init(){
-  await loadProfile();await refresh();await loadPantry();await loadChat();
+  await loadProfile();
+  await refresh();
+  await loadPantry();
+  await loadChat();
 })();
 </script>
 </body>
