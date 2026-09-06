@@ -426,15 +426,15 @@
 
 <script>
 // ====== CONFIGURE THIS ======
-const API_URL = "https://script.google.com/macros/s/AKfycbxfOT-qcFjDVukhLK1mwsIZ86SgwSDtTo7vA3_Hvu2dktWZ9AHTfXh1P3dssrXHCFUq2g/exec";
+const API_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
 // ============================
 
 let STATE = { profile: null, pantry: [], targets: null };
 
 const GOAL_COPY = {
-  gain: { chip:'Building', sub:'Fuel your goal', headline:'Stoking today\\'s surplus', tag:'Fuel your goal', planTitle:'Generate today\\'s fuel plan' },
-  lose: { chip:'Trimming', sub:'Temper your intake', headline:'Tempering today\\'s deficit', tag:'Temper your intake', planTitle:'Generate today\\'s trim plan' },
-  maintain: { chip:'Holding', sub:'Hold steady', headline:'Holding today\\'s balance', tag:'Hold steady', planTitle:'Generate today\\'s balance plan' }
+  gain: { chip:'Building', sub:'Fuel your goal', headline:"Stoking today's surplus", tag:'Fuel your goal', planTitle:"Generate today's fuel plan" },
+  lose: { chip:'Trimming', sub:'Temper your intake', headline:"Tempering today's deficit", tag:'Temper your intake', planTitle:"Generate today's trim plan" },
+  maintain: { chip:'Holding', sub:'Hold steady', headline:"Holding today's balance", tag:'Hold steady', planTitle:"Generate today's balance plan" }
 };
 
 function applyGoalTheme(goal){
