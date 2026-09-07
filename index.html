@@ -466,377 +466,103 @@ textarea{resize:none;min-height:78px}
   .bottom{border-radius:22px 22px 0 0}
 }
 
-/* =========================
-   EMBER — ALTERNATE THEME
-   Warm editorial / premium
-   ========================= */
-:root{
-  --bg:#f3eee6;
-  --bg2:#ebe2d6;
-  --surface:#fffdf9;
-  --surface-soft:#f5efe7;
-  --ink:#201b18;
-  --muted:#82776d;
-  --line:#e5dbcf;
-  --purple:#c65b32;
-  --purple2:#e58b55;
-  --purple-dark:#201b18;
-  --green:#4f8064;
-  --orange:#d99645;
-  --red:#c96060;
-  --shadow:0 16px 40px rgba(50,35,24,.09);
-  --shadow-soft:0 7px 20px rgba(50,35,24,.055);
-}
-body[data-goal="lose"]{--purple:#4d8192;--purple2:#78b4c4;--purple-dark:#21363d}
-body[data-goal="maintain"]{--purple:#52765a;--purple2:#91ad91;--purple-dark:#25372a}
 
-body{
-  background:
-    radial-gradient(circle at 90% 0%,rgba(229,139,85,.14),transparent 25%),
-    linear-gradient(145deg,#f7f2ea 0%,#f1ebe2 52%,#ebe2d7 100%);
-}
+/* ===== EMBER APPEARANCE — FINAL ===== */
+html,body{transition:background .22s ease,color .22s ease}
 
-.brand-mark{
-  background:var(--ink);
-  box-shadow:0 8px 18px rgba(32,27,24,.16);
+/* Cool = the requested purple Ember theme */
+body[data-theme="cool"]{
+  --bg:#f0ebff;--bg2:#e6ddff;--surface:#ffffff;--surface-soft:#f7f4ff;
+  --ink:#171321;--muted:#817b8d;--line:#e3ddf1;
+  --purple:#7357e8;--purple2:#9a83ff;--purple-dark:#30234f;
+  --green:#43a77a;--orange:#f2a44b;--red:#e66b73;
+  --shadow:0 18px 50px rgba(49,31,91,.12);--shadow-soft:0 8px 24px rgba(49,31,91,.08);
+  background:radial-gradient(circle at 15% 8%,rgba(255,255,255,.9),transparent 28%),radial-gradient(circle at 100% 22%,rgba(167,143,255,.35),transparent 32%),linear-gradient(160deg,#f4f0ff 0%,#eee8ff 48%,#e5dcff 100%);
 }
-.goal-pill{
-  color:var(--ink);
-  background:rgba(255,253,249,.9);
-  border-color:rgba(255,255,255,.95);
-}
+body[data-theme="cool"] .brand-mark{background:linear-gradient(145deg,var(--purple2),var(--purple));box-shadow:0 10px 22px rgba(115,87,232,.25)}
+body[data-theme="cool"] .hero-card{background:radial-gradient(circle at 82% 12%,rgba(255,255,255,.22),transparent 26%),linear-gradient(145deg,#8f78f3,#6d51df 55%,#5940bd);box-shadow:0 22px 45px rgba(91,63,190,.28)}
+body[data-theme="cool"] .macro-card,body[data-theme="cool"] .quick-card,body[data-theme="cool"] .list-card,body[data-theme="cool"] .form-card,body[data-theme="cool"] .suggestion,body[data-theme="cool"] .plan-card,body[data-theme="cool"] .chart-card,body[data-theme="cool"] .profile-card,body[data-theme="cool"] .bubble.ai,body[data-theme="cool"] .composer,body[data-theme="cool"] .prompt{background:rgba(255,255,255,.88);border-color:rgba(255,255,255,.96)}
+body[data-theme="cool"] input,body[data-theme="cool"] select,body[data-theme="cool"] textarea{background:#fbfaff;color:var(--ink);border-color:var(--line)}
+body[data-theme="cool"] .quick-icon,body[data-theme="cool"] .food-icon,body[data-theme="cool"] .profile-title-icon{background:#eee9ff;color:var(--purple)}
+body[data-theme="cool"] .btn.accent,body[data-theme="cool"] .suggestion button,body[data-theme="cool"] .result button{background:linear-gradient(100deg,var(--purple2),var(--purple));color:#fff}
+body[data-theme="cool"] .send{background:var(--purple-dark);color:#fff}
+body[data-theme="cool"] .btn.outline{background:#fff;color:var(--ink)}
+body[data-theme="cool"] .btn.selected{background:#eee9ff;color:var(--purple);border-color:#d8ceff}
+body[data-theme="cool"] .bottom{background:rgba(24,19,33,.97)}
+body[data-theme="cool"] .navbtn.active .ni{background:var(--purple)}
 
-.hero-card{
-  background:
-    radial-gradient(circle at 90% 8%,rgba(255,255,255,.12),transparent 24%),
-    linear-gradient(145deg,#2a2521 0%,#201c19 58%,#171412 100%);
-  box-shadow:0 22px 42px rgba(32,27,24,.19);
+/* Warm */
+body[data-theme="warm"]{
+  --bg:#f3eee6;--bg2:#ebe2d6;--surface:#fffdf9;--surface-soft:#f5efe7;
+  --ink:#201b18;--muted:#82776d;--line:#e5dbcf;--purple:#c65b32;--purple2:#e58b55;--purple-dark:#201b18;
+  --green:#4f8064;--orange:#d99645;--red:#c96060;
+  --shadow:0 16px 40px rgba(50,35,24,.09);--shadow-soft:0 7px 20px rgba(50,35,24,.055);
+  background:radial-gradient(circle at 90% 0%,rgba(229,139,85,.14),transparent 25%),linear-gradient(145deg,#f7f2ea 0%,#f1ebe2 52%,#ebe2d7 100%);
 }
-.hero-card:before{
-  border-color:rgba(255,255,255,.09);
-  box-shadow:0 0 0 25px rgba(255,255,255,.025),0 0 0 55px rgba(255,255,255,.018);
-}
-.hero-action{
-  background:rgba(255,255,255,.09);
-  border:1px solid rgba(255,255,255,.08);
-}
-.ring-bg{stroke:rgba(255,255,255,.14)}
-.ring-fill{stroke:#e78a55}
+body[data-theme="warm"] .brand-mark{background:var(--ink)}
+body[data-theme="warm"] .hero-card{background:linear-gradient(145deg,#2a2521,#201c19 58%,#171412)}
+body[data-theme="warm"] .btn.accent,body[data-theme="warm"] .suggestion button,body[data-theme="warm"] .result button,body[data-theme="warm"] .send{background:var(--ink);color:#fff}
 
-.ask-card{
-  background:rgba(255,255,255,.075);
-  border-color:rgba(255,255,255,.10);
+/* Dark — every button/input/card gets explicit dark styling */
+body[data-theme="dark"]{
+  --bg:#141118;--bg2:#1c1722;--surface:#211c28;--surface-soft:#292331;
+  --ink:#f5f1f7;--muted:#aaa1b2;--line:#393140;--purple:#9a83ff;--purple2:#b3a0ff;--purple-dark:#0f0c13;
+  --green:#67b98e;--orange:#efad5c;--red:#ed858c;
+  --shadow:0 16px 40px rgba(0,0,0,.30);--shadow-soft:0 7px 20px rgba(0,0,0,.22);
+  background:radial-gradient(circle at 90% 0%,rgba(154,131,255,.13),transparent 28%),linear-gradient(145deg,#17131d,#141118 55%,#100d13);
 }
-.ask-logo{
-  background:#f4c39d;
-  color:#8e3e20;
-}
-.ask-arrow{background:rgba(255,255,255,.09)}
+body[data-theme="dark"] .goal-pill,body[data-theme="dark"] .macro-card,body[data-theme="dark"] .quick-card,body[data-theme="dark"] .list-card,body[data-theme="dark"] .form-card,body[data-theme="dark"] .suggestion,body[data-theme="dark"] .plan-card,body[data-theme="dark"] .chart-card,body[data-theme="dark"] .profile-card,body[data-theme="dark"] .bubble.ai,body[data-theme="dark"] .composer,body[data-theme="dark"] .prompt{background:#211c28;color:var(--ink);border-color:#393140}
+body[data-theme="dark"] input,body[data-theme="dark"] select,body[data-theme="dark"] textarea{background:#1b1721;color:var(--ink);border-color:#393140}
+body[data-theme="dark"] input::placeholder,body[data-theme="dark"] textarea::placeholder{color:#817888}
+body[data-theme="dark"] .quick-icon,body[data-theme="dark"] .food-icon,body[data-theme="dark"] .profile-title-icon{background:#2b2433;color:var(--purple)}
+body[data-theme="dark"] .btn{background:#f5f1f7;color:#171321;border:1px solid #f5f1f7}
+body[data-theme="dark"] .btn.accent{background:linear-gradient(100deg,#b3a0ff,#8d75ef);color:#171321;border:0;box-shadow:0 9px 20px rgba(154,131,255,.22)}
+body[data-theme="dark"] .btn.outline{background:#211c28;color:#f5f1f7;border:1px solid #51485a}
+body[data-theme="dark"] .btn.selected{background:#302744;color:#cfc5ff;border-color:#66568a}
+body[data-theme="dark"] .result button{background:#9a83ff!important;color:#171321!important;border:0}
+body[data-theme="dark"] .suggestion button{background:#9a83ff;color:#171321}
+body[data-theme="dark"] .send{background:#9a83ff;color:#171321}
+body[data-theme="dark"] .theme-swatch{background:#211c28;color:#f5f1f7;border-color:#393140}
+body[data-theme="dark"] .theme-swatch.active{border-color:#b3a0ff;box-shadow:0 0 0 2px rgba(179,160,255,.15)}
+body[data-theme="dark"] .hero-card{background:linear-gradient(145deg,#30264a,#211a31 60%,#17121f)}
+body[data-theme="dark"] .bottom{background:rgba(10,8,13,.98)}
+body[data-theme="dark"] .navbtn.active .ni{background:#9a83ff;color:#171321}
+body[data-theme="dark"] .macro-track{background:#342d3b}
 
-.section-heading button{color:var(--purple)}
-
-.macro-card,
-.quick-card,
-.list-card,
-.form-card,
-.chat-box .bubble.ai,
-.suggestion,
-.plan-card,
-.chart-card,
-.profile-card{
-  background:rgba(255,253,249,.88);
-  border-color:rgba(255,255,255,.95);
-}
-
-.macro-card:nth-child(2) .macro-dot{background:var(--green)}
-.macro-card:nth-child(3) .macro-dot{background:var(--orange)}
-.macro-fill{background:linear-gradient(90deg,var(--purple2),var(--purple))}
-.macro-card:nth-child(2) .macro-fill{background:linear-gradient(90deg,#77ad8a,var(--green))}
-.macro-card:nth-child(3) .macro-fill{background:linear-gradient(90deg,#eab86f,var(--orange))}
-
-.quick-icon{
-  width:34px;height:34px;
-  border-radius:11px;
-  margin-bottom:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#f4e6dc;
-  color:var(--purple);
-}
-.quick-card:nth-child(2) .quick-icon{background:#eaf2ec;color:var(--green)}
-.quick-card:nth-child(3) .quick-icon{background:#f7eee0;color:#bb7b28}
-.quick-card:nth-child(4) .quick-icon{background:#eee9e3;color:#6d6259}
-
-.quick-icon svg,
-.food-icon svg,
-.profile-title-icon svg,
-.ask-logo svg,
-.button-content svg,
-.suggestion button svg,
-.send svg,
-.hero-action svg,
-.ask-arrow svg{
-  width:17px;
-  height:17px;
-  flex:none;
+/* System follows device: light is Cool, dark is Dark */
+body[data-theme="system"]{--bg:#f0ebff;--bg2:#e6ddff;--surface:#fff;--surface-soft:#f7f4ff;--ink:#171321;--muted:#817b8d;--line:#e3ddf1;--purple:#7357e8;--purple2:#9a83ff;--purple-dark:#30234f;background:linear-gradient(160deg,#f4f0ff,#eee8ff 48%,#e5dcff)}
+body[data-theme="system"] .btn.accent,body[data-theme="system"] .suggestion button,body[data-theme="system"] .result button{background:linear-gradient(100deg,#9a83ff,#7357e8);color:#fff}
+body[data-theme="system"] .send{background:#30234f;color:#fff}
+@media(prefers-color-scheme:dark){
+  body[data-theme="system"]{--bg:#141118;--bg2:#1c1722;--surface:#211c28;--surface-soft:#292331;--ink:#f5f1f7;--muted:#aaa1b2;--line:#393140;--purple:#9a83ff;--purple2:#b3a0ff;--purple-dark:#0f0c13;background:radial-gradient(circle at 90% 0%,rgba(154,131,255,.13),transparent 28%),linear-gradient(145deg,#17131d,#141118 55%,#100d13)}
+  body[data-theme="system"] .goal-pill,body[data-theme="system"] .macro-card,body[data-theme="system"] .quick-card,body[data-theme="system"] .list-card,body[data-theme="system"] .form-card,body[data-theme="system"] .suggestion,body[data-theme="system"] .plan-card,body[data-theme="system"] .chart-card,body[data-theme="system"] .profile-card,body[data-theme="system"] .bubble.ai,body[data-theme="system"] .composer,body[data-theme="system"] .prompt{background:#211c28;color:#f5f1f7;border-color:#393140}
+  body[data-theme="system"] input,body[data-theme="system"] select,body[data-theme="system"] textarea{background:#1b1721;color:#f5f1f7;border-color:#393140}
+  body[data-theme="system"] .btn{background:#f5f1f7;color:#171321;border:1px solid #f5f1f7}
+  body[data-theme="system"] .btn.accent{background:linear-gradient(100deg,#b3a0ff,#8d75ef);color:#171321;border:0}
+  body[data-theme="system"] .btn.outline{background:#211c28;color:#f5f1f7;border-color:#51485a}
+  body[data-theme="system"] .btn.selected{background:#302744;color:#cfc5ff;border-color:#66568a}
+  body[data-theme="system"] .result button,body[data-theme="system"] .suggestion button,body[data-theme="system"] .send{background:#9a83ff!important;color:#171321!important}
+  body[data-theme="system"] .hero-card{background:linear-gradient(145deg,#30264a,#211a31 60%,#17121f)}
+  body[data-theme="system"] .bottom{background:rgba(10,8,13,.98)}
+  body[data-theme="system"] .navbtn.active .ni{background:#9a83ff;color:#171321}
 }
 
-.food-icon{
-  width:36px;height:36px;
-  border-radius:11px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#f4e9df;
-  color:var(--purple);
-}
-
-.profile-title-icon{
-  width:34px;height:34px;
-  border-radius:11px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#f4e6dc;
-  color:var(--purple);
-}
-
-.prompt{
-  background:rgba(255,253,249,.92);
-  border-color:#e5dbcf;
-}
-.prompt:active{background:#f4e6dc}
-
-.btn.accent{
-  background:var(--ink);
-  box-shadow:0 9px 20px rgba(32,27,24,.14);
-}
-.btn.selected{
-  background:#f4e6dc;
-  border-color:#e0cbbd;
-  color:#9a4527;
-}
-.btn.outline{
-  background:rgba(255,253,249,.82);
-}
-
-input,select,textarea{background:#fffdfa}
-
-.navbtn.active .ni{
-  background:var(--purple);
-  box-shadow:0 6px 14px rgba(198,91,50,.30);
-}
-.navbtn.active{color:#fff}
-.navbtn .ni{
-  width:34px;
-  height:25px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.navbtn .ni .icon{
-  width:17px;height:17px;
-}
-.navbtn .ni.ember-nav svg{
-  width:17px;height:17px;
-}
-.bottom{
-  background:rgba(32,27,24,.97);
-  box-shadow:0 -10px 30px rgba(32,27,24,.15);
-}
-
-.hero-remaining{color:#fff}
-.plan-kcal{color:var(--purple)}
-.result button{
-  background:var(--ink);
-}
-.suggestion button{
-  background:var(--ink);
-}
-.send{background:var(--ink)}
-
-.toast{background:var(--ink)}
-
-@media(max-width:380px){
-  .calorie-layout{gap:12px}
-  .calorie-ring{width:128px;height:128px}
-  .hero-remaining{font-size:25px}
-  .brand-name{font-size:19px}
-}
-
-
-/* =========================
-   ICON ALIGNMENT FIX
-   ========================= */
-
-/* Normalize every icon box so the SVG is mathematically centered. */
-.brand-mark,
-.ask-logo,
-.quick-icon,
-.food-icon,
-.profile-title-icon,
-.hero-action,
-.ask-arrow,
-.send,
-.button-content,
-.suggestion button,
-.navbtn .ni{
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  place-items:center !important;
-  line-height:0 !important;
-  vertical-align:middle !important;
-}
-
-/* Remove inline SVG baseline/line-box offsets. */
-.brand-mark svg,
-.ask-logo svg,
-.quick-icon svg,
-.food-icon svg,
-.profile-title-icon svg,
-.hero-action svg,
-.ask-arrow svg,
-.send svg,
-.button-content svg,
-.suggestion button svg,
-.navbtn .ni svg{
-  display:block !important;
-  margin:0 !important;
-  padding:0 !important;
-  position:static !important;
-  flex:0 0 auto !important;
-  transform:none !important;
-  vertical-align:middle !important;
-}
-
-/* Consistent visual sizing inside every icon container. */
-.brand-mark svg{width:22px!important;height:22px!important}
-.ask-logo svg{width:21px!important;height:21px!important}
-.quick-icon svg{width:18px!important;height:18px!important}
-.food-icon svg{width:17px!important;height:17px!important}
-.profile-title-icon svg{width:17px!important;height:17px!important}
-.hero-action svg,.ask-arrow svg{width:17px!important;height:17px!important}
-.send svg{width:18px!important;height:18px!important}
-.button-content svg{width:16px!important;height:16px!important}
-.suggestion button svg{width:15px!important;height:15px!important}
-.navbtn .ni svg{width:18px!important;height:18px!important}
-
-/* Give the small icon containers a true centered box. */
-.quick-icon{
-  width:34px!important;
-  height:34px!important;
-  min-width:34px!important;
-  min-height:34px!important;
-}
-.food-icon{
-  width:36px!important;
-  height:36px!important;
-  min-width:36px!important;
-  min-height:36px!important;
-}
-.profile-title-icon{
-  width:34px!important;
-  height:34px!important;
-  min-width:34px!important;
-  min-height:34px!important;
-}
-.hero-action,.ask-arrow{
-  width:36px!important;
-  height:36px!important;
-  min-width:36px!important;
-  min-height:36px!important;
-}
-.send{
-  width:40px!important;
-  height:40px!important;
-  min-width:40px!important;
-  min-height:40px!important;
-}
-
-/* Center the active navigation pill and its icon. */
-.navbtn .ni{
-  width:34px!important;
-  height:25px!important;
-  margin:0 auto!important;
-  padding:0!important;
-}
-.navbtn.active .ni{
-  width:34px!important;
-  height:25px!important;
-}
-.navbtn .ni svg{
-  margin:auto!important;
-}
-
-/* The Ember flame has a deliberately asymmetric source path;
-   shift only the flame artwork by half a pixel for optical centering. */
-.brand-mark svg,
-.ask-logo svg,
-.navbtn .ni.ember-nav svg{
-  transform:translateX(.5px)!important;
-}
-
-/* Keep text/icon combinations centered without changing text alignment. */
-.button-content{
-  width:100%;
-  gap:7px;
-}
-.suggestion button{
-  gap:5px;
-}
-
-/* Prevent iOS Safari from introducing inline alignment space. */
-svg{font-size:0}
-
-
-
-/* ===== Appearance ===== */
+/* Appearance controls */
 .theme-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .theme-swatch{min-height:78px;border:2px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:9px;font-weight:850;padding:8px;transition:.16s}
-.theme-swatch.active{border-color:var(--purple);box-shadow:0 0 0 2px rgba(115,87,232,.08)}
-.theme-swatch:active{transform:scale(.97)}
+.theme-swatch.active{border-color:var(--purple);box-shadow:0 0 0 2px rgba(115,87,232,.10)}
 .theme-dot{width:24px;height:24px;border-radius:50%;display:block}
 .cool-dot{background:linear-gradient(145deg,#9a83ff,#7357e8)}
 .warm-dot{background:linear-gradient(145deg,#e58b55,#c65b32)}
 .dark-dot{background:linear-gradient(145deg,#514660,#171321)}
 .system-dot{background:linear-gradient(135deg,#f4f0ff 0 50%,#201b18 50%)}
 
-body[data-theme="warm"]{--bg:#f3eee6;--bg2:#ebe2d6;--surface:#fffdf9;--surface-soft:#f5efe7;--ink:#201b18;--muted:#82776d;--line:#e5dbcf;--purple:#c65b32;--purple2:#e58b55;--purple-dark:#201b18;--green:#4f8064;--orange:#d99645;--red:#c96060;--shadow:0 16px 40px rgba(50,35,24,.09);--shadow-soft:0 7px 20px rgba(50,35,24,.055);background:radial-gradient(circle at 90% 0%,rgba(229,139,85,.14),transparent 25%),linear-gradient(145deg,#f7f2ea,#f1ebe2 52%,#ebe2d7)}
-body[data-theme="warm"] .hero-card{background:linear-gradient(145deg,#2a2521,#201c19 58%,#171412);box-shadow:0 22px 42px rgba(32,27,24,.19)}
-body[data-theme="warm"] .ring-fill{stroke:#e78a55}
-body[data-theme="warm"] .macro-card,body[data-theme="warm"] .quick-card,body[data-theme="warm"] .list-card,body[data-theme="warm"] .form-card,body[data-theme="warm"] .suggestion,body[data-theme="warm"] .plan-card,body[data-theme="warm"] .chart-card,body[data-theme="warm"] .profile-card,body[data-theme="warm"] .bubble.ai,body[data-theme="warm"] .composer,body[data-theme="warm"] .prompt,body[data-theme="warm"] .icon-btn{background:rgba(255,253,249,.9);border-color:#fff}
-body[data-theme="warm"] input,body[data-theme="warm"] select,body[data-theme="warm"] textarea,body[data-theme="warm"] .chip{background:#fffdfa;color:var(--ink);border-color:#e5dbcf}
-body[data-theme="warm"] .quick-icon,body[data-theme="warm"] .food-icon,body[data-theme="warm"] .profile-title-icon{background:#f4e6dc;color:var(--purple)}
-body[data-theme="warm"] .btn.accent,body[data-theme="warm"] .result button,body[data-theme="warm"] .suggestion button,body[data-theme="warm"] .send{background:var(--ink)}
-body[data-theme="warm"] .bottom{background:rgba(32,27,24,.97)}
+/* Icon centering */
+.brand-mark,.ask-logo,.quick-icon,.food-icon,.profile-title-icon,.hero-action,.ask-arrow,.send,.button-content,.suggestion button,.navbtn .ni{display:flex!important;align-items:center!important;justify-content:center!important;line-height:0!important}
+.brand-mark svg,.ask-logo svg,.quick-icon svg,.food-icon svg,.profile-title-icon svg,.hero-action svg,.ask-arrow svg,.send svg,.button-content svg,.suggestion button svg,.navbtn .ni svg{display:block!important;margin:0!important;padding:0!important;position:static!important;flex:0 0 auto!important;transform:none!important;vertical-align:middle!important}
+.brand-mark svg{width:22px!important;height:22px!important}.ask-logo svg{width:21px!important;height:21px!important}.quick-icon svg{width:18px!important;height:18px!important}.food-icon svg{width:17px!important;height:17px!important}.profile-title-icon svg{width:17px!important;height:17px!important}.hero-action svg,.ask-arrow svg{width:17px!important;height:17px!important}.send svg{width:18px!important;height:18px!important}.button-content svg{width:16px!important;height:16px!important}.suggestion button svg{width:15px!important;height:15px!important}.navbtn .ni svg{width:18px!important;height:18px!important}
+.quick-icon{width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important}.food-icon{width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important}.profile-title-icon{width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important}.hero-action,.ask-arrow{width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important}.send{width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important}.navbtn .ni{width:34px!important;height:25px!important;margin:0 auto!important;padding:0!important}.navbtn .ni svg{margin:auto!important}
 
-body[data-theme="dark"]{--bg:#141118;--bg2:#1c1722;--surface:#211c28;--surface-soft:#292331;--ink:#f5f1f7;--muted:#aaa1b2;--line:#393140;--purple:#9a83ff;--purple2:#b3a0ff;--purple-dark:#0f0c13;--green:#67b98e;--orange:#efad5c;--red:#ed858c;--shadow:0 16px 40px rgba(0,0,0,.30);--shadow-soft:0 7px 20px rgba(0,0,0,.22);background:radial-gradient(circle at 90% 0%,rgba(154,131,255,.13),transparent 28%),linear-gradient(145deg,#17131d,#141118 55%,#100d13)}
-body[data-theme="dark"] .goal-pill,body[data-theme="dark"] .macro-card,body[data-theme="dark"] .quick-card,body[data-theme="dark"] .list-card,body[data-theme="dark"] .form-card,body[data-theme="dark"] .suggestion,body[data-theme="dark"] .plan-card,body[data-theme="dark"] .chart-card,body[data-theme="dark"] .profile-card,body[data-theme="dark"] .bubble.ai,body[data-theme="dark"] .composer,body[data-theme="dark"] .prompt,body[data-theme="dark"] .icon-btn{background:#211c28;border-color:#393140}
-body[data-theme="dark"] input,body[data-theme="dark"] select,body[data-theme="dark"] textarea,body[data-theme="dark"] .chip{background:#1b1721;color:var(--ink);border-color:#393140}
-body[data-theme="dark"] .quick-icon,body[data-theme="dark"] .food-icon,body[data-theme="dark"] .profile-title-icon{background:#2b2433;color:var(--purple)}
-body[data-theme="dark"] .btn.outline,body[data-theme="dark"] .theme-swatch{background:#211c28;color:var(--ink);border-color:#393140}
-body[data-theme="dark"] .btn.selected{background:#302744;border-color:#51436f;color:#c4b8ff}
-body[data-theme="dark"] .theme-swatch.active{border-color:var(--purple)}
-body[data-theme="dark"] .macro-track{background:#342d3b}
-body[data-theme="dark"] .hero-card{background:linear-gradient(145deg,#30264a,#211a31 60%,#17121f)}
-body[data-theme="dark"] .ring-fill{stroke:var(--purple2)}
-body[data-theme="dark"] .bottom{background:rgba(10,8,13,.98)}
-body[data-theme="dark"] .send,body[data-theme="dark"] .result button,body[data-theme="dark"] .suggestion button{background:var(--purple);color:#171321}
-
-@media(prefers-color-scheme:dark){
- body[data-theme="system"]{--bg:#141118;--bg2:#1c1722;--surface:#211c28;--surface-soft:#292331;--ink:#f5f1f7;--muted:#aaa1b2;--line:#393140;--purple:#9a83ff;--purple2:#b3a0ff;--purple-dark:#0f0c13;--green:#67b98e;--orange:#efad5c;--red:#ed858c;background:radial-gradient(circle at 90% 0%,rgba(154,131,255,.13),transparent 28%),linear-gradient(145deg,#17131d,#141118 55%,#100d13)}
- body[data-theme="system"] .goal-pill,body[data-theme="system"] .macro-card,body[data-theme="system"] .quick-card,body[data-theme="system"] .list-card,body[data-theme="system"] .form-card,body[data-theme="system"] .suggestion,body[data-theme="system"] .plan-card,body[data-theme="system"] .chart-card,body[data-theme="system"] .profile-card,body[data-theme="system"] .bubble.ai,body[data-theme="system"] .composer,body[data-theme="system"] .prompt,body[data-theme="system"] .icon-btn{background:#211c28;border-color:#393140}
- body[data-theme="system"] input,body[data-theme="system"] select,body[data-theme="system"] textarea,body[data-theme="system"] .chip{background:#1b1721;color:var(--ink);border-color:#393140}
- body[data-theme="system"] .quick-icon,body[data-theme="system"] .food-icon,body[data-theme="system"] .profile-title-icon{background:#2b2433;color:var(--purple)}
- body[data-theme="system"] .btn.outline,body[data-theme="system"] .theme-swatch{background:#211c28;color:var(--ink);border-color:#393140}
- body[data-theme="system"] .btn.selected{background:#302744;border-color:#51436f;color:#c4b8ff}
- body[data-theme="system"] .hero-card{background:linear-gradient(145deg,#30264a,#211a31 60%,#17121f)}
- body[data-theme="system"] .ring-fill{stroke:var(--purple2)}
- body[data-theme="system"] .bottom{background:rgba(10,8,13,.98)}
- body[data-theme="system"] .send,body[data-theme="system"] .result button,body[data-theme="system"] .suggestion button{background:var(--purple);color:#171321}
-}
 </style>
 </head>
 
@@ -861,6 +587,7 @@ body[data-theme="dark"] .send,body[data-theme="dark"] .result button,body[data-t
     <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5h8v2M3 12h18M10 12v2h4v-2"/></symbol>
     <symbol id="i-basket" viewBox="0 0 24 24"><path d="M4 10h16l-1.5 10h-13L4 10Z"/><path d="m8 10 4-6 4 6M8 14v3M12 14v3M16 14v3"/></symbol>
     <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4a8.5 8.5 0 1 0 11.5 11.5Z"/></symbol>
     <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="m19 13 1.2 1-.9 1.7-1.5-.4a7.5 7.5 0 0 1-1.6 1l-.2 1.5h-2l-.7-1.4a7.5 7.5 0 0 1-2 0l-.7 1.4h-2l-.2-1.5a7.5 7.5 0 0 1-1.6-1l-1.5.4-.9-1.7 1.2-1a7 7 0 0 1 0-2l-1.2-1 .9-1.7 1.5.4a7.5 7.5 0 0 1 1.6-1L9 6.2h2l.7 1.4a7.5 7.5 0 0 1 2 0l.7-1.4h2l.2 1.5a7.5 7.5 0 0 1 1.6 1l1.5-.4.9 1.7-1.2 1a7 7 0 0 1 0 2Z"/></symbol>
   </defs>
 </svg>
@@ -1056,6 +783,16 @@ body[data-theme="dark"] .send,body[data-theme="dark"] .result button,body[data-t
     </div>
     <button class="btn accent" id="planBtn" style="margin-top:9px">Generate today's plan</button>
     <div id="planSource" class="empty-state" style="padding-bottom:0"></div>
+  </div>
+
+  <div class="section-heading"><h3>AI food ideas</h3></div>
+  <div class="plan-card ai-food-card">
+    <div class="profile-title">
+      <div class="profile-title-icon"><svg class="icon"><use href="#i-flame"></use></svg></div>
+      <div><h3>What can I eat right now?</h3><p>Uses today's calories, your pantry and your food preferences.</p></div>
+    </div>
+    <button class="btn accent" id="suggestBtn" style="margin-top:10px"><span class="button-content"><svg class="icon sm"><use href="#i-utensils"></use></svg>Suggest pantry + foods to buy</span></button>
+    <div id="aiFoodResult" class="search-results"></div>
   </div>
 
   <div class="section-heading"><h3>Today's plan</h3></div>
@@ -1279,7 +1016,7 @@ function updateThemeMeta(){
   meta.content=(mode==='dark'||(mode==='system'&&dark))?'#141118':mode==='warm'?'#201b18':'#7357e8';
 }
 function loadTheme(){
-  const saved=localStorage.getItem('ember_theme')||'warm';
+  const saved=localStorage.getItem('ember_theme')||'cool';
   setTheme(saved);
   if(window.matchMedia){
     const mq=window.matchMedia('(prefers-color-scheme: dark)');
@@ -1607,6 +1344,26 @@ async function removePantry(id){
   else toast(r.error||'Could not remove pantry item');
 }
 
+
+async function suggestAIFoods(){
+  const btn=$('suggestBtn'),box=$('aiFoodResult');
+  btn.disabled=true; btn.textContent='Thinking…'; box.innerHTML='<div class="empty-state">Checking your pantry, remaining calories and food preferences…</div>';
+  const r=await api('suggestFoods',{date:today(),request:'Suggest foods I can eat now using what is in my pantry. Also suggest practical foods I should buy if pantry items are not enough to meet today’s remaining nutrition targets.'});
+  btn.disabled=false; btn.innerHTML='<span class="button-content"><svg class="icon sm"><use href="#i-utensils"></use></svg>Suggest pantry + foods to buy</span>';
+  if(!r.success){box.innerHTML='<div class="empty-state">'+esc(r.error||'Could not get suggestions.')+'</div>';return;}
+  const pantry=(r.pantryUsed||[]).map(esc).join(', ');
+  const buy=r.shoppingList||[];
+  const items=r.suggestions||[];
+  box.innerHTML=(pantry?'<div class="empty-state" style="text-align:left;padding:10px 0"><b>Using now:</b> '+pantry+'</div>':'')+
+    (items.length?items.map(x=>`<div class="result"><div class="result-main"><b>${esc(x.name)}</b><small>${esc(x.description||'')} · ~${Math.round(x.calories||0)} kcal · P ${Math.round(x.protein||0)}g</small></div><button onclick="addSuggestedFood(${JSON.stringify(x).replace(/"/g,'&quot;')})">Add</button></div>`).join(''):'')+
+    (buy.length?'<div class="empty-state" style="text-align:left;padding:12px 0"><b>Good foods to buy:</b><br>'+buy.map(x=>'<span style="display:inline-block;margin:5px 5px 0 0;padding:6px 9px;border:1px solid var(--line);border-radius:999px">'+esc(typeof x==='string'?x:x.name)+'</span>').join('')+'</div>':'');
+}
+async function addSuggestedFood(x){
+  const r=await api('addAIItemsToLog',{date:today(),items:[{name:x.name,meal:x.meal||'snack',quantity:1,calories:x.calories,protein:x.protein,carbs:x.carbs,fat:x.fat}]});
+  if(r.success){toast(x.name+' added');refresh();}else toast(r.error||'Could not add item');
+}
+$('suggestBtn').onclick=suggestAIFoods;
+
 $('planBtn').onclick=async()=>{
   const btn=$('planBtn');
   btn.disabled=true;
@@ -1659,33 +1416,32 @@ function renderPlan(p){
 }
 
 async function loadProfile(){
-  const r=await api('getProfile');
-  const c=await api('getConfig');
+  const [r,c,ctx]=await Promise.all([
+    api('getProfile'),api('getConfig'),api('getTodayContext',{date:today()})
+  ]);
+  if(c.success) $('keyStatus').textContent=c.hasGeminiKey?'AI key is configured on the backend.':'No Gemini key configured yet.';
 
-  if(c.success){
-    $('keyStatus').textContent=c.hasGeminiKey
-      ? 'AI key is configured on the backend.'
-      : 'No Gemini key configured yet.';
+  // Prefer getProfile, but fall back to the profile embedded in today's context.
+  const p=(r&&r.success&&r.profile)?r.profile:((ctx&&ctx.success&&ctx.profile)?ctx.profile:null);
+  if(!p){
+    console.warn('Profile was not returned by backend',r,ctx);
+    toast('Could not load profile from Google Sheets');
+    return;
   }
-
-  if(!r.profile)return;
-
-  const p=r.profile;
   STATE.profile=p;
-  applyGoal(p.Goal);
-
-  $('age').value=p.Age||'';
-  $('gender').value=p.Gender||'male';
-  $('height').value=p.HeightCm||'';
-  $('weight').value=p.WeightKg||'';
+  applyGoal(p.Goal||'gain');
+  $('age').value=p.Age??'';
+  $('gender').value=String(p.Gender||'male').toLowerCase();
+  $('height').value=p.HeightCm??'';
+  $('weight').value=p.WeightKg??'';
   $('activity').value=p.ActivityLevel||'moderate';
   $('goal').value=p.Goal||'gain';
-  $('goalRate').value=p.GoalRateKgPerWeek||.4;
-  $('meals').value=p.MealsPerDay||4;
-  $('officeDays').value=p.OfficeDays||'';
+  $('goalRate').value=p.GoalRateKgPerWeek??.4;
+  $('meals').value=p.MealsPerDay??4;
+  $('officeDays').value=p.OfficeDays??'';
   $('kitchen').value=p.KitchenAccess||'none';
-  $('cuisine').value=p.CuisinePref||'';
-  $('avoid').value=p.Allergies||'';
+  $('cuisine').value=p.CuisinePref??'';
+  $('avoid').value=p.Allergies??'';
 }
 
 $('goal').onchange=e=>applyGoal(e.target.value);
@@ -1829,6 +1585,11 @@ $('date').textContent=new Date().toLocaleDateString(undefined,{
   }));
   renderStreak();
 })();
+
+  // Register the service worker so the browser can offer Ember as an installable app.
+  if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')){
+    window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('Ember SW registration failed',e)));
+  }
 </script>
 </body>
 </html>
