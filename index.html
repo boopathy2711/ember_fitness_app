@@ -325,6 +325,27 @@ body[data-theme="dark"] .day-btn.active:after{background:#b3a0ff}
 .day-summary{margin-top:9px;font-size:9px;color:var(--muted);font-weight:700}
 .day-summary b{color:var(--purple);font-weight:850}
 
+.checkbox-row{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:750;color:var(--muted);cursor:pointer;user-select:none}
+.checkbox-row input[type="checkbox"]{width:16px;height:16px;flex:none;accent-color:var(--purple);cursor:pointer}
+
+.save-db-btn{
+  border:0;background:none;padding:0;margin-top:6px;
+  color:var(--purple);font-size:9px;font-weight:800;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.save-db-btn[disabled]{color:var(--green);opacity:.85}
+.suggestion-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px}
+
+.review-item{
+  border:1px solid var(--line);background:var(--surface-soft);
+  border-radius:16px;padding:11px 12px;margin-bottom:8px;
+}
+.review-item-top{display:flex;align-items:flex-start;gap:9px}
+.review-item-top input[type="checkbox"]{width:17px;height:17px;flex:none;margin-top:2px;accent-color:var(--purple);cursor:pointer}
+.review-item-name{font-size:11px;font-weight:850}
+.review-item-meta{font-size:9px;color:var(--muted);margin-top:3px}
+.review-item .checkbox-row{margin-top:8px;padding-left:26px;font-size:9px}
+
 .search-results{margin-top:3px}
 .result{
   display:flex;justify-content:space-between;align-items:center;
@@ -774,8 +795,17 @@ body[data-theme="system"] .send{background:#30234f;color:#fff}
     </div>
 
     <button class="btn accent" id="estimateBtn">
-      <span class="button-content"><svg class="icon sm"><use href="#i-check"></use></svg> Estimate & add</span>
+      <span class="button-content"><svg class="icon sm"><use href="#i-check"></use></svg> Estimate</span>
     </button>
+
+    <div id="estimateReview" style="display:none;margin-top:12px">
+      <div class="empty-state" style="padding:0 0 8px;text-align:left;font-weight:800;color:var(--ink)">Review before adding</div>
+      <div id="estimateReviewList"></div>
+      <div class="two" style="margin-top:10px">
+        <button class="btn outline" id="discardEstimateBtn" type="button">Discard</button>
+        <button class="btn accent" id="confirmAddBtn" type="button">Add to today</button>
+      </div>
+    </div>
   </div>
 
   <div class="section-heading"><h3>Pantry</h3><button onclick="showPage('plan')">Manage pantry</button></div>
@@ -1188,6 +1218,29 @@ async function quickAdd(f){
   else toast(r.error||'Could not add food');
 }
 
+// Saves one or more AI-estimated/suggested items into the permanent
+// FoodDatabase sheet so they show up in the search box next time,
+// instead of needing a fresh AI estimate every time. Never called
+// automatically — only when the user opts in via a checkbox or button.
+async function saveItemsToDatabase(items){
+  const results=await Promise.all((items||[]).map(x=>api('addFoodToDatabase',{
+    name:x.name,
+    unit:x.quantity||'1 serving',
+    calories:x.calories,
+    protein:x.protein,
+    carbs:x.carbs,
+    fat:x.fat,
+    tags:'custom'
+  })));
+  return results.every(r=>r&&r.success);
+}
+
+// Estimate -> review -> add is a deliberate two-step flow: the AI's
+// numbers are a guess, so nothing gets written to the food log (or the
+// food database) until the user has seen the items and pressed
+// "Add to today". pendingEstimateItems holds what's on screen right now.
+let pendingEstimateItems=[];
+
 $('estimateBtn').onclick=async()=>{
   const text=$('describe').value.trim();
   if(!text)return;
@@ -1198,16 +1251,64 @@ $('estimateBtn').onclick=async()=>{
   const r=await api('estimateFoodAI',{text});
 
   $('estimateBtn').disabled=false;
-  $('estimateBtn').innerHTML='<span class="button-content"><svg class="icon sm"><use href="#i-check"></use></svg> Estimate & add</span>';
+  $('estimateBtn').innerHTML='<span class="button-content"><svg class="icon sm"><use href="#i-check"></use></svg> Estimate</span>';
 
   if(!r.success){toast(r.error||'AI estimate failed');return;}
 
   const items=r.items||[];
   if(!items.length){toast('Could not identify food');return;}
 
+  pendingEstimateItems=items;
+  renderEstimateReview();
+};
+
+function renderEstimateReview(){
+  const wrap=$('estimateReview'),list=$('estimateReviewList');
+  if(!pendingEstimateItems.length){wrap.style.display='none';list.innerHTML='';return;}
+
+  wrap.style.display='block';
+  list.innerHTML=pendingEstimateItems.map((x,i)=>`
+    <div class="review-item">
+      <div class="review-item-top">
+        <input type="checkbox" data-role="include" data-idx="${i}" checked>
+        <div style="min-width:0">
+          <div class="review-item-name">${esc(x.name)}${x.quantity?' · '+esc(x.quantity):''}</div>
+          <div class="review-item-meta">
+            ~${Math.round(x.calories||0)} kcal ·
+            P ${Math.round(x.protein||0)}g ·
+            C ${Math.round(x.carbs||0)}g ·
+            F ${Math.round(x.fat||0)}g
+          </div>
+        </div>
+      </div>
+      <label class="checkbox-row"><input type="checkbox" data-role="savedb" data-idx="${i}"> Also save to my food database</label>
+    </div>
+  `).join('');
+}
+
+$('discardEstimateBtn').onclick=()=>{
+  pendingEstimateItems=[];
+  renderEstimateReview();
+  toast('Discarded');
+};
+
+$('confirmAddBtn').onclick=async()=>{
+  if(!pendingEstimateItems.length)return;
+
+  const includeBoxes=[...document.querySelectorAll('#estimateReviewList [data-role="include"]')];
+  const saveBoxes=[...document.querySelectorAll('#estimateReviewList [data-role="savedb"]')];
+
+  const toAdd=pendingEstimateItems.filter((x,i)=>includeBoxes[i]&&includeBoxes[i].checked);
+  const toSave=pendingEstimateItems.filter((x,i)=>saveBoxes[i]&&saveBoxes[i].checked);
+
+  if(!toAdd.length){toast('Nothing selected to add');return;}
+
+  $('confirmAddBtn').disabled=true;
+  $('confirmAddBtn').textContent='Adding…';
+
   const add=await api('addAIItemsToLog',{
     date:today(),
-    items:items.map(x=>({
+    items:toAdd.map(x=>({
       name:x.name,
       meal:$('meal').value,
       quantity:1,
@@ -1218,11 +1319,19 @@ $('estimateBtn').onclick=async()=>{
     }))
   });
 
-  if(add.success){
-    $('describe').value='';
-    toast('Added to today');
-    refresh();
-  }else toast(add.error||'Could not add food');
+  $('confirmAddBtn').disabled=false;
+  $('confirmAddBtn').textContent='Add to today';
+
+  if(!add.success){toast(add.error||'Could not add food');return;}
+
+  let dbOk=true;
+  if(toSave.length) dbOk=await saveItemsToDatabase(toSave);
+
+  $('describe').value='';
+  pendingEstimateItems=[];
+  renderEstimateReview();
+  toast(toSave.length?(dbOk?'Added to today and saved to your food database':'Added to today, but saving to the database failed'):'Added to today');
+  refresh();
 };
 
 function askQuick(text){
@@ -1309,13 +1418,19 @@ function renderSuggestions(items,actions){
         F ${Math.round(x.fat||0)}g
         ${x.prepMinutes?' · '+x.prepMinutes+' min':''}
       </div>
-      <button>
-        <svg class="icon sm"><use href="#i-plus"></use></svg>
-        Add to today
-      </button>
+      <div class="suggestion-actions">
+        <button class="add-btn">
+          <svg class="icon sm"><use href="#i-plus"></use></svg>
+          Add to today
+        </button>
+        <button class="save-db-btn" type="button">
+          <svg class="icon sm"><use href="#i-plus"></use></svg>
+          Save to database
+        </button>
+      </div>
     `;
 
-    d.querySelector('button').onclick=async()=>{
+    d.querySelector('.add-btn').onclick=async()=>{
       const r=await api('addAIItemsToLog',{
         date:today(),
         items:[{
@@ -1330,6 +1445,15 @@ function renderSuggestions(items,actions){
       });
       if(r.success){toast(x.name+' added');refresh();}
       else toast(r.error||'Could not add item');
+    };
+
+    const saveBtn=d.querySelector('.save-db-btn');
+    saveBtn.onclick=async()=>{
+      saveBtn.disabled=true;
+      saveBtn.textContent='Saving…';
+      const ok=await saveItemsToDatabase([x]);
+      if(ok){saveBtn.textContent='Saved ✓';toast(x.name+' saved to food database');}
+      else{saveBtn.disabled=false;saveBtn.innerHTML='<svg class="icon sm"><use href="#i-plus"></use></svg> Save to database';toast('Could not save to food database');}
     };
 
     box.appendChild(d);
@@ -1419,12 +1543,18 @@ async function suggestAIFoods(){
   const buy=r.shoppingList||[];
   const items=r.suggestions||[];
   box.innerHTML=(pantry?'<div class="empty-state" style="text-align:left;padding:10px 0"><b>Using now:</b> '+pantry+'</div>':'')+
-    (items.length?items.map(x=>`<div class="result"><div class="result-main"><b>${esc(x.name)}</b><small>${esc(x.description||'')} · ~${Math.round(x.calories||0)} kcal · P ${Math.round(x.protein||0)}g</small></div><button onclick="addSuggestedFood(${JSON.stringify(x).replace(/"/g,'&quot;')})">Add</button></div>`).join(''):'')+
+    (items.length?items.map(x=>`<div class="result"><div class="result-main"><b>${esc(x.name)}</b><small>${esc(x.description||'')} · ~${Math.round(x.calories||0)} kcal · P ${Math.round(x.protein||0)}g</small></div><div style="display:flex;gap:6px;align-items:center;flex:none"><button onclick="addSuggestedFood(${JSON.stringify(x).replace(/"/g,'&quot;')})">Add</button><button class="save-db-btn" type="button" style="margin-top:0" onclick="saveSuggestedToDatabase(${JSON.stringify(x).replace(/"/g,'&quot;')},this)">DB</button></div></div>`).join(''):'')+
     (buy.length?'<div class="empty-state" style="text-align:left;padding:12px 0"><b>Good foods to buy:</b><br>'+buy.map(x=>'<span style="display:inline-block;margin:5px 5px 0 0;padding:6px 9px;border:1px solid var(--line);border-radius:999px">'+esc(typeof x==='string'?x:x.name)+'</span>').join('')+'</div>':'');
 }
 async function addSuggestedFood(x){
   const r=await api('addAIItemsToLog',{date:today(),items:[{name:x.name,meal:x.meal||'snack',quantity:1,calories:x.calories,protein:x.protein,carbs:x.carbs,fat:x.fat}]});
   if(r.success){toast(x.name+' added');refresh();}else toast(r.error||'Could not add item');
+}
+async function saveSuggestedToDatabase(x,btn){
+  if(btn){btn.disabled=true;btn.textContent='…';}
+  const ok=await saveItemsToDatabase([x]);
+  if(ok){if(btn){btn.textContent='✓';}toast(x.name+' saved to food database');}
+  else{if(btn){btn.disabled=false;btn.textContent='DB';}toast('Could not save to food database');}
 }
 $('suggestBtn').onclick=suggestAIFoods;
 
