@@ -1021,7 +1021,18 @@ function toast(msg){
 
 async function api(action,data={}){
   const controller=new AbortController();
-  const timer=setTimeout(()=>controller.abort(),15000);
+
+  // Gemini requests can legitimately take longer than normal sheet/API calls.
+  // Keep normal requests fast, but give AI operations enough time to finish.
+  const aiActions=new Set([
+    'estimateFoodAI',
+    'chatWithEmber',
+    'suggestFoods',
+    'generateMealPlan'
+  ]);
+  const timeoutMs=aiActions.has(action)?60000:15000;
+  const timer=setTimeout(()=>controller.abort(),timeoutMs);
+
   try{
     const r=await fetch(API_URL,{
       method:'POST',
@@ -1035,10 +1046,22 @@ async function api(action,data={}){
     if(!j.success)console.warn(action,j.error);
     return j;
   }catch(e){
-    const msg=e.name==='AbortError'?'Request timed out. Check your Apps Script deployment.':'Connection error. Check your Apps Script URL.';
-    toast(msg);console.error(action,e);
+    let msg;
+
+    if(e.name==='AbortError'){
+      msg=aiActions.has(action)
+        ? 'AI request timed out. Gemini may be busy or rate-limited. Please try again.'
+        : 'Request timed out. Check your Apps Script deployment.';
+    }else{
+      msg='Connection error. Check your Apps Script URL.';
+    }
+
+    toast(msg);
+    console.error(action,e);
     return {success:false,error:e.message||msg};
-  }finally{clearTimeout(timer);}
+  }finally{
+    clearTimeout(timer);
+  }
 }
 
 function showPage(name){
