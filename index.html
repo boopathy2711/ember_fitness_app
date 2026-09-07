@@ -150,17 +150,6 @@ svg{display:block}
 .stat-line{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,.15);font-size:10px}
 .stat-line span{opacity:.7}.stat-line b{font-weight:800}
 
-.streak-pill{
-  display:inline-flex;align-items:center;gap:5px;
-  margin-top:9px;padding:6px 10px;
-  border-radius:999px;
-  background:rgba(255,255,255,.14);
-  border:1px solid rgba(255,255,255,.16);
-  font-size:9px;font-weight:800;
-  position:relative;z-index:1;
-}
-.streak-pill svg{width:12px;height:12px;fill:#ffcf8a;stroke:none}
-
 .ask-card{
   margin-top:13px;
   padding:13px;
@@ -215,8 +204,6 @@ svg{display:block}
 .macro-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--purple2),var(--purple));width:0;transition:width .4s}
 .macro-card:nth-child(2) .macro-fill{background:linear-gradient(90deg,#6bc798,var(--green))}
 .macro-card:nth-child(3) .macro-fill{background:linear-gradient(90deg,#f7c26f,var(--orange))}
-.macro-over .macro-value{color:var(--red)}
-.macro-over .macro-fill{background:linear-gradient(90deg,#f0989c,var(--red))!important}
 
 .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .quick-card{
@@ -268,19 +255,6 @@ svg{display:block}
 .empty-state{
   padding:22px 8px;text-align:center;color:var(--muted);font-size:10px
 }
-.empty-state.rich{display:flex;flex-direction:column;align-items:center;gap:8px;padding:28px 8px}
-.empty-state.rich .empty-icon{
-  width:44px;height:44px;border-radius:14px;
-  display:grid;place-items:center;
-  background:var(--surface-soft);color:var(--purple);
-}
-
-.skeleton{
-  border-radius:12px;background:linear-gradient(90deg,#efeaf9 25%,#f7f4ff 37%,#efeaf9 63%);
-  background-size:400% 100%;animation:shimmer 1.4s ease infinite;
-}
-@keyframes shimmer{0%{background-position:100% 0}100%{background-position:0 0}}
-.skeleton-row{height:52px;margin:10px 0}
 
 .form-card{
   background:rgba(255,255,255,.84);
@@ -306,26 +280,11 @@ textarea{resize:none;min-height:78px}
   width:100%;border:0;border-radius:13px;
   padding:12px;font-size:11px;font-weight:850;
   background:var(--ink);color:#fff;
-  transition:opacity .15s;
 }
-.btn:disabled{opacity:.6}
 .btn.accent{background:linear-gradient(100deg,var(--purple2),var(--purple));box-shadow:0 9px 20px rgba(115,87,232,.18)}
 .btn.outline{background:#fff;color:var(--ink);border:1px solid var(--line)}
 .btn.selected{background:#eee9ff;border-color:#d8ceff;color:var(--purple)}
 .button-content{display:flex;align-items:center;justify-content:center;gap:7px}
-
-.chip-row{display:flex;gap:7px;overflow:auto;padding:2px 0 4px;scrollbar-width:none}
-.chip-row::-webkit-scrollbar{display:none}
-.chip{
-  white-space:nowrap;flex:none;
-  border:1px solid var(--line);
-  background:#fbfaff;color:var(--ink);
-  border-radius:999px;
-  padding:8px 12px;
-  font-size:9.5px;font-weight:800;
-  display:flex;align-items:center;gap:5px;
-}
-.chip small{color:var(--muted);font-weight:700}
 
 .search-results{margin-top:3px}
 .result{
@@ -356,14 +315,6 @@ textarea{resize:none;min-height:78px}
 .ember-avatar svg{width:25px;height:25px;fill:#fff;stroke:none}
 .chat-head h2{margin:0;font-size:18px;font-weight:850;letter-spacing:-.04em}
 .chat-head p{margin:3px 0 0;font-size:9px;color:var(--muted)}
-.chat-head-actions{margin-left:auto}
-.icon-btn{
-  width:34px;height:34px;border:0;border-radius:11px;
-  background:rgba(255,255,255,.8);color:var(--muted);
-  display:grid;place-items:center;
-  border:1px solid var(--line);
-}
-.icon-btn:active{color:var(--red)}
 
 .prompt-row{display:flex;gap:7px;overflow:auto;padding:5px 0 10px;scrollbar-width:none}
 .prompt-row::-webkit-scrollbar{display:none}
@@ -397,15 +348,6 @@ textarea{resize:none;min-height:78px}
   margin-left:auto;background:var(--purple-dark);
   color:#fff;border-bottom-right-radius:6px
 }
-.bubble.typing{display:flex;gap:4px;align-items:center;padding:14px 15px}
-.bubble.typing span{
-  width:6px;height:6px;border-radius:50%;background:var(--muted);
-  animation:typingDot 1s infinite ease-in-out;
-}
-.bubble.typing span:nth-child(2){animation-delay:.15s}
-.bubble.typing span:nth-child(3){animation-delay:.3s}
-@keyframes typingDot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
-
 .suggestion{
   background:rgba(255,255,255,.9);
   border:1px solid rgba(255,255,255,.95);
@@ -421,7 +363,6 @@ textarea{resize:none;min-height:78px}
   color:#fff;border-radius:10px;padding:8px 10px;
   font-size:9px;font-weight:850
 }
-.suggestion button:disabled{opacity:.6}
 .composer{
   display:flex;align-items:flex-end;gap:7px;
   background:rgba(255,255,255,.9);
@@ -438,7 +379,6 @@ textarea{resize:none;min-height:78px}
   background:var(--purple-dark);color:#fff;
   display:grid;place-items:center;flex:none
 }
-.send:disabled{opacity:.55}
 
 .plan-card{
   background:rgba(255,255,255,.84);
@@ -455,11 +395,6 @@ textarea{resize:none;min-height:78px}
 .plan-kcal{font-size:9px;font-weight:850;color:var(--purple)}
 .plan p{margin:4px 0;color:var(--muted);font-size:9px;line-height:1.45}
 .plan small{font-size:8px;color:var(--muted);font-weight:700}
-.plan-add{
-  border:0;background:var(--surface-soft);color:var(--purple);
-  border-radius:9px;padding:6px 9px;font-size:8.5px;font-weight:850;
-  margin-top:6px;display:inline-flex;align-items:center;gap:4px;
-}
 .pantry-title{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:850}
 
 .chart-card{
@@ -470,12 +405,6 @@ textarea{resize:none;min-height:78px}
 }
 .chart-wrap{height:190px}
 .chart-title{font-size:12px;font-weight:850;margin-bottom:10px}
-.chart-title-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.chart-title-row .chart-title{margin-bottom:0}
-.badge{
-  font-size:8.5px;font-weight:850;color:var(--purple);
-  background:var(--surface-soft);border-radius:999px;padding:4px 9px;
-}
 
 .profile-card{
   background:rgba(255,255,255,.86);
@@ -490,15 +419,6 @@ textarea{resize:none;min-height:78px}
 }
 .profile-title h3{font-size:12px;margin:0;font-weight:850}
 .profile-title p{font-size:8px;color:var(--muted);margin:2px 0 0}
-
-.theme-row{display:flex;gap:8px}
-.theme-swatch{
-  flex:1;border-radius:14px;padding:10px;border:2px solid var(--line);
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  background:#fbfaff;font-size:9px;font-weight:800;
-}
-.theme-swatch.active{border-color:var(--purple)}
-.theme-dot{width:22px;height:22px;border-radius:50%}
 
 .bottom{
   position:fixed;left:50%;bottom:0;transform:translateX(-50%);
@@ -533,14 +453,9 @@ textarea{resize:none;min-height:78px}
   padding:10px 14px;border-radius:12px;
   font-size:10px;font-weight:700;
   opacity:0;pointer-events:none;transition:.2s;
-  max-width:88%;text-align:center;
-  display:flex;align-items:center;gap:10px;
+  max-width:88%;text-align:center
 }
 .toast.show{opacity:1;transform:translateX(-50%)}
-.toast button{
-  border:0;background:rgba(255,255,255,.18);color:#fff;
-  border-radius:8px;padding:5px 8px;font-size:9px;font-weight:850;flex:none
-}
 
 .loading{opacity:.55;pointer-events:none}
 .install{display:none}
@@ -552,10 +467,10 @@ textarea{resize:none;min-height:78px}
 }
 
 /* =========================
-   EMBER — WARM THEME
+   EMBER — ALTERNATE THEME
    Warm editorial / premium
    ========================= */
-body[data-theme="warm"]{
+:root{
   --bg:#f3eee6;
   --bg2:#ebe2d6;
   --surface:#fffdf9;
@@ -572,74 +487,74 @@ body[data-theme="warm"]{
   --shadow:0 16px 40px rgba(50,35,24,.09);
   --shadow-soft:0 7px 20px rgba(50,35,24,.055);
 }
-body[data-theme="warm"][data-goal="lose"]{--purple:#4d8192;--purple2:#78b4c4;--purple-dark:#21363d}
-body[data-theme="warm"][data-goal="maintain"]{--purple:#52765a;--purple2:#91ad91;--purple-dark:#25372a}
+body[data-goal="lose"]{--purple:#4d8192;--purple2:#78b4c4;--purple-dark:#21363d}
+body[data-goal="maintain"]{--purple:#52765a;--purple2:#91ad91;--purple-dark:#25372a}
 
-body[data-theme="warm"]{
+body{
   background:
     radial-gradient(circle at 90% 0%,rgba(229,139,85,.14),transparent 25%),
     linear-gradient(145deg,#f7f2ea 0%,#f1ebe2 52%,#ebe2d7 100%);
 }
 
-body[data-theme="warm"] .brand-mark{
+.brand-mark{
   background:var(--ink);
   box-shadow:0 8px 18px rgba(32,27,24,.16);
 }
-body[data-theme="warm"] .goal-pill{
+.goal-pill{
   color:var(--ink);
   background:rgba(255,253,249,.9);
   border-color:rgba(255,255,255,.95);
 }
 
-body[data-theme="warm"] .hero-card{
+.hero-card{
   background:
     radial-gradient(circle at 90% 8%,rgba(255,255,255,.12),transparent 24%),
     linear-gradient(145deg,#2a2521 0%,#201c19 58%,#171412 100%);
   box-shadow:0 22px 42px rgba(32,27,24,.19);
 }
-body[data-theme="warm"] .hero-card:before{
+.hero-card:before{
   border-color:rgba(255,255,255,.09);
   box-shadow:0 0 0 25px rgba(255,255,255,.025),0 0 0 55px rgba(255,255,255,.018);
 }
-body[data-theme="warm"] .hero-action{
+.hero-action{
   background:rgba(255,255,255,.09);
   border:1px solid rgba(255,255,255,.08);
 }
-body[data-theme="warm"] .ring-bg{stroke:rgba(255,255,255,.14)}
-body[data-theme="warm"] .ring-fill{stroke:#e78a55}
+.ring-bg{stroke:rgba(255,255,255,.14)}
+.ring-fill{stroke:#e78a55}
 
-body[data-theme="warm"] .ask-card{
+.ask-card{
   background:rgba(255,255,255,.075);
   border-color:rgba(255,255,255,.10);
 }
-body[data-theme="warm"] .ask-logo{
+.ask-logo{
   background:#f4c39d;
   color:#8e3e20;
 }
-body[data-theme="warm"] .ask-arrow{background:rgba(255,255,255,.09)}
+.ask-arrow{background:rgba(255,255,255,.09)}
 
-body[data-theme="warm"] .section-heading button{color:var(--purple)}
+.section-heading button{color:var(--purple)}
 
-body[data-theme="warm"] .macro-card,
-body[data-theme="warm"] .quick-card,
-body[data-theme="warm"] .list-card,
-body[data-theme="warm"] .form-card,
-body[data-theme="warm"] .chat-box .bubble.ai,
-body[data-theme="warm"] .suggestion,
-body[data-theme="warm"] .plan-card,
-body[data-theme="warm"] .chart-card,
-body[data-theme="warm"] .profile-card{
+.macro-card,
+.quick-card,
+.list-card,
+.form-card,
+.chat-box .bubble.ai,
+.suggestion,
+.plan-card,
+.chart-card,
+.profile-card{
   background:rgba(255,253,249,.88);
   border-color:rgba(255,255,255,.95);
 }
 
-body[data-theme="warm"] .macro-card:nth-child(2) .macro-dot{background:var(--green)}
-body[data-theme="warm"] .macro-card:nth-child(3) .macro-dot{background:var(--orange)}
-body[data-theme="warm"] .macro-fill{background:linear-gradient(90deg,var(--purple2),var(--purple))}
-body[data-theme="warm"] .macro-card:nth-child(2) .macro-fill{background:linear-gradient(90deg,#77ad8a,var(--green))}
-body[data-theme="warm"] .macro-card:nth-child(3) .macro-fill{background:linear-gradient(90deg,#eab86f,var(--orange))}
+.macro-card:nth-child(2) .macro-dot{background:var(--green)}
+.macro-card:nth-child(3) .macro-dot{background:var(--orange)}
+.macro-fill{background:linear-gradient(90deg,var(--purple2),var(--purple))}
+.macro-card:nth-child(2) .macro-fill{background:linear-gradient(90deg,#77ad8a,var(--green))}
+.macro-card:nth-child(3) .macro-fill{background:linear-gradient(90deg,#eab86f,var(--orange))}
 
-body[data-theme="warm"] .quick-icon{
+.quick-icon{
   width:34px;height:34px;
   border-radius:11px;
   margin-bottom:10px;
@@ -649,11 +564,25 @@ body[data-theme="warm"] .quick-icon{
   background:#f4e6dc;
   color:var(--purple);
 }
-body[data-theme="warm"] .quick-card:nth-child(2) .quick-icon{background:#eaf2ec;color:var(--green)}
-body[data-theme="warm"] .quick-card:nth-child(3) .quick-icon{background:#f7eee0;color:#bb7b28}
-body[data-theme="warm"] .quick-card:nth-child(4) .quick-icon{background:#eee9e3;color:#6d6259}
+.quick-card:nth-child(2) .quick-icon{background:#eaf2ec;color:var(--green)}
+.quick-card:nth-child(3) .quick-icon{background:#f7eee0;color:#bb7b28}
+.quick-card:nth-child(4) .quick-icon{background:#eee9e3;color:#6d6259}
 
-body[data-theme="warm"] .food-icon{
+.quick-icon svg,
+.food-icon svg,
+.profile-title-icon svg,
+.ask-logo svg,
+.button-content svg,
+.suggestion button svg,
+.send svg,
+.hero-action svg,
+.ask-arrow svg{
+  width:17px;
+  height:17px;
+  flex:none;
+}
+
+.food-icon{
   width:36px;height:36px;
   border-radius:11px;
   display:flex;
@@ -663,7 +592,7 @@ body[data-theme="warm"] .food-icon{
   color:var(--purple);
 }
 
-body[data-theme="warm"] .profile-title-icon{
+.profile-title-icon{
   width:34px;height:34px;
   border-radius:11px;
   display:flex;
@@ -673,46 +602,61 @@ body[data-theme="warm"] .profile-title-icon{
   color:var(--purple);
 }
 
-body[data-theme="warm"] .prompt{
+.prompt{
   background:rgba(255,253,249,.92);
   border-color:#e5dbcf;
 }
-body[data-theme="warm"] .prompt:active{background:#f4e6dc}
-body[data-theme="warm"] .chip{background:#fffdfa;border-color:#e5dbcf}
+.prompt:active{background:#f4e6dc}
 
-body[data-theme="warm"] .btn.accent{
+.btn.accent{
   background:var(--ink);
   box-shadow:0 9px 20px rgba(32,27,24,.14);
 }
-body[data-theme="warm"] .btn.selected{
+.btn.selected{
   background:#f4e6dc;
   border-color:#e0cbbd;
   color:#9a4527;
 }
-body[data-theme="warm"] .btn.outline{
+.btn.outline{
   background:rgba(255,253,249,.82);
 }
 
-body[data-theme="warm"] input,
-body[data-theme="warm"] select,
-body[data-theme="warm"] textarea{background:#fffdfa}
+input,select,textarea{background:#fffdfa}
 
-body[data-theme="warm"] .navbtn.active .ni{
+.navbtn.active .ni{
   background:var(--purple);
   box-shadow:0 6px 14px rgba(198,91,50,.30);
 }
-body[data-theme="warm"] .bottom{
+.navbtn.active{color:#fff}
+.navbtn .ni{
+  width:34px;
+  height:25px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.navbtn .ni .icon{
+  width:17px;height:17px;
+}
+.navbtn .ni.ember-nav svg{
+  width:17px;height:17px;
+}
+.bottom{
   background:rgba(32,27,24,.97);
   box-shadow:0 -10px 30px rgba(32,27,24,.15);
 }
 
-body[data-theme="warm"] .hero-remaining{color:#fff}
-body[data-theme="warm"] .plan-kcal{color:var(--purple)}
-body[data-theme="warm"] .result button{background:var(--ink)}
-body[data-theme="warm"] .suggestion button{background:var(--ink)}
-body[data-theme="warm"] .send{background:var(--ink)}
-body[data-theme="warm"] .toast{background:var(--ink)}
-body[data-theme="warm"] .icon-btn{background:rgba(255,253,249,.85)}
+.hero-remaining{color:#fff}
+.plan-kcal{color:var(--purple)}
+.result button{
+  background:var(--ink);
+}
+.suggestion button{
+  background:var(--ink);
+}
+.send{background:var(--ink)}
+
+.toast{background:var(--ink)}
 
 @media(max-width:380px){
   .calorie-layout{gap:12px}
@@ -726,6 +670,7 @@ body[data-theme="warm"] .icon-btn{background:rgba(255,253,249,.85)}
    ICON ALIGNMENT FIX
    ========================= */
 
+/* Normalize every icon box so the SVG is mathematically centered. */
 .brand-mark,
 .ask-logo,
 .quick-icon,
@@ -736,7 +681,6 @@ body[data-theme="warm"] .icon-btn{background:rgba(255,253,249,.85)}
 .send,
 .button-content,
 .suggestion button,
-.icon-btn,
 .navbtn .ni{
   display:flex !important;
   align-items:center !important;
@@ -746,6 +690,7 @@ body[data-theme="warm"] .icon-btn{background:rgba(255,253,249,.85)}
   vertical-align:middle !important;
 }
 
+/* Remove inline SVG baseline/line-box offsets. */
 .brand-mark svg,
 .ask-logo svg,
 .quick-icon svg,
@@ -756,7 +701,6 @@ body[data-theme="warm"] .icon-btn{background:rgba(255,253,249,.85)}
 .send svg,
 .button-content svg,
 .suggestion button svg,
-.icon-btn svg,
 .navbtn .ni svg{
   display:block !important;
   margin:0 !important;
@@ -767,6 +711,7 @@ body[data-theme="warm"] .icon-btn{background:rgba(255,253,249,.85)}
   vertical-align:middle !important;
 }
 
+/* Consistent visual sizing inside every icon container. */
 .brand-mark svg{width:22px!important;height:22px!important}
 .ask-logo svg{width:21px!important;height:21px!important}
 .quick-icon svg{width:18px!important;height:18px!important}
@@ -776,34 +721,126 @@ body[data-theme="warm"] .icon-btn{background:rgba(255,253,249,.85)}
 .send svg{width:18px!important;height:18px!important}
 .button-content svg{width:16px!important;height:16px!important}
 .suggestion button svg{width:15px!important;height:15px!important}
-.icon-btn svg{width:16px!important;height:16px!important}
 .navbtn .ni svg{width:18px!important;height:18px!important}
 
-.quick-icon{width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important}
-.food-icon{width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important}
-.profile-title-icon{width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important}
-.hero-action,.ask-arrow{width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important}
-.send{width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important}
-.icon-btn{width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important}
+/* Give the small icon containers a true centered box. */
+.quick-icon{
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  min-height:34px!important;
+}
+.food-icon{
+  width:36px!important;
+  height:36px!important;
+  min-width:36px!important;
+  min-height:36px!important;
+}
+.profile-title-icon{
+  width:34px!important;
+  height:34px!important;
+  min-width:34px!important;
+  min-height:34px!important;
+}
+.hero-action,.ask-arrow{
+  width:36px!important;
+  height:36px!important;
+  min-width:36px!important;
+  min-height:36px!important;
+}
+.send{
+  width:40px!important;
+  height:40px!important;
+  min-width:40px!important;
+  min-height:40px!important;
+}
 
-.navbtn .ni{width:34px!important;height:25px!important;margin:0 auto!important;padding:0!important}
-.navbtn.active .ni{width:34px!important;height:25px!important}
-.navbtn .ni svg{margin:auto!important}
+/* Center the active navigation pill and its icon. */
+.navbtn .ni{
+  width:34px!important;
+  height:25px!important;
+  margin:0 auto!important;
+  padding:0!important;
+}
+.navbtn.active .ni{
+  width:34px!important;
+  height:25px!important;
+}
+.navbtn .ni svg{
+  margin:auto!important;
+}
 
+/* The Ember flame has a deliberately asymmetric source path;
+   shift only the flame artwork by half a pixel for optical centering. */
 .brand-mark svg,
 .ask-logo svg,
 .navbtn .ni.ember-nav svg{
   transform:translateX(.5px)!important;
 }
 
-.button-content{width:100%;gap:7px}
-.suggestion button{gap:5px}
+/* Keep text/icon combinations centered without changing text alignment. */
+.button-content{
+  width:100%;
+  gap:7px;
+}
+.suggestion button{
+  gap:5px;
+}
 
+/* Prevent iOS Safari from introducing inline alignment space. */
 svg{font-size:0}
+
+
+
+/* ===== Appearance ===== */
+.theme-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.theme-swatch{min-height:78px;border:2px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:9px;font-weight:850;padding:8px;transition:.16s}
+.theme-swatch.active{border-color:var(--purple);box-shadow:0 0 0 2px rgba(115,87,232,.08)}
+.theme-swatch:active{transform:scale(.97)}
+.theme-dot{width:24px;height:24px;border-radius:50%;display:block}
+.cool-dot{background:linear-gradient(145deg,#9a83ff,#7357e8)}
+.warm-dot{background:linear-gradient(145deg,#e58b55,#c65b32)}
+.dark-dot{background:linear-gradient(145deg,#514660,#171321)}
+.system-dot{background:linear-gradient(135deg,#f4f0ff 0 50%,#201b18 50%)}
+
+body[data-theme="warm"]{--bg:#f3eee6;--bg2:#ebe2d6;--surface:#fffdf9;--surface-soft:#f5efe7;--ink:#201b18;--muted:#82776d;--line:#e5dbcf;--purple:#c65b32;--purple2:#e58b55;--purple-dark:#201b18;--green:#4f8064;--orange:#d99645;--red:#c96060;--shadow:0 16px 40px rgba(50,35,24,.09);--shadow-soft:0 7px 20px rgba(50,35,24,.055);background:radial-gradient(circle at 90% 0%,rgba(229,139,85,.14),transparent 25%),linear-gradient(145deg,#f7f2ea,#f1ebe2 52%,#ebe2d7)}
+body[data-theme="warm"] .hero-card{background:linear-gradient(145deg,#2a2521,#201c19 58%,#171412);box-shadow:0 22px 42px rgba(32,27,24,.19)}
+body[data-theme="warm"] .ring-fill{stroke:#e78a55}
+body[data-theme="warm"] .macro-card,body[data-theme="warm"] .quick-card,body[data-theme="warm"] .list-card,body[data-theme="warm"] .form-card,body[data-theme="warm"] .suggestion,body[data-theme="warm"] .plan-card,body[data-theme="warm"] .chart-card,body[data-theme="warm"] .profile-card,body[data-theme="warm"] .bubble.ai,body[data-theme="warm"] .composer,body[data-theme="warm"] .prompt,body[data-theme="warm"] .icon-btn{background:rgba(255,253,249,.9);border-color:#fff}
+body[data-theme="warm"] input,body[data-theme="warm"] select,body[data-theme="warm"] textarea,body[data-theme="warm"] .chip{background:#fffdfa;color:var(--ink);border-color:#e5dbcf}
+body[data-theme="warm"] .quick-icon,body[data-theme="warm"] .food-icon,body[data-theme="warm"] .profile-title-icon{background:#f4e6dc;color:var(--purple)}
+body[data-theme="warm"] .btn.accent,body[data-theme="warm"] .result button,body[data-theme="warm"] .suggestion button,body[data-theme="warm"] .send{background:var(--ink)}
+body[data-theme="warm"] .bottom{background:rgba(32,27,24,.97)}
+
+body[data-theme="dark"]{--bg:#141118;--bg2:#1c1722;--surface:#211c28;--surface-soft:#292331;--ink:#f5f1f7;--muted:#aaa1b2;--line:#393140;--purple:#9a83ff;--purple2:#b3a0ff;--purple-dark:#0f0c13;--green:#67b98e;--orange:#efad5c;--red:#ed858c;--shadow:0 16px 40px rgba(0,0,0,.30);--shadow-soft:0 7px 20px rgba(0,0,0,.22);background:radial-gradient(circle at 90% 0%,rgba(154,131,255,.13),transparent 28%),linear-gradient(145deg,#17131d,#141118 55%,#100d13)}
+body[data-theme="dark"] .goal-pill,body[data-theme="dark"] .macro-card,body[data-theme="dark"] .quick-card,body[data-theme="dark"] .list-card,body[data-theme="dark"] .form-card,body[data-theme="dark"] .suggestion,body[data-theme="dark"] .plan-card,body[data-theme="dark"] .chart-card,body[data-theme="dark"] .profile-card,body[data-theme="dark"] .bubble.ai,body[data-theme="dark"] .composer,body[data-theme="dark"] .prompt,body[data-theme="dark"] .icon-btn{background:#211c28;border-color:#393140}
+body[data-theme="dark"] input,body[data-theme="dark"] select,body[data-theme="dark"] textarea,body[data-theme="dark"] .chip{background:#1b1721;color:var(--ink);border-color:#393140}
+body[data-theme="dark"] .quick-icon,body[data-theme="dark"] .food-icon,body[data-theme="dark"] .profile-title-icon{background:#2b2433;color:var(--purple)}
+body[data-theme="dark"] .btn.outline,body[data-theme="dark"] .theme-swatch{background:#211c28;color:var(--ink);border-color:#393140}
+body[data-theme="dark"] .btn.selected{background:#302744;border-color:#51436f;color:#c4b8ff}
+body[data-theme="dark"] .theme-swatch.active{border-color:var(--purple)}
+body[data-theme="dark"] .macro-track{background:#342d3b}
+body[data-theme="dark"] .hero-card{background:linear-gradient(145deg,#30264a,#211a31 60%,#17121f)}
+body[data-theme="dark"] .ring-fill{stroke:var(--purple2)}
+body[data-theme="dark"] .bottom{background:rgba(10,8,13,.98)}
+body[data-theme="dark"] .send,body[data-theme="dark"] .result button,body[data-theme="dark"] .suggestion button{background:var(--purple);color:#171321}
+
+@media(prefers-color-scheme:dark){
+ body[data-theme="system"]{--bg:#141118;--bg2:#1c1722;--surface:#211c28;--surface-soft:#292331;--ink:#f5f1f7;--muted:#aaa1b2;--line:#393140;--purple:#9a83ff;--purple2:#b3a0ff;--purple-dark:#0f0c13;--green:#67b98e;--orange:#efad5c;--red:#ed858c;background:radial-gradient(circle at 90% 0%,rgba(154,131,255,.13),transparent 28%),linear-gradient(145deg,#17131d,#141118 55%,#100d13)}
+ body[data-theme="system"] .goal-pill,body[data-theme="system"] .macro-card,body[data-theme="system"] .quick-card,body[data-theme="system"] .list-card,body[data-theme="system"] .form-card,body[data-theme="system"] .suggestion,body[data-theme="system"] .plan-card,body[data-theme="system"] .chart-card,body[data-theme="system"] .profile-card,body[data-theme="system"] .bubble.ai,body[data-theme="system"] .composer,body[data-theme="system"] .prompt,body[data-theme="system"] .icon-btn{background:#211c28;border-color:#393140}
+ body[data-theme="system"] input,body[data-theme="system"] select,body[data-theme="system"] textarea,body[data-theme="system"] .chip{background:#1b1721;color:var(--ink);border-color:#393140}
+ body[data-theme="system"] .quick-icon,body[data-theme="system"] .food-icon,body[data-theme="system"] .profile-title-icon{background:#2b2433;color:var(--purple)}
+ body[data-theme="system"] .btn.outline,body[data-theme="system"] .theme-swatch{background:#211c28;color:var(--ink);border-color:#393140}
+ body[data-theme="system"] .btn.selected{background:#302744;border-color:#51436f;color:#c4b8ff}
+ body[data-theme="system"] .hero-card{background:linear-gradient(145deg,#30264a,#211a31 60%,#17121f)}
+ body[data-theme="system"] .ring-fill{stroke:var(--purple2)}
+ body[data-theme="system"] .bottom{background:rgba(10,8,13,.98)}
+ body[data-theme="system"] .send,body[data-theme="system"] .result button,body[data-theme="system"] .suggestion button{background:var(--purple);color:#171321}
+}
 </style>
 </head>
 
-<body data-goal="gain" data-theme="cool">
+<body data-goal="gain" data-theme="warm">
 
 <!-- SVG icon library -->
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
@@ -825,10 +862,6 @@ svg{font-size:0}
     <symbol id="i-basket" viewBox="0 0 24 24"><path d="M4 10h16l-1.5 10h-13L4 10Z"/><path d="m8 10 4-6 4 6M8 14v3M12 14v3M16 14v3"/></symbol>
     <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></symbol>
     <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="m19 13 1.2 1-.9 1.7-1.5-.4a7.5 7.5 0 0 1-1.6 1l-.2 1.5h-2l-.7-1.4a7.5 7.5 0 0 1-2 0l-.7 1.4h-2l-.2-1.5a7.5 7.5 0 0 1-1.6-1l-1.5.4-.9-1.7 1.2-1a7 7 0 0 1 0-2l-1.2-1 .9-1.7 1.5.4a7.5 7.5 0 0 1 1.6-1L9 6.2h2l.7 1.4a7.5 7.5 0 0 1 2 0l.7-1.4h2l.2 1.5a7.5 7.5 0 0 1 1.6 1l1.5-.4.9 1.7-1.2 1a7 7 0 0 1 0 2Z"/></symbol>
-    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L12 16.7 6.5 19.5l1.3-6.1-4.6-4.2 6.2-.6L12 3Z"/></symbol>
-    <symbol id="i-droplet" viewBox="0 0 24 24"><path d="M12 3s7 8.2 7 13a7 7 0 0 1-14 0c0-4.8 7-13 7-13Z"/></symbol>
-    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></symbol>
-    <symbol id="i-undo" viewBox="0 0 24 24"><path d="M7 7 3 11l4 4"/><path d="M3 11h11a6 6 0 0 1 0 12h-2"/></symbol>
   </defs>
 </svg>
 
@@ -884,11 +917,6 @@ svg{font-size:0}
       </div>
     </div>
 
-    <div class="streak-pill" id="streakPill" style="display:none">
-      <svg class="icon"><use href="#i-flame"></use></svg>
-      <span id="streakText">0 day streak</span>
-    </div>
-
     <div class="ask-card" onclick="showPage('ask')">
       <div class="ask-logo"><svg class="icon lg" style="fill:currentColor;stroke:none"><use href="#i-flame"></use></svg></div>
       <div class="ask-copy">
@@ -905,17 +933,17 @@ svg{font-size:0}
   </div>
 
   <div class="macro-grid">
-    <div class="macro-card" id="macroCardP">
+    <div class="macro-card">
       <div class="macro-top"><span class="macro-name">Protein</span><span class="macro-dot"></span></div>
       <div class="macro-value" id="vp">0/0g</div>
       <div class="macro-track"><div class="macro-fill" id="fp"></div></div>
     </div>
-    <div class="macro-card" id="macroCardC">
+    <div class="macro-card">
       <div class="macro-top"><span class="macro-name">Carbs</span><span class="macro-dot"></span></div>
       <div class="macro-value" id="vc">0/0g</div>
       <div class="macro-track"><div class="macro-fill" id="fc"></div></div>
     </div>
-    <div class="macro-card" id="macroCardF">
+    <div class="macro-card">
       <div class="macro-top"><span class="macro-name">Fat</span><span class="macro-dot"></span></div>
       <div class="macro-value" id="vf">0/0g</div>
       <div class="macro-track"><div class="macro-fill" id="ff"></div></div>
@@ -949,8 +977,7 @@ svg{font-size:0}
 
   <div class="section-heading"><h3>Today's meals</h3><button onclick="showPage('log')">Add food</button></div>
   <div class="list-card" id="todayLog">
-    <div class="skeleton skeleton-row"></div>
-    <div class="skeleton skeleton-row"></div>
+    <div class="empty-state">Nothing logged yet.</div>
   </div>
 </section>
 
@@ -964,11 +991,6 @@ svg{font-size:0}
       <input class="search" id="foodSearch" placeholder="Search rice, idli, eggs, oats..." autocomplete="off">
     </div>
     <div class="search-results" id="results"></div>
-
-    <div class="field" id="recentFoodsField" style="display:none">
-      <label>RECENT & FAVORITES</label>
-      <div class="chip-row" id="recentFoodsRow"></div>
-    </div>
 
     <div class="field">
       <label>OR DESCRIBE WHAT YOU ATE</label>
@@ -999,11 +1021,6 @@ svg{font-size:0}
   <div class="chat-head">
     <div class="ember-avatar"><svg><use href="#i-flame"></use></svg></div>
     <div><h2>Ask Ember</h2><p>Your practical food companion</p></div>
-    <div class="chat-head-actions">
-      <button class="icon-btn" onclick="clearChat()" aria-label="Clear conversation" title="Clear conversation">
-        <svg class="icon sm"><use href="#i-trash"></use></svg>
-      </button>
-    </div>
   </div>
 
   <div class="prompt-row">
@@ -1062,10 +1079,7 @@ svg{font-size:0}
   <div class="section-heading"><h3>Progress</h3></div>
 
   <div class="chart-card">
-    <div class="chart-title-row">
-      <div class="chart-title">Weight trend</div>
-      <span class="badge" id="weightDelta"></span>
-    </div>
+    <div class="chart-title">Weight trend</div>
     <div class="chart-wrap"><canvas id="weightChart"></canvas></div>
     <div class="two">
       <input type="number" id="weightInput" step=".1" placeholder="Weight kg">
@@ -1074,10 +1088,7 @@ svg{font-size:0}
   </div>
 
   <div class="chart-card">
-    <div class="chart-title-row">
-      <div class="chart-title">Calories — 7 days</div>
-      <span class="badge" id="calAvg"></span>
-    </div>
+    <div class="chart-title">Calories — 7 days</div>
     <div class="chart-wrap"><canvas id="calChart"></canvas></div>
   </div>
 </section>
@@ -1142,20 +1153,16 @@ svg{font-size:0}
     <div class="empty-state" id="keyStatus"></div>
   </div>
 
-  <div class="profile-card">
+  <div class="profile-card appearance-card">
     <div class="profile-title">
       <div class="profile-title-icon"><svg class="icon"><use href="#i-moon"></use></svg></div>
-      <div><h3>Appearance</h3><p>Pick the look that fits you</p></div>
+      <div><h3>Appearance</h3><p>Choose how Ember looks</p></div>
     </div>
     <div class="theme-row">
-      <button class="theme-swatch" id="themeCool" onclick="setTheme('cool')">
-        <span class="theme-dot" style="background:linear-gradient(145deg,#9a83ff,#7357e8)"></span>
-        Cool violet
-      </button>
-      <button class="theme-swatch" id="themeWarm" onclick="setTheme('warm')">
-        <span class="theme-dot" style="background:linear-gradient(145deg,#e58b55,#c65b32)"></span>
-        Warm ember
-      </button>
+      <button class="theme-swatch" id="themeCool" onclick="setTheme('cool')"><span class="theme-dot cool-dot"></span><span>Cool</span></button>
+      <button class="theme-swatch" id="themeWarm" onclick="setTheme('warm')"><span class="theme-dot warm-dot"></span><span>Warm</span></button>
+      <button class="theme-swatch" id="themeDark" onclick="setTheme('dark')"><span class="theme-dot dark-dot"></span><span>Dark</span></button>
+      <button class="theme-swatch" id="themeSystem" onclick="setTheme('system')"><span class="theme-dot system-dot"></span><span>System</span></button>
     </div>
   </div>
 
@@ -1166,13 +1173,13 @@ svg{font-size:0}
 
 </main>
 
-<nav class="bottom">
-  <button class="navbtn active" data-page="home" onclick="showPage('home')"><span class="ni"><svg class="icon"><use href="#i-home"></use></svg></span>Home</button>
-  <button class="navbtn" data-page="log" onclick="showPage('log')"><span class="ni"><svg class="icon"><use href="#i-plus"></use></svg></span>Log</button>
-  <button class="navbtn" data-page="ask" onclick="showPage('ask')"><span class="ni ember-nav"><svg><use href="#i-flame"></use></svg></span>Ask</button>
-  <button class="navbtn" data-page="plan" onclick="showPage('plan')"><span class="ni"><svg class="icon"><use href="#i-calendar"></use></svg></span>Plan</button>
-  <button class="navbtn" data-page="progress" onclick="showPage('progress')"><span class="ni"><svg class="icon"><use href="#i-chart"></use></svg></span>Progress</button>
-  <button class="navbtn" data-page="profile" onclick="showPage('profile')"><span class="ni"><svg class="icon"><use href="#i-user"></use></svg></span>Profile</button>
+<nav class="bottom" id="bottomNav">
+  <button class="navbtn active" data-page="home"><span class="ni"><svg class="icon"><use href="#i-home"></use></svg></span>Home</button>
+  <button class="navbtn" data-page="log"><span class="ni"><svg class="icon"><use href="#i-plus"></use></svg></span>Log</button>
+  <button class="navbtn" data-page="ask"><span class="ni ember-nav"><svg><use href="#i-flame"></use></svg></span>Ask</button>
+  <button class="navbtn" data-page="plan"><span class="ni"><svg class="icon"><use href="#i-calendar"></use></svg></span>Plan</button>
+  <button class="navbtn" data-page="progress"><span class="ni"><svg class="icon"><use href="#i-chart"></use></svg></span>Progress</button>
+  <button class="navbtn" data-page="profile"><span class="ni"><svg class="icon"><use href="#i-user"></use></svg></span>Profile</button>
 </nav>
 
 </div>
@@ -1183,7 +1190,6 @@ const API_URL="https://script.google.com/macros/s/AKfycbxfOT-qcFjDVukhLK1mwsIZ86
 
 let STATE={profile:null,context:null};
 let weightChartRef=null,calChartRef=null;
-let lastDeletedLog=null;
 
 const $=id=>document.getElementById(id);
 
@@ -1191,55 +1197,55 @@ function today(){
   return new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Kolkata'});
 }
 
-function toast(msg,actionLabel,actionFn){
-  const t=$('toast');
-  t.innerHTML='';
-  const span=document.createElement('span');
-  span.textContent=msg;
-  t.appendChild(span);
-  if(actionLabel&&actionFn){
-    const b=document.createElement('button');
-    b.textContent=actionLabel;
-    b.onclick=()=>{actionFn();t.classList.remove('show');};
-    t.appendChild(b);
-  }
-  t.classList.add('show');
-  clearTimeout(t._timer);
-  t._timer=setTimeout(()=>t.classList.remove('show'),actionLabel?4000:2200);
+function toast(msg){
+  $('toast').textContent=msg;
+  $('toast').classList.add('show');
+  setTimeout(()=>$('toast').classList.remove('show'),2200);
 }
 
 async function api(action,data={}){
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),15000);
   try{
     const r=await fetch(API_URL,{
       method:'POST',
-      body:JSON.stringify({action,...data})
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({action,...data}),
+      signal:controller.signal
     });
-    const j=await r.json();
-    if(!j.success) console.warn(j.error);
+    const text=await r.text();
+    let j;
+    try{j=JSON.parse(text);}catch(e){throw new Error('Invalid response from Apps Script.');}
+    if(!j.success)console.warn(action,j.error);
     return j;
   }catch(e){
-    toast('Connection error. Check your Apps Script URL.');
-    console.error(e);
-    return {success:false,error:e.message};
-  }
+    const msg=e.name==='AbortError'?'Request timed out. Check your Apps Script deployment.':'Connection error. Check your Apps Script URL.';
+    toast(msg);console.error(action,e);
+    return {success:false,error:e.message||msg};
+  }finally{clearTimeout(timer);}
 }
 
 function showPage(name){
+  const page=$('page-'+name);
+  if(!page)return;
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));
-
-  const page=$('page-'+name);
-  if(page) page.classList.add('active');
-
+  page.classList.add('active');
   const btn=document.querySelector('.navbtn[data-page="'+name+'"]');
-  if(btn) btn.classList.add('active');
-
-  if(name==='log'){loadPantry();renderRecentFoods();}
-  if(name==='plan') loadPantry();
-  if(name==='progress') renderCharts();
-  if(name==='ask') setTimeout(()=>$('chatInput').focus(),60);
-
+  if(btn)btn.classList.add('active');
+  if(name==='log'){loadPantry().catch(console.error);renderRecentFoods();}
+  else if(name==='plan')loadPantry().catch(console.error);
+  else if(name==='progress')renderCharts().catch(console.error);
+  else if(name==='ask')setTimeout(()=>{const i=$('chatInput');if(i)i.focus();},60);
   window.scrollTo({top:0,behavior:'smooth'});
+}
+function initNavigation(){
+  const nav=$('bottomNav')||document.querySelector('.bottom');
+  if(!nav)return;
+  nav.addEventListener('click',e=>{
+    const btn=e.target.closest('.navbtn');
+    if(btn&&btn.dataset.page)showPage(btn.dataset.page);
+  });
 }
 
 function applyGoal(goal){
@@ -1255,88 +1261,32 @@ function applyGoal(goal){
 }
 
 function setTheme(name){
+  const allowed=['cool','warm','dark','system'];
+  if(!allowed.includes(name))name='warm';
   document.body.dataset.theme=name;
   localStorage.setItem('ember_theme',name);
-  $('themeCool').classList.toggle('active',name==='cool');
-  $('themeWarm').classList.toggle('active',name==='warm');
-}
-
-function loadTheme(){
-  const saved=localStorage.getItem('ember_theme')||'cool';
-  setTheme(saved);
-}
-
-/* ---------- Streak (local, based on days a food was logged) ---------- */
-function noteLoggedToday(){
-  const t=today();
-  const last=localStorage.getItem('ember_last_log_date');
-  if(last===t)return;
-  let streak=parseInt(localStorage.getItem('ember_streak')||'0',10);
-  if(last){
-    const prev=new Date(last+'T00:00:00');
-    const cur=new Date(t+'T00:00:00');
-    const diffDays=Math.round((cur-prev)/86400000);
-    streak=diffDays===1?streak+1:1;
-  }else{
-    streak=1;
-  }
-  localStorage.setItem('ember_streak',String(streak));
-  localStorage.setItem('ember_last_log_date',t);
-  renderStreak();
-}
-
-function renderStreak(){
-  const t=today();
-  const last=localStorage.getItem('ember_last_log_date');
-  let streak=parseInt(localStorage.getItem('ember_streak')||'0',10);
-  if(last){
-    const prev=new Date(last+'T00:00:00');
-    const cur=new Date(t+'T00:00:00');
-    const diffDays=Math.round((cur-prev)/86400000);
-    if(diffDays>1)streak=0;
-  }
-  const pill=$('streakPill');
-  if(streak>0){
-    pill.style.display='inline-flex';
-    $('streakText').textContent=streak+' day'+(streak===1?'':'s')+' streak';
-  }else{
-    pill.style.display='none';
-  }
-}
-
-/* ---------- Recent & favorite foods (local) ---------- */
-function rememberFood(item){
-  try{
-    let list=JSON.parse(localStorage.getItem('ember_recent_foods')||'[]');
-    list=list.filter(x=>x.name!==item.name);
-    list.unshift(item);
-    list=list.slice(0,10);
-    localStorage.setItem('ember_recent_foods',JSON.stringify(list));
-  }catch(e){}
-}
-
-function renderRecentFoods(){
-  let list=[];
-  try{list=JSON.parse(localStorage.getItem('ember_recent_foods')||'[]');}catch(e){}
-  const field=$('recentFoodsField');
-  if(!list.length){field.style.display='none';return;}
-  field.style.display='block';
-  $('recentFoodsRow').innerHTML=list.map((x,i)=>`
-    <button class="chip" onclick='quickAddRecent(${i})'>
-      ${esc(x.name)} <small>${Math.round(x.calories)} kcal</small>
-    </button>
-  `).join('');
-}
-
-function quickAddRecent(i){
-  let list=[];
-  try{list=JSON.parse(localStorage.getItem('ember_recent_foods')||'[]');}catch(e){}
-  const f=list[i];
-  if(!f)return;
-  quickAdd({
-    Name:f.name,CaloriesPerUnit:f.calories,ProteinPerUnit:f.protein,
-    CarbsPerUnit:f.carbs,FatPerUnit:f.fat
+  ['Cool','Warm','Dark','System'].forEach(x=>{
+    const el=$('theme'+x);
+    if(el)el.classList.toggle('active',name===x.toLowerCase());
   });
+  updateThemeMeta();
+}
+function updateThemeMeta(){
+  const meta=document.querySelector('meta[name="theme-color"]');
+  if(!meta)return;
+  const dark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const mode=document.body.dataset.theme;
+  meta.content=(mode==='dark'||(mode==='system'&&dark))?'#141118':mode==='warm'?'#201b18':'#7357e8';
+}
+function loadTheme(){
+  const saved=localStorage.getItem('ember_theme')||'warm';
+  setTheme(saved);
+  if(window.matchMedia){
+    const mq=window.matchMedia('(prefers-color-scheme: dark)');
+    const fn=()=>{if(document.body.dataset.theme==='system')updateThemeMeta();};
+    if(mq.addEventListener)mq.addEventListener('change',fn);
+    else if(mq.addListener)mq.addListener(fn);
+  }
 }
 
 function renderContext(ctx){
@@ -1385,28 +1335,19 @@ function renderContext(ctx){
         </div>
         <div class="food-cal">
           ${Math.round(Number(x.Calories)||0)} kcal
-          <button class="delete-btn" onclick='confirmRemoveLog(${JSON.stringify(x).replace(/'/g,"&#039;")})' aria-label="Remove">
+          <button class="delete-btn" onclick="removeLog('${x.ID}')" aria-label="Remove">
             <svg class="icon sm"><use href="#i-trash"></use></svg>
           </button>
         </div>
       </div>`).join('')
-    : `<div class="empty-state rich">
-         <div class="empty-icon"><svg class="icon"><use href="#i-utensils"></use></svg></div>
-         Nothing logged yet. Start with Log food or ask Ember.
-       </div>`;
-
-  if(log.length) noteLoggedToday();
-  renderStreak();
+    : '<div class="empty-state">Nothing logged yet. Start with Log food or ask Ember.</div>';
 }
 
 function macro(k,v,t){
   const target=Number(t)||0;
   const value=Number(v)||0;
-  const pct=target?Math.min(value/target*100,100):0;
-  $('f'+k).style.width=pct+'%';
+  $('f'+k).style.width=(target?Math.min(value/target*100,100):0)+'%';
   $('v'+k).textContent=Math.round(value)+'/'+Math.round(target)+'g';
-  const cardIds={p:'macroCardP',c:'macroCardC',f:'macroCardF'};
-  $(cardIds[k]).classList.toggle('macro-over',target>0&&value>target);
 }
 
 function esc(s){
@@ -1420,44 +1361,16 @@ async function refresh(){
   if(r.success) renderContext(r);
 }
 
-function confirmRemoveLog(x){
-  if(!confirm('Remove "'+x.ItemName+'" from today\\'s log?'))return;
-  removeLog(x.ID,x);
-}
-
-async function removeLog(id,item){
+async function removeLog(id){
   const r=await api('deleteFoodLog',{id});
-  if(r.success){
-    lastDeletedLog=item||null;
-    toast('Food removed',lastDeletedLog?'Undo':null,lastDeletedLog?undoRemoveLog:null);
-    refresh();
-  }else toast(r.error||'Could not remove food');
-}
-
-async function undoRemoveLog(){
-  if(!lastDeletedLog)return;
-  const x=lastDeletedLog;
-  const r=await api('logFood',{
-    date:today(),
-    meal:x.Meal,
-    itemName:x.ItemName,
-    quantity:1,
-    calories:x.Calories,
-    protein:x.Protein,
-    carbs:x.Carbs,
-    fat:x.Fat,
-    source:x.Source||'restored'
-  });
-  lastDeletedLog=null;
-  if(r.success){toast('Restored');refresh();}
-  else toast(r.error||'Could not restore item');
+  if(r.success){toast('Food removed');refresh();}
+  else toast(r.error||'Could not remove food');
 }
 
 $('foodSearch').addEventListener('input',debounce(async e=>{
   const q=e.target.value.trim();
   if(q.length<2){$('results').innerHTML='';return;}
 
-  $('results').innerHTML='<div class="skeleton skeleton-row"></div>';
   const r=await api('searchFoodDatabase',{query:q});
 
   $('results').innerHTML=(r.items||[]).map(f=>`
@@ -1485,12 +1398,8 @@ async function quickAdd(f){
     fat:f.FatPerUnit,
     source:'database'
   });
-  if(r.success){
-    toast(f.Name+' added');
-    rememberFood({name:f.Name,calories:f.CaloriesPerUnit,protein:f.ProteinPerUnit,carbs:f.CarbsPerUnit,fat:f.FatPerUnit});
-    renderRecentFoods();
-    refresh();
-  }else toast(r.error||'Could not add food');
+  if(r.success){toast(f.Name+' added');refresh();}
+  else toast(r.error||'Could not add food');
 }
 
 $('estimateBtn').onclick=async()=>{
@@ -1526,8 +1435,6 @@ $('estimateBtn').onclick=async()=>{
   if(add.success){
     $('describe').value='';
     toast('Added to today');
-    items.forEach(x=>rememberFood(x));
-    renderRecentFoods();
     refresh();
   }else toast(add.error||'Could not add food');
 };
@@ -1553,21 +1460,6 @@ function addBubble(role,text){
   b.textContent=text;
   $('chatBox').appendChild(b);
   $('chatBox').scrollTop=$('chatBox').scrollHeight;
-  return b;
-}
-
-function showTyping(){
-  const b=document.createElement('div');
-  b.className='bubble ai typing';
-  b.id='typingBubble';
-  b.innerHTML='<span></span><span></span><span></span>';
-  $('chatBox').appendChild(b);
-  $('chatBox').scrollTop=$('chatBox').scrollHeight;
-}
-
-function hideTyping(){
-  const b=$('typingBubble');
-  if(b) b.remove();
 }
 
 async function sendChat(){
@@ -1578,11 +1470,9 @@ async function sendChat(){
   addBubble('user',msg);
   input.value='';
   $('sendBtn').disabled=true;
-  showTyping();
 
   const r=await api('chatWithEmber',{message:msg,date:today()});
 
-  hideTyping();
   $('sendBtn').disabled=false;
 
   if(!r.success){
@@ -1620,9 +1510,7 @@ function renderSuggestions(items,actions){
       </button>
     `;
 
-    const addBtn=d.querySelector('button');
-    addBtn.onclick=async()=>{
-      addBtn.disabled=true;
+    d.querySelector('button').onclick=async()=>{
       const r=await api('addAIItemsToLog',{
         date:today(),
         items:[{
@@ -1635,16 +1523,8 @@ function renderSuggestions(items,actions){
           fat:x.fat
         }]
       });
-      if(r.success){
-        toast(x.name+' added');
-        rememberFood(x);
-        renderRecentFoods();
-        addBtn.innerHTML='<svg class="icon sm"><use href="#i-check"></use></svg> Added';
-        refresh();
-      }else{
-        addBtn.disabled=false;
-        toast(r.error||'Could not add item');
-      }
+      if(r.success){toast(x.name+' added');refresh();}
+      else toast(r.error||'Could not add item');
     };
 
     box.appendChild(d);
@@ -1759,7 +1639,7 @@ function renderPlan(p){
   const meals=p.meals||[];
 
   $('planResult').innerHTML=meals.length
-    ? meals.map((m,i)=>`
+    ? meals.map(m=>`
       <div class="plan">
         <div class="plan-head">
           <h4>${esc(m.name)}</h4>
@@ -1772,34 +1652,10 @@ function renderPlan(p){
           F ${Math.round(m.fat||0)}g ·
           ${m.prepMinutes||0} min
         </small>
-        <button class="plan-add" onclick='addPlanMeal(${i})'>
-          <svg class="icon sm"><use href="#i-plus"></use></svg> Log this meal
-        </button>
       </div>
     `).join('')+
     `<div class="empty-state">${esc(p.notes||'')}</div>`
     : '<div class="empty-state">No meals were generated. Try again.</div>';
-
-  STATE.lastPlan=p;
-}
-
-async function addPlanMeal(i){
-  const m=(STATE.lastPlan&&STATE.lastPlan.meals||[])[i];
-  if(!m)return;
-  const r=await api('addAIItemsToLog',{
-    date:today(),
-    items:[{
-      name:m.name,
-      meal:'snack',
-      quantity:1,
-      calories:m.calories,
-      protein:m.protein,
-      carbs:m.carbs,
-      fat:m.fat
-    }]
-  });
-  if(r.success){toast(m.name+' logged');refresh();}
-  else toast(r.error||'Could not log meal');
 }
 
 async function loadProfile(){
@@ -1871,12 +1727,12 @@ async function saveKey(){
 }
 
 async function clearChat(){
-  if(!confirm('Clear Ember conversation? This cannot be undone.'))return;
+  if(!confirm('Clear Ember conversation?'))return;
   const r=await api('clearChatHistory');
   if(r.success){
     toast('Conversation cleared');
     loadChat();
-  }else toast(r.error||'Could not clear conversation');
+  }
 }
 
 async function renderCharts(){
@@ -1887,13 +1743,6 @@ async function renderCharts(){
 
   const wr=await api('getWeightHistory');
   const hist=(wr.history||[]).slice(-30);
-
-  if(hist.length>=2){
-    const delta=hist[hist.length-1].WeightKg-hist[0].WeightKg;
-    $('weightDelta').textContent=(delta>=0?'+':'')+delta.toFixed(1)+' kg';
-  }else{
-    $('weightDelta').textContent='';
-  }
 
   if(weightChartRef)weightChartRef.destroy();
 
@@ -1923,14 +1772,8 @@ async function renderCharts(){
     days.push(d.toLocaleDateString('en-CA',{timeZone:'Asia/Kolkata'}));
   }
 
-  const totals=[];
-  for(const d of days){
-    const r=await api('getFoodLog',{date:d});
-    totals.push((r.log||[]).reduce((s,x)=>s+Number(x.Calories||0),0));
-  }
-
-  const avg=totals.length?Math.round(totals.reduce((a,b)=>a+b,0)/totals.length):0;
-  $('calAvg').textContent=avg?'avg '+avg+' kcal':'';
+  const results=await Promise.all(days.map(d=>api('getFoodLog',{date:d})));
+  const totals=results.map(r=>(r.log||[]).reduce((s,x)=>s+Number(x.Calories||0),0));
 
   if(calChartRef)calChartRef.destroy();
 
@@ -1978,11 +1821,13 @@ $('date').textContent=new Date().toLocaleDateString(undefined,{
 
 (async function init(){
   loadTheme();
-  await loadProfile();
-  await refresh();
-  await loadPantry();
-  await loadChat();
+  initNavigation();
   renderRecentFoods();
+  const tasks=[['profile',loadProfile],['context',refresh],['pantry',loadPantry],['chat',loadChat]];
+  await Promise.all(tasks.map(async([name,fn])=>{
+    try{await fn();}catch(e){console.error('Ember init '+name+' failed',e);}
+  }));
+  renderStreak();
 })();
 </script>
 </body>
