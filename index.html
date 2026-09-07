@@ -7,7 +7,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Ember">
-<link rel="manifest" href="./manifest.webmanifest">\n<link rel="apple-touch-icon" href="./ember-icon-192.png">\n<link rel="icon" type="image/png" href="./ember-icon-192.png">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./ember-icon-192.png">
+<link rel="icon" type="image/png" href="./ember-icon-192.png">
 <title>Ember — Fuel your goal</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
@@ -979,7 +981,7 @@ function showPage(name){
   page.classList.add('active');
   const btn=document.querySelector('.navbtn[data-page="'+name+'"]');
   if(btn)btn.classList.add('active');
-  if(name==='log'){loadPantry().catch(console.error);renderRecentFoods();}
+  if(name==='log'){loadPantry().catch(console.error);}
   else if(name==='plan')loadPantry().catch(console.error);
   else if(name==='progress')renderCharts().catch(console.error);
   else if(name==='ask')setTimeout(()=>{const i=$('chatInput');if(i)i.focus();},60);
@@ -1236,7 +1238,26 @@ function renderSuggestions(items,actions){
   const box=$('suggestions');
   box.innerHTML='';
 
-  (items||[]).forEach(x=>{
+  // Merge AI "suggestions" and "actions" into one confirm-before-add list.
+  // Actions used to be added to the food log automatically the moment the
+  // model returned them, with no user confirmation — that caused food to
+  // get logged just from asking a question. Now every item, whether it
+  // came in as a suggestion or an action, needs an explicit "Add" click.
+  const combined=[
+    ...(items||[]).map(x=>({...x,meal:x.meal||'snack'})),
+    ...(actions||[]).map(x=>({
+      name:x.name,
+      description:'Ember wants to log this from your message — tap to confirm.',
+      meal:x.meal||'snack',
+      calories:x.calories,
+      protein:x.protein,
+      carbs:x.carbs,
+      fat:x.fat,
+      prepMinutes:null
+    }))
+  ];
+
+  combined.forEach(x=>{
     const d=document.createElement('div');
     d.className='suggestion';
 
@@ -1275,10 +1296,6 @@ function renderSuggestions(items,actions){
 
     box.appendChild(d);
   });
-
-  if(actions&&actions.length){
-    api('addAIItemsToLog',{date:today(),items:actions}).then(refresh);
-  }
 }
 
 async function loadChat(){
@@ -1610,12 +1627,10 @@ $('date').textContent=new Date().toLocaleDateString(undefined,{
 (async function init(){
   loadTheme();
   initNavigation();
-  renderRecentFoods();
   const tasks=[['profile',loadProfile],['context',refresh],['pantry',loadPantry],['chat',loadChat]];
   await Promise.all(tasks.map(async([name,fn])=>{
     try{await fn();}catch(e){console.error('Ember init '+name+' failed',e);}
   }));
-  renderStreak();
 })();
 
 </script>
