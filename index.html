@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Ember">
-<link rel="manifest" href="./manifest.webmanifest">
+<link rel="manifest" href="./manifest.webmanifest">\n<link rel="apple-touch-icon" href="./ember-icon-192.png">\n<link rel="icon" type="image/png" href="./ember-icon-192.png">
 <title>Ember — Fuel your goal</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 
@@ -865,8 +865,7 @@ body[data-theme="system"] .send{background:#30234f;color:#fff}
       </div>
       <div class="field"><label>RATE KG/WEEK</label><input id="goalRate" type="number" step=".1"></div>
     </div>
-    <div class="field"><label>MEALS PER DAY</label><input id="meals" type="number"></div>
-    <button class="btn accent" onclick="saveProfile()">Save & recalculate</button>
+    <div class="field"><label>MEALS PER DAY</label><select id="meals"><option value="3">3 meals</option><option value="4">4 meals</option><option value="5">5 meals</option><option value="6">6 meals</option></select></div>
   </div>
 
   <div class="profile-card">
@@ -874,20 +873,30 @@ body[data-theme="system"] .send{background:#30234f;color:#fff}
       <div class="profile-title-icon"><svg class="icon"><use href="#i-utensils"></use></svg></div>
       <div><h3>Food context</h3><p>Help Ember make realistic suggestions</p></div>
     </div>
-    <div class="field"><label>OFFICE DAYS</label><input id="officeDays" placeholder="Mon, Tue, Wed"></div>
-    <div class="field"><label>KITCHEN ACCESS</label><select id="kitchen"><option value="none">None</option><option value="microwave">Microwave only</option><option value="full">Full kitchen</option></select></div>
-    <div class="field"><label>CUISINE PREFERENCE</label><input id="cuisine" placeholder="Indian, no strong preference"></div>
-    <div class="field"><label>FOODS TO AVOID</label><input id="avoid" placeholder="e.g. peanuts"></div>
+    <div class="field">
+      <label>OFFICE DAYS</label>
+      <div class="day-select" id="officeDays">
+        <button type="button" class="day-btn" data-day="Mon">M</button>
+        <button type="button" class="day-btn" data-day="Tue">T</button>
+        <button type="button" class="day-btn" data-day="Wed">W</button>
+        <button type="button" class="day-btn" data-day="Thu">T</button>
+        <button type="button" class="day-btn" data-day="Fri">F</button>
+        <button type="button" class="day-btn" data-day="Sat">S</button>
+        <button type="button" class="day-btn" data-day="Sun">S</button>
+      </div>
+    </div>
+    <div class="field"><label>KITCHEN ACCESS</label><select id="kitchen"><option value="none">No kitchen</option><option value="microwave">Microwave only</option><option value="full">Full kitchen</option></select></div>
+    <div class="field"><label>CUISINE PREFERENCE</label><select id="cuisine"><option value="">No strong preference</option><option value="South Indian">South Indian</option><option value="North Indian">North Indian</option><option value="Indian">Indian</option><option value="Continental">Continental</option><option value="Mixed">Mixed</option></select></div>
+    <div class="field"><label>FOODS TO AVOID</label><input id="avoid" placeholder="e.g. peanuts, mushrooms"></div>
+    <button class="btn accent profile-save" onclick="saveProfile()">Save profile</button>
   </div>
 
   <div class="profile-card">
     <div class="profile-title">
       <div class="profile-title-icon"><svg class="icon"><use href="#i-flame"></use></svg></div>
-      <div><h3>Ember AI</h3><p>Your key stays in the backend</p></div>
+      <div><h3>Ember AI</h3><p>AI is configured securely in the Apps Script environment</p></div>
     </div>
-    <div class="field"><input type="password" id="geminiKey" placeholder="Paste Gemini API key"></div>
-    <button class="btn" onclick="saveKey()">Save AI key</button>
-    <div class="empty-state" id="keyStatus"></div>
+    <div class="empty-state" id="keyStatus">Checking AI configuration…</div>
   </div>
 
   <div class="profile-card appearance-card">
@@ -999,7 +1008,7 @@ function applyGoal(goal){
 
 function setTheme(name){
   const allowed=['cool','warm','dark','system'];
-  if(!allowed.includes(name))name='warm';
+  if(!allowed.includes(name))name='cool';
   document.body.dataset.theme=name;
   localStorage.setItem('ember_theme',name);
   ['Cool','Warm','Dark','System'].forEach(x=>{
@@ -1416,20 +1425,31 @@ function renderPlan(p){
 }
 
 async function loadProfile(){
-  const [r,c,ctx]=await Promise.all([
-    api('getProfile'),api('getConfig'),api('getTodayContext',{date:today()})
+  const [r,ctx,c]=await Promise.all([
+    api('getProfile'),
+    api('getTodayContext',{date:today()}),
+    api('getConfig')
   ]);
-  if(c.success) $('keyStatus').textContent=c.hasGeminiKey?'AI key is configured on the backend.':'No Gemini key configured yet.';
 
-  // Prefer getProfile, but fall back to the profile embedded in today's context.
-  const p=(r&&r.success&&r.profile)?r.profile:((ctx&&ctx.success&&ctx.profile)?ctx.profile:null);
+  if(c && c.success){
+    $('keyStatus').textContent=c.hasGeminiKey
+      ? 'Ember AI is ready.'
+      : 'Ember AI is not configured yet.';
+  }
+
+  const p=(r&&r.success&&r.profile)
+    ? r.profile
+    : ((ctx&&ctx.success&&ctx.profile)?ctx.profile:null);
+
   if(!p){
-    console.warn('Profile was not returned by backend',r,ctx);
-    toast('Could not load profile from Google Sheets');
+    console.warn('Profile load failed',r,ctx);
+    toast((r&&r.error)||'Could not load profile from Google Sheets');
     return;
   }
+
   STATE.profile=p;
   applyGoal(p.Goal||'gain');
+
   $('age').value=p.Age??'';
   $('gender').value=String(p.Gender||'male').toLowerCase();
   $('height').value=p.HeightCm??'';
@@ -1437,16 +1457,36 @@ async function loadProfile(){
   $('activity').value=p.ActivityLevel||'moderate';
   $('goal').value=p.Goal||'gain';
   $('goalRate').value=p.GoalRateKgPerWeek??.4;
-  $('meals').value=p.MealsPerDay??4;
-  $('officeDays').value=p.OfficeDays??'';
+  $('meals').value=String(p.MealsPerDay??4);
+  setOfficeDays(p.OfficeDays||'');
   $('kitchen').value=p.KitchenAccess||'none';
-  $('cuisine').value=p.CuisinePref??'';
-  $('avoid').value=p.Allergies??'';
+  $('cuisine').value=p.CuisinePref||'';
+  $('avoid').value=p.Allergies||'';
 }
+
+function setOfficeDays(value){
+  const selected=String(value||'').split(',').map(x=>x.trim().toLowerCase()).filter(Boolean);
+  document.querySelectorAll('#officeDays .day-btn').forEach(btn=>{
+    btn.classList.toggle('active',selected.includes(btn.dataset.day.toLowerCase()));
+  });
+}
+
+function getOfficeDays(){
+  return [...document.querySelectorAll('#officeDays .day-btn.active')]
+    .map(btn=>btn.dataset.day)
+    .join(', ');
+}
+
+document.querySelectorAll('#officeDays .day-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>btn.classList.toggle('active'));
+});
 
 $('goal').onchange=e=>applyGoal(e.target.value);
 
 async function saveProfile(){
+  const btn=document.querySelector('.profile-save');
+  if(btn){btn.disabled=true;btn.textContent='Saving…';}
+
   const r=await api('saveProfile',{
     age:$('age').value,
     gender:$('gender').value,
@@ -1456,30 +1496,22 @@ async function saveProfile(){
     goal:$('goal').value,
     goalRate:$('goalRate').value,
     mealsPerDay:$('meals').value,
-    officeDays:$('officeDays').value,
+    officeDays:getOfficeDays(),
     kitchenAccess:$('kitchen').value,
     cuisinePref:$('cuisine').value,
     allergies:$('avoid').value
   });
 
+  if(btn){btn.disabled=false;btn.textContent='Save profile';}
+
   if(r.success){
+    STATE.profile=r.profile||STATE.profile;
     toast('Profile saved');
     await loadProfile();
     await refresh();
-  }else toast(r.error||'Could not save profile');
-}
-
-async function saveKey(){
-  const key=$('geminiKey').value.trim();
-  if(!key)return toast('Paste your Gemini key');
-
-  const r=await api('setGeminiKey',{GeminiApiKey:key});
-
-  if(r.success){
-    $('geminiKey').value='';
-    $('keyStatus').textContent='AI key saved securely in backend.';
-    toast('AI enabled');
-  }else toast(r.error||'Could not save AI key');
+  }else{
+    toast(r.error||'Could not save profile');
+  }
 }
 
 async function clearChat(){
@@ -1586,10 +1618,6 @@ $('date').textContent=new Date().toLocaleDateString(undefined,{
   renderStreak();
 })();
 
-  // Register the service worker so the browser can offer Ember as an installable app.
-  if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')){
-    window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('Ember SW registration failed',e)));
-  }
 </script>
 </body>
 </html>
