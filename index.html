@@ -288,6 +288,43 @@ textarea{resize:none;min-height:78px}
 .btn.selected{background:#eee9ff;border-color:#d8ceff;color:var(--purple)}
 .button-content{display:flex;align-items:center;justify-content:center;gap:7px}
 
+.day-select{display:flex;gap:6px;justify-content:space-between}
+.day-btn{
+  flex:1;aspect-ratio:1/1;max-width:42px;
+  border:1.5px solid var(--line);
+  background:var(--surface-soft);
+  color:var(--muted);
+  border-radius:14px;
+  font-size:12px;font-weight:850;letter-spacing:0;
+  display:grid;place-items:center;
+  position:relative;
+  transition:transform .16s ease,background .18s ease,color .16s ease,border-color .16s ease,box-shadow .18s ease;
+}
+.day-btn:hover{border-color:var(--purple2);color:var(--purple)}
+.day-btn:active{transform:scale(.9)}
+.day-btn.active{
+  background:linear-gradient(145deg,var(--purple2),var(--purple));
+  border-color:transparent;
+  color:#fff;
+  box-shadow:0 8px 16px rgba(115,87,232,.3);
+  transform:translateY(-2px);
+}
+.day-btn.active:after{
+  content:"";position:absolute;left:50%;bottom:-7px;
+  width:4px;height:4px;border-radius:50%;
+  background:var(--purple);transform:translateX(-50%);
+}
+body[data-theme="dark"] .day-btn{background:#211c28;border-color:#393140;color:var(--muted)}
+body[data-theme="dark"] .day-btn.active{background:linear-gradient(145deg,#b3a0ff,#8d75ef);color:#171321;box-shadow:0 8px 16px rgba(154,131,255,.32)}
+body[data-theme="dark"] .day-btn.active:after{background:#b3a0ff}
+@media(prefers-color-scheme:dark){
+  body[data-theme="system"] .day-btn{background:#211c28;border-color:#393140;color:#aaa1b2}
+  body[data-theme="system"] .day-btn.active{background:linear-gradient(145deg,#b3a0ff,#8d75ef);color:#171321;box-shadow:0 8px 16px rgba(154,131,255,.32)}
+  body[data-theme="system"] .day-btn.active:after{background:#b3a0ff}
+}
+.day-summary{margin-top:9px;font-size:9px;color:var(--muted);font-weight:700}
+.day-summary b{color:var(--purple);font-weight:850}
+
 .search-results{margin-top:3px}
 .result{
   display:flex;justify-content:space-between;align-items:center;
@@ -878,14 +915,15 @@ body[data-theme="system"] .send{background:#30234f;color:#fff}
     <div class="field">
       <label>OFFICE DAYS</label>
       <div class="day-select" id="officeDays">
-        <button type="button" class="day-btn" data-day="Mon">M</button>
-        <button type="button" class="day-btn" data-day="Tue">T</button>
-        <button type="button" class="day-btn" data-day="Wed">W</button>
-        <button type="button" class="day-btn" data-day="Thu">T</button>
-        <button type="button" class="day-btn" data-day="Fri">F</button>
-        <button type="button" class="day-btn" data-day="Sat">S</button>
-        <button type="button" class="day-btn" data-day="Sun">S</button>
+        <button type="button" class="day-btn" data-day="Mon" title="Monday" aria-label="Monday" aria-pressed="false">M</button>
+        <button type="button" class="day-btn" data-day="Tue" title="Tuesday" aria-label="Tuesday" aria-pressed="false">T</button>
+        <button type="button" class="day-btn" data-day="Wed" title="Wednesday" aria-label="Wednesday" aria-pressed="false">W</button>
+        <button type="button" class="day-btn" data-day="Thu" title="Thursday" aria-label="Thursday" aria-pressed="false">T</button>
+        <button type="button" class="day-btn" data-day="Fri" title="Friday" aria-label="Friday" aria-pressed="false">F</button>
+        <button type="button" class="day-btn" data-day="Sat" title="Saturday" aria-label="Saturday" aria-pressed="false">S</button>
+        <button type="button" class="day-btn" data-day="Sun" title="Sunday" aria-label="Sunday" aria-pressed="false">S</button>
       </div>
+      <div class="day-summary" id="daySummary">No office days selected</div>
     </div>
     <div class="field"><label>KITCHEN ACCESS</label><select id="kitchen"><option value="none">No kitchen</option><option value="microwave">Microwave only</option><option value="full">Full kitchen</option></select></div>
     <div class="field"><label>CUISINE PREFERENCE</label><select id="cuisine"><option value="">No strong preference</option><option value="South Indian">South Indian</option><option value="North Indian">North Indian</option><option value="Indian">Indian</option><option value="Continental">Continental</option><option value="Mixed">Mixed</option></select></div>
@@ -1484,8 +1522,11 @@ async function loadProfile(){
 function setOfficeDays(value){
   const selected=String(value||'').split(',').map(x=>x.trim().toLowerCase()).filter(Boolean);
   document.querySelectorAll('#officeDays .day-btn').forEach(btn=>{
-    btn.classList.toggle('active',selected.includes(btn.dataset.day.toLowerCase()));
+    const isActive=selected.includes(btn.dataset.day.toLowerCase());
+    btn.classList.toggle('active',isActive);
+    btn.setAttribute('aria-pressed',String(isActive));
   });
+  updateDaySummary();
 }
 
 function getOfficeDays(){
@@ -1494,8 +1535,19 @@ function getOfficeDays(){
     .join(', ');
 }
 
+function updateDaySummary(){
+  const el=$('daySummary');
+  if(!el)return;
+  const days=getOfficeDays();
+  el.innerHTML=days?`Office on <b>${esc(days)}</b>`:'No office days selected';
+}
+
 document.querySelectorAll('#officeDays .day-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>btn.classList.toggle('active'));
+  btn.addEventListener('click',()=>{
+    const isActive=btn.classList.toggle('active');
+    btn.setAttribute('aria-pressed',String(isActive));
+    updateDaySummary();
+  });
 });
 
 $('goal').onchange=e=>applyGoal(e.target.value);
